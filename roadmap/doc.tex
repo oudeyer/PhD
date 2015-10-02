@@ -72,23 +72,6 @@
 		\includegraphics[height=10cm]{./include/torso.png}
 	\end{figure}  	
 
-%\paragraph{Declaration of contribution}
-
-	%\begin{itemize}
-		%\setlength\itemsep{0em}
-		%\item Definition of scientific question: PYO, SF
-		%\item Bibliographic research: PYO, SF
-		%\item Choice of the general approach to answer the question: PYO, SF
-		%\item Choice of methods: PYO, SF
-		%\item Methods development, programming: SF
-		%\item Data analysis: SF
-		%\item Results interpretation: PYO, SF
-		%\item Dissertation writing: SF
-		%\item Dissertation review and comments: PYO
-	%\end{itemize}
-
-%
-
 
 \newpage
 \tableofcontents
@@ -1643,6 +1626,7 @@
 		
 	\subsection{More on Top-Down Drive}
 	\label{tddkdtree}
+	
 		\paragraph{}
 		The idea of Top-Down Drive is that higher modules in the hieararchy have relevant information about the utility of the exploration of the different regions of the common representation space.
 		Different ideas might allow to take this information into account.
@@ -1654,7 +1638,7 @@
 		the self-computed interest map with Top-Down interest map (and even social interest map).
 		The drawback now is that a lot of maps represented for instance with GMMs have to be handled, recomputed, multiplicated and sampled.
 		
-		\paragraph{}
+		\paragraph{Weighting by the density of Top-Down goals.}
 		An other approach in-between would be to store, for each module, all the goals that have been asked from higher models in a specific KDTree 
 		(different from the SM model that contains all points, and from IM model that contains the self-generated points).
 		The information of interest to explore a point would be retrieved as the density of points in the kdtree around the given point.
@@ -1667,9 +1651,40 @@
 		
 		In the case where we do not use SAGG-RIAC but SAGG-Random, instead of sampling random goals, we could directly sample the density map (implemented in sklearn) most of the time, and randomly sample sometime.
 	
-	
+			
+		\paragraph{Taking into account the information of the error between desired and actual motor command.}
+		With the previous algorithm based on the density on Top-Down asked goals, there still exists information not handled but which might be useful.
+		Indeed, when a module asks for a desired motor command $m_d$, if lower modules do not reach that goal but a $m_r$ potentially far from $m_d$, 
+		then the distance $e_m = ||m_r - m_d||$ represents the error of lower models and might be useful to drive their exploration.
+		The density idea already uses the information of the point $m_d$, but not the associated $e_m$ which could lead to a quantity of progress if derived.
+		This learning progress is exactly the learning progress computed in a leaf of the interest model of lower modules, but there it is updated only when that sub-module has babbled, 
+		not when a higher module has asked for a goal. If we were to update also the interest models when modules have not babbled, I guess that would mess up the competence derivative computation, leading to wrong estimates.
+		So I don't know if we can use this supplementary information.
+		
+			
+		\paragraph{Taking into account the progress in the leaf of the remote module that has been babbled.}
+		In the density algorithm above, when a higher module has asked for a goal $s_g$, that point is added to the density map of Top-Down goals, 
+		saying that this point is an interesting location to further explore around.
+		But overall, some of those asked goals will lead to a progress in a leaf of the remote module that has babbled, and some of them will not.
+		Thus it might be useful to use that information to add or remove interest in the given region of the map of Top-Down goals depending on the progress that has been remotely elicited.
+		To this purpose, we could inspire from the framework of RL and particularly the $TD(\lambda)$ algorithm that makes use of eligibility traces that stores the influence of each state on the future reward.
+		We could see the progress computed in the leaf that has babbled as a reward which will be added to the Top-Down interest of the leaves that have been used in the given command 
+		(with accumulating or replacing eligibility traces).
+		
+		This idea is also inspired by the RiARiT algorithm that stores a table of competence levels required by each activity on each knowledge component.
+		Each knowledge component thus knows the influence it has on each activity.
+		In our setting, knowledge components are themselves activities, and that table would be estimated on-the-fly and at the leaf scale.
+		
+		The implementation would use the mean of (possibly time-decaying) rewards in each leaf as a weight to be balanced with self-computed leaves' interests before a leaf softmax choice.
+		
+		
+		
+		
+		
+
 	
 	%
+
 
 %
 
