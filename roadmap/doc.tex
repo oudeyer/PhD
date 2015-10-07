@@ -1372,7 +1372,7 @@
 	as it will be used as a sub-component in the multi-level graph representation.
 
 	\subsection{SAGG-RIAC}
-	
+	\label{sec:saggriac}
 		Here I want to study the important parameters of the SAGG-RIAC implementation 
 		(from Explauto, with my implementation of RIAC in explauto.interest\_model.tree) and test them first on very simple environments.
 		The goal is to get a sound progress output, that could be compared with other models' progresses.
@@ -1680,8 +1680,40 @@
 		
 		
 		
+	%
+	
 		
-
+	\subsection{Implementation of multiple options to explore a given sensori space}
+	\label{choices}
+		
+		\paragraph{}
+		I have implemented the possibility to have different modules that learn a mapping towards the same sensori space.
+		A higher module that uses that space as a motor space will choose which lower module to use to explore a point in that space with the goal to maximize the competence around that point.
+		I have tested that idea using SAGG-Random modules instead of SAGG-RIAC ones.
+		I compute the progresses (to choose the module that will babble) as the derivative of the competence of last goal babbled points.
+		The competence around a point (to choose the module that will reach the goal with the maximum precision) is computed as the mean of the competences of the $k=20$ nearest neighbors.
+		
+		\paragraph{}
+		The hierarchy used is the following: mod1 learns from $m1$ to $s1$, mod2 learns from $m2$ to $s1$, and mod3 learns from $s1$ to $s2$.
+		Mod3 can thus reuse either mod1 or mod2. All spaces are 1-dimensional with range $[0-1]$. Here are the forward models:
+		
+		$$s1 = \frac{2*m1 + m2}{3}$$
+		$$s2 = s1^2$$
+		
+		Thus, if mod3 reuses mod1, it will reach a wider range of outputs than with mod2. Fig. \ref{fchoices} shows the results of 2000 iterations with this setup.
+		Mod3 quickly (100 iterations) gets to use mod1 (around 90\% of babbling iterations) instead of mod2.
+		In the computation of competences, I also cut the competences to a minimal competence value (or maximal error distance of $0.1$) in order to avoid big random fluctuations of interest (absolute value of progress) 
+		when a module wants to explore a far unreachable point, which entails a very high interest (see Sec. \ref{sec:saggriac}).
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=8cm]{./include/choice_test_choices.png}
+			\includegraphics[width=8cm]{./include/choice_test_competences.png}
+			%\includegraphics[width=8cm]{./include/choice_test_progresses.png}
+			\caption{Progress on the 3 modules of a hierarchy with 2 choices of sub-modules for module 3. Left: Proportion of choices of module 3 (with a sliding window). Right: Competences (with a sliding window) babbled points of each modules.}
+			\label{fchoices}
+		\end{figure}
+		
 	
 	%
 
