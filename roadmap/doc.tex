@@ -1785,10 +1785,22 @@
 \section{Study 1: Exploration of a given hierarchy of skills}
 \label{study1}
 
-	\subsection{Motivation}
+	\subsection{Introduction}
 
 		Explain related work: \cite{vig, ugur2014, ugur2015}.
 	
+	%
+
+	\subsection{Questions}
+
+		\begin{itemize}
+			\item Exploring in a structured hierarchy is more efficient than directly from $M$ to $S$.
+			\item Which task should I explore now ?
+			\item How to choose between different means to explore a given space ? 
+			\item How can high-level tasks guide the exploration of lower-level ones ?
+			\item How can the system cope with perturbations on some of the forward models ?		
+		\end{itemize}
+
 	%
 	
 	\subsection{Methods}
@@ -1839,7 +1851,7 @@
 				\subfloat[]{\input{include/H2.tikz}}
 				\subfloat[]{\input{include/H3.tikz}}
 				\subfloat[]{\input{include/H4.tikz}}
-				\caption{Different hierarchies.}
+				\caption{Exemple of hierarchies.}
 				\label{H}					
 			\end{figure}
 		%
@@ -1848,19 +1860,45 @@
 		\subsubsection{Environment}
 		
 			\paragraph{}
-			Abstract environment with forward models defined by mathematical functions. 
-			It should be interesting to use some sort of benchmark to control the complexity of functions.
-					
-			\paragraph{}
 			Different variables to test:
 			\begin{itemize}
 				\item Motor and Sensory dimensionalities,
-				\item Complexity of hierarchies (with a measure of it),
-				\item Perturbations of forward models at different hierarchy levels.
+				\item Type of functions: linear, cosine, geometric arm, non-continuous interaction with objects.
+				\item Noise
 			\end{itemize}
 		
 		%
 		
+
+		\subsubsection{Experiments}
+
+				\paragraph{Experiment 1: Exploring in a structured hierarchy is more efficient than directly from $M$ to $S$.}
+				\paragraph{}
+				The idea is to compare our simplest algorithm (explore the module with higher progress) in a realistic setting (Hierarchy (a) of Fig. \ref{H}) to the control condition where a sensorimotor model is learned
+				directly from the whole motor space $M$ to the whole sensori space $S$.
+								
+				\paragraph{Experiment 2: Which task should I explore now ?}
+				\paragraph{}
+				Here we compare the different possibilities to choose the module to explore in the hierarchy: maximizing the progress, maximizing with a bias towards lower-level modules, or use ZPDES,
+				with the same hierarchy (a) of Fig. \ref{H}.
+				
+				\paragraph{Experiment 3: How to choose between different means to explore a given space ?}
+				\paragraph{}
+				Here we explain that we can choose between different means (e.g. different tools) using the one with the maximal competence.
+				We can use the hierarchy (b) of Fig. \ref{H}.
+				
+				\paragraph{Experiment 4: How can high-level tasks guide the exploration of lower-level ones ?}
+				\paragraph{}
+				We compare different possibilities of Top-Down Guidance, 
+				with hierarchy (c) of Fig. \ref{H}.
+				
+				\paragraph{Experiment 5: How can the system cope with perturbations on some of the forward models ?}
+				\paragraph{}
+				We apply perturbations to one of the possible forward models, either blocking, shifting or randomizing one dimension. 
+				We can use the hierarchy (d) of Fig. \ref{H}.
+				
+
+		%
 		\subsubsection{Measures}
 		
 			\begin{itemize}
