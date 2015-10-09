@@ -57,6 +57,6 @@
 	\end{scope}
 	\begin{pgfonlayer}{background}
 		\filldraw [line width=4mm,join=round,black!10]
-		(d7.north  -| d6.east)  rectangle (pd1.south  -| d5.west);
+		(d7.north  -| d2.east)  rectangle (pd1.south  -| d1.west);
 	\end{pgfonlayer}
 \end{tikzpicture}
