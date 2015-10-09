@@ -1714,7 +1714,46 @@
 			\label{fchoices}
 		\end{figure}
 		
+	%
 	
+		
+	\subsection{ZPDES}
+	\label{zpdes}
+	
+		I've tested Benjamin's code of the ZPDES algorithm \cite{clement2014online} to choose which module to explore at each iterations.
+		The algorithm has mainly 4 parameters:
+		\begin{itemize}
+			\item The rate $\alpha$ of integration of new information about average reward of bandits: $bandit\_value = (1 - \alpha) * old\_bandit\_value + \alpha * reward$. I used $\alpha = 0.5$.
+			\item The activation threshold: if the mean (recent) competence of activated modules exceeds that threshold, then a new module will be activated. I used $0.5$.
+			\item The deactivation threshold: if one module have its mean recent competence exceeding that threshold, it will be deactivated. I used $0.6$ here.
+			\item A window size to compute the means of recent competences and progress: I used $20$ iterations.
+		\end{itemize}
+	
+		See Fig. \ref{zpdesfig} for an exemple of execution of ZPDES in my setup. There are 3 modules with the same mathematical functions as forward models as in the previous section.
+		We can see that module 1 gets deactivated early when its mean competence exceeds $0.6$.
+		Module 3 only gets activated when the mean competence of modules 1 and 2 exceeds $0.5$ around $200$ iterations.
+		
+	
+	
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=8cm]{./include/ZPDES_competences.png}
+			\includegraphics[width=8cm]{./include/ZPDES_progresses.png}
+			\caption{Competences and progresses using ZPDES.}
+			\label{zpdesfig}
+		\end{figure}
+	
+		
+		\paragraph{Remarks}
+		
+		The activation threshold allows to avoid spending useless trials on too complex tasks, provided the algorithm knows a sequence of modules sorted by increasing complexity or level in the hierarchy.		
+		Also, the deactivation threshold allows to stop sampling tasks that are already mastered.
+		However, if a task can't be mastered, for instance if a large part of the sensori space is not reachable (which is often the case), 
+		then its competence might never exceed the deactivation threshold, which is not really a problem, and might even not exceed the activation threshold, at least if we use random goal babbling that might often 
+		set unreachable goals. That could be a problem as only non progressing modules might be activated.
+		One could lower the activation threshold but its benefit will be lower also.
+		If SAGG-RIAC is used, the apparent competence will be the one on sampled points in progressing subregions of the tree, thus mostly in reachable parts, so that might not be an issue.
+		
 	%
 
 
@@ -1822,11 +1861,11 @@
 			\end{itemize}
 			
 			\paragraph{}
-			Different possibilities to handle exploration in the hierarchy:
+			Different possibilities to handle exploration in the hierarchy (implemented):
 			\begin{itemize}
-				\item MAB on all modules (implemented: greedy, softmax),
-				\item MAB biaised on lower modules (implemented),
-				\item ZPDES (to check with Benjamin).
+				\item MAB on all modules (greedy, softmax),
+				\item MAB biaised on lower modules (see Sec. \ref{NSLWLR}),
+				\item ZPDES (see Sec. \ref{zpdes}).
 			\end{itemize}
 			
 			\paragraph{}
@@ -1929,7 +1968,7 @@
 				% Experiment 4
 				\paragraph{Experiment 4: How can high-level tasks guide the exploration of lower-level ones ?}
 				\begin{itemize}
-					\item Idea: tocompare different possibilities of Top-Down Guidance, with hierarchy (c) of Fig. \ref{H} in order to have TD guidance at different levels: 
+					\item Idea: to compare different possibilities of Top-Down Guidance, with hierarchy (c) of Fig. \ref{H} in order to have TD guidance at different levels: 
 							arm with one higher model, hand with 2 higher models, tool1 with one higher model, or tool2 with 2 higher models.
 					
 					\item Conditions: No TDD, Just add noise to motor command of each module (pb: interferes with competence estimation) 
