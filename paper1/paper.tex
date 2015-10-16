@@ -1,0 +1,624 @@
+
+%% bare_conf.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[conference]{include/IEEEtran}
+% Add the compsoc option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+\usepackage{cite}
+\usepackage[pdftex]{graphicx}
+
+\def\xcolorversion{2.00}
+\def\xkeyvalversion{1.8}
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+\usepackage[caption=false,font=footnotesize]{subfig}
+
+
+% *** FLOAT PACKAGES ***
+%
+\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Curiosity-driven Exploration of Skill Hierarchies}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{S\'ebastien Forestier}
+\IEEEauthorblockA{INRIA Bordeaux Sud-Ouest\\
+Bordeaux, France\\
+Email: sebastien.forestier@inria.fr}
+\and
+\IEEEauthorblockN{Pierre-Yves Oudeyer}
+\IEEEauthorblockA{INRIA Bordeaux Sud-Ouest\\
+Bordeaux, France\\
+Email: pierre-yves.oudeyer@inria.fr}}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+%\boldmath
+The abstract goes here.
+\end{abstract}
+% IEEEtran.cls defaults to using nonbold math in the Abstract.
+% This preserves the distinction between vectors and scalars. However,
+% if the conference you are submitting to favors bold math in the abstract,
+% then you can use LaTeX's standard command \boldmath at the very start
+% of the abstract to achieve this. Many IEEE journals/conferences frown on
+% math in the abstract anyway.
+
+% no keywords
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+
+	
+	The study of the control of manipulation actions in humans has revealed a modular representation of actions 
+	either in the cerebral cortex and in the spinal 
+	cord with compositionality: an infinite number of movements can be expressed through combination of simple primitives, 
+	and generalization: certain neurons (higher 
+	in the hierarchy) can represent actions independently of the effectors used \cite{cangelosi2010integration}.
+	
+	The same idea holds for language expressiveness which is based on syntactic hierarchical combinations 
+	on a vocabulary, that open infinite semantic possibilities. 
+	Greenfield has also argued that this parallel between manipulation and language compositionality can be found in the human ontegenic development
+	with combinatorial steps for manipulation and syntax acquired approximately at the same period and in the same order \cite{green}. 
+	Also, the author explains that the development of the neural substrates for language and tool use could be an ontogenic homology as first of all
+	the same neural computations for hierarchical combinations and their semantics should take place for both modalities, and furthermore 
+	experiments with Broca's and Wernicke's aphasics show that hierarchical organization for language and manipulation is linked. 
+	Broca's aphasics, who have less syntactic organization of speech were shown to also have problems of representation of the hierarchical organization
+	of constructions with blocks, whereas Wernicke's aphasics, whose syntax is normal but speech semantics is impaired, succeed in representing such objects 
+	hierarchies. 
+	
+	Functional MRI experiments by Higuchi et al. have shown that the human's neural substrates for tool use and language is indeed shared in 
+	the dorsal BA44 Broca's area \cite{higuchi}, which gives evidence for the similar neural computations used. 
+	They furthermore argue that these results supports the hypothesis that tool use have appeared first in primate evolution in F5 area,
+	and then the language has developed in humans reusing part of tool use and manipulation neural substrates in human's Broca area, homolog of primate's F5.
+
+	Like a developing child, a developmental robot will have to incrementally explore skills that add up to the hierarchy of previously learned skills 
+	throughout its life, with a constraint being the cost and time of experimentation. 
+	We will seek to define curiosity-driven hierarchical learning architectures 
+	that could reuse the sensorimotor contingencies previously learned and to combine them 
+	to explore more efficiently new complex sensorimotor models. 
+		
+	\subsection{Goal of the study}
+			
+		\begin{itemize}
+			\item Exploring in a structured hierarchy is more efficient than directly from $M$ to $S$.
+			\item Which task should I explore now ?
+			\item How to choose between different means to explore a given space ? 
+			\item How can high-level tasks guide the exploration of lower-level ones ?
+			\item How can the system cope with perturbations on some of the forward models ?		
+		\end{itemize}
+
+		
+	%
+	
+	\subsection{Related work}
+		\cite{ugur2014, ugur2015}.
+
+		Different computational models have the possibility to learn skill hierarchies. 
+		In finite environments represented by a factored Markov Decision Process \cite{vig}, an intrinsic motivation towards actions 
+		maximizing Dynamic Bayesian Networks' structure has been shown to allow the learning of the environment's structure.
+		
+		In continuous environments but with discrete actions, Metzen et al. \cite{metzen2013} use the framework of options \cite{sutton1999between} 
+		to learn skill hierarchies. 
+		An intrinsic motivation rewards positively the novelty of the states encountered and negatively the prediction error of the learned skill model.
+		
+		The model from Fabisch et al. \cite{fabisch2014active} learns in a setting with a discrete task space (called contexts).
+		It uses an intrinsic motivation for learning progress, and a Multi-Armed Bandit algorithm (D-UCB) to choose on which context the agent should train for.
+		The Upper Confidence Bound algorithm chooses between contexts given their estimated learning progress and the uncertainty of these estimations
+		by picking the context with the maximum upper confidence bound.
+		In other words, it maximizes the expected reward plus something related to the uncertainty associated with it, selecting either contexts with 
+		certain high rewards or ones with uncertain poor reward.
+		This algorithm embeds directly a solution the exploration-exploitation trade-off problem as it represents the exploitation 
+		of knowledge by the expected progress and the exploration of other solutions by the uncertainty bonus. 
+		This algorithm supposes a stationary learning progress on each context so the authors use an adaptation 
+		(D-UCB, \cite{kocsis2006discounted}) to encompass non-stationary learning progress.
+		% Sliding Window UCB: \cite{garivier2011upper}
+		
+		In a fully continuous setting, Mugan et al. \cite{mugan} have developed an algorithm that first learns a qualitative representation of environment states
+		and actions in order to then learn the structure of Dynamic Bayesian Networks representing the temporal contingencies of those states and actions.
+		In order to choose which action to practice, the authors use the IAC \cite{oudeyer_intrinsic_2007} where the agent 
+		is intrinsically motivated to choose actions that are estimated to yield high prediction error progress.
+		
+		Here, we will rely more specifically on the SAGG-RIAC architecture \cite{baranes_active_2013}.
+		This architecture learns a single mapping between continuous motor and sensori (or task) 
+		spaces with a competence-based intrinsic motivation. 
+		In our hierarchy of sensorimotor models, each model will be explored using the SAGG-RIAC procedure, but it could be replaced by another one 
+		without changing the mechanisms to learn the hierarchy that will be assessed.
+
+	%
+%
+
+
+	
+\section{Methods}
+	
+	\subsection{Algorithms}
+	
+		\paragraph{}
+		Different module implementations (implemented):
+		\begin{itemize}
+			\item Motor Babbling,
+			\item SAGG-Random.
+		\end{itemize}
+		
+		\paragraph{}
+		Different types of Sensorimotor models (implemented):
+		\begin{itemize}
+			\item NN or LWLR,
+			\item NSLWLR to handle non stationary forward models (See Section \ref{NSLWLR}), or NSNN as NN with max gaussian\_kernel(distance) * gaussian\_kernel(time\_distance).
+		\end{itemize}
+		
+		\paragraph{}
+		Different possibilities to handle exploration in the hierarchy (implemented):
+		\begin{itemize}
+			\item MAB on all modules (greedy, softmax),
+			\item MAB biaised on lower modules (see Sec. \ref{NSLWLR}),
+			\item ZPDES (see Sec. \ref{zpdes}).
+		\end{itemize}
+		
+		\paragraph{}
+		Different types of Top-Down Drive:
+		\begin{itemize}
+			\item Just add noise to motor command of each module (pb: interferes with competence and progress estimation)  (implemented),
+			\item Exploration budget around goals asked by higher models (explonential in $levels^{n+1}$ so even $n=1$ is not feasible in general but maybe in practice)  (implemented),
+			\item Exploration budget only for the modules one layer below the babbling module (not implemented).
+			\item Balance self-computed interest with Top-Down interest (implemented, based on the density of top-down goals).
+		\end{itemize}
+		
+	
+	%
+	
+	\subsection{Hierarchies}
+	
+		See Fig. \ref{Hierarchies} for exemples of hierarchies.
+	
+		\begin{figure*}[!t]
+			\centerline{\subfloat[]{\input{include/H1.tikz}}
+			\subfloat[]{\input{include/H2.tikz}}
+			\subfloat[]{\input{include/H3.tikz}}
+			\subfloat[]{\input{include/H4.tikz}}}
+			\caption{Exemple of hierarchies.}
+			\label{Hierarchies}					
+		\end{figure*}
+	%
+	
+	
+	\subsection{Environment}
+	
+		\paragraph{}
+		Different variables to test: motor and sensory dimensionalities, type of functions (linear, cosine, geometric arm, non-continuous interaction with objects), noise.
+		
+		\paragraph{Possible arm models}
+		\begin{itemize}
+			\item $n$ DOFs 2D geometric arm
+		\end{itemize}
+		
+		\paragraph{Possible tool models}
+		\begin{itemize}
+			\item static piano
+			\item stick 
+		\end{itemize}
+		
+		\paragraph{Possible object models}
+		\begin{itemize}
+			\item static object with features depending on the piano
+			\item dynamic object
+		\end{itemize}
+		
+	
+	%
+	
+
+	\subsection{Experiments}
+
+			% Experiment 1
+			\paragraph{Experiment 1: Exploring in a structured hierarchy is more efficient than directly from $M$ to $S$.}				
+			\begin{itemize}
+				\item Idea: to compare our simplest algorithm (explore the module with higher progress) in a realistic setting (Hierarchy (a) of Fig. \ref{Hierarchies}) to the control condition where a sensorimotor model is learned
+						directly from the whole motor space $M$ to the whole sensori space $S$.
+				
+				\item Conditions: Hierarchy (a) vs $M \rightarrow S$, Motor Babbling vs SAGG-Random
+				
+				\item Features: MAB on all modules, NN, No TDD.
+				
+				\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
+						Statistics on multiple runs to see regularity/diversity in developmental trajectories.
+			\end{itemize}
+			
+			% Experiment 2
+			\paragraph{Experiment 2: Which task should I explore now ?}
+			\begin{itemize}
+				\item Idea: to compare the different possibilities to choose the module to explore in the hierarchy: maximizing the progress, maximizing with a bias towards lower-level modules, or use ZPDES,
+						with the same hierarchy (a) of Fig. \ref{Hierarchies}.
+				
+				\item Conditions: Random module, MAB on all modules, MAB with bias, ZPDES.
+				
+				\item Features: Hierarchy (a), SAGG-Random, NN, No TDD.
+				
+				\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
+						Statistics on multiple runs to see regularity/diversity in developmental trajectories.
+			\end{itemize}
+			
+			% Experiment 3
+			\paragraph{Experiment 3: How to choose between different means to explore a given space ?}
+			\begin{itemize}
+				\item Idea: to explain how we can choose between different means (e.g. different tools) using the one with the maximal competence, or maximal progress.
+						We can use the hierarchy (b) of Fig. \ref{Hierarchies}, in order to have 2 different tools to move the object.
+				
+				\item Conditions: maximize competence vs progress, noise on each tool, reachability (e.g. size) of each tool.
+				
+				\item Features: Hierarchy (b), MAB on all modules, SAGG-Random, NN, No TDD.
+				
+				\item Measures: exploration of intermediate spaces (hand, tools), exploration of top spaces (object). Competence to reach random goals in reachable parts of intermediate and top spaces. 
+						Statistics on multiple runs to see regularity/diversity in developmental trajectories.
+			\end{itemize}
+			
+			% Experiment 4
+			\paragraph{Experiment 4: How can high-level tasks guide the exploration of lower-level ones ?}
+			\begin{itemize}
+				\item Idea: to compare different possibilities of Top-Down Guidance, with hierarchy (c) of Fig. \ref{Hierarchies} in order to have TD guidance at different levels: 
+						arm with one higher model, hand with 2 higher models, tool1 with one higher model, or tool2 with 2 higher models.
+				
+				\item Conditions: No TDD, Just add noise to motor command of each module (pb: interferes with competence estimation) 
+						vs explore $n$ points and returns the best (warning: exponential)
+						vs only one layer below the babbling module explores $n$ points.
+				
+				\item Features: Hierarchy (c), MAB on all modules with bias (or no bias?), SAGG-Random, NN.
+				
+				\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
+						Statistics on multiple runs to see regularity/diversity in developmental trajectories.
+			\end{itemize}
+			
+			% Experiment 5
+			\paragraph{Experiment 5: How can the system cope with perturbations on some of the forward models ?}
+			\begin{itemize}
+				\item Idea: to apply perturbations to one of the possible forward models, either blocking, shifting or randomizing one dimension. 
+						We can use the hierarchy (d) of Fig. \ref{Hierarchies} in order to see an adaptation at 2 levels: the use of one hand to use one tool, the use of both tools to move the object even if only one is perturbated.
+				
+				\item Conditions: No perturbations, which model is perturbated (arm, tool), type of perturbation (blocking, shifting, random).
+				
+				\item Features: Hierarchy (d), MAB on all modules, SAGG-Random, NN, best TDD.
+				
+				\item Measures: exploration of intermediate spaces (hands, tools) and top spaces (objects) before and after perturbations. 
+						Competence to reach random goals in reachable parts of intermediate and top spaces before and after perturbations. 
+						Statistics on multiple runs to see regularity/diversity in developmental trajectories.
+			\end{itemize}
+
+%
+
+
+\section{Results}
+
+%
+
+
+\section{Discussion}
+
+%
+
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation Results}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command, the
+% \label for the overall figure must come after \caption.
+% \hfil must be used as a separator to get equal spacing.
+% The subfigure.sty package works much the same way, except \subfigure is
+% used instead of \subfloat.
+%
+%\begin{figure*}[!t]
+%\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
+%\label{fig_second_case}}}
+%\caption{Simulation results}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+
+
+% An example of a floating table. Note that, for IEEE style tables, the 
+% \caption command should come BEFORE the table. Table text will default to
+% \footnotesize as IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that IEEE does not put floats in the very first column - or typically
+% anywhere on the first page for that matter. Also, in-text middle ("here")
+% positioning is not used. Most IEEE journals/conferences use top floats
+% exclusively. Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the \fnbelowfloat
+% command of the stfloats package.
+
+
+
+\section{Conclusion}
+The conclusion goes here.
+
+
+
+
+% conference papers do not normally have an appendix
+
+
+% use section* for acknowledgement
+\section*{Acknowledgment}
+
+
+The authors would like to thank...
+
+
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{include/IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+
+%\begin{thebibliography}{1}
+
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+  %0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+%\end{thebibliography}
+
+\bibliography{./include/bibliography}
+
+
+
+% that's all folks
+\end{document}
+
+

@@ -1642,15 +1642,30 @@
 		An other approach in-between would be to store, for each module, all the goals that have been asked from higher models in a specific KDTree 
 		(different from the SM model that contains all points, and from IM model that contains the self-generated points).
 		The information of interest to explore a point would be retrieved as the density of points in the kdtree around the given point.
-		This could be computed with sklearn.neighbors.KDTree.kernel\_density that takes the bandwidth of a gaussian kernel as input.
 		
-		In order to balance self-computed interest with Top-Down interest, we could include the Top-Down information into the softmax choice of a leaf of the interest model's tree (in SAGG-RIAC) to explore.
-		Up to now, the weights of the leaves are the competence progress on the points of each leaf.
-		The idea is to also weight the interest of the leaves by the density of the Top-Down points around the center of each leaf.
-		The bandwidth of the gaussian kernel could be proportional to the leaf's size as that is the relevant scale to smooth density information.
-		
-		In the case where we do not use SAGG-RIAC but SAGG-Random, instead of sampling random goals, we could directly sample the density map (implemented in sklearn) most of the time, and randomly sample sometime.
+		If we use SAGG-Random, instead of sampling random goals, we could directly sample the density map most of the time (one parameter from $0$ to $1$), and randomly sample sometime.
 	
+		Fig. \ref{TDD} shows the results of the exploration of a 1D space with a 2-modules hierarchy: first modules learns $s1 = m1$ and second module learns $s2 = 2 * s1$ with $m1, s1, s2 \in [0-1]$.
+		The idea is that for the second module to progress, only half of the motor space ($m1\in [0-0.5]$) is useful to explore. The Top-Down guidance of module 2 on module 1 thus makes it focus more on that part.
+		The results show that the larger the TD weight, the larger the exploration of $S2=[0-1]$ (divided into 500 small parts). 
+		Also, other tests show as expected that the smaller the useful area of M1 for module 2, the larger the benefit of
+		Top-Down guidance on the exploration of S2.
+		
+		\begin{figure}[H]
+			\centering
+			\subfloat[]{\includegraphics[width=6cm]{./include/TDD0.png}}
+			\subfloat[]{\includegraphics[width=6cm]{./include/TDD0-5.png}}
+			\subfloat[]{\includegraphics[width=6cm]{./include/TDD1.png}}
+			\caption{(a) no Top-Down Guidance. (b) Top-Down Guidance with weight $0.5$. (c) Top-Down Guidance with weight $1$.}
+			\label{TDD}
+		\end{figure}
+		
+		In the case we use SAGG-RIAC, and in order to balance self-computed interest with Top-Down interest, 
+		we could include the Top-Down information into the softmax choice of a leaf of the interest model's tree to explore.
+		By default, the weights of the leaves are the competence progress on the points of each leaf.
+		An idea is to also weight the interest of the leaves by the number of TD goals in that leaf.
+		I've also implemented that algorithm, which shows also a benefit from SAGG-RIAC.
+		
 			
 		\paragraph{Taking into account the information of the error between desired and actual motor command.}
 		With the previous algorithm based on the density on Top-Down asked goals, there still exists information not handled but which might be useful.
@@ -1662,7 +1677,7 @@
 		So I don't know if we can use this supplementary information.
 		
 			
-		\paragraph{Taking into account the progress in the leaf of the remote module that has been babbled.}
+		\paragraph{Taking into account the progress in the leaf of the remote module that has babbled.}
 		In the density algorithm above, when a higher module has asked for a goal $s_g$, that point is added to the density map of Top-Down goals, 
 		saying that this point is an interesting location to further explore around.
 		But overall, some of those asked goals will lead to a progress in a leaf of the remote module that has babbled, and some of them will not.
@@ -1797,11 +1812,11 @@
 	
 	\paragraph{}%Future Studies
 	The next important steps are to properly formulate, analyze and illustrate the different questions of this report, first in abstract settings before real experimental setups.
-	The first question is how to explore a given, fixed hierarchy of tasks, and how the different algorithms behave (Section \ref{study1}).
+	The first question is how to explore a given, fixed hierarchy of tasks, and how the different algorithms behave.
 	In those algorithms, the hierarchy of models to learn is given to the agent as if it already knew the combinations of actions to explore in order to learn the successive tasks.
 	This is a strong hypothesis as infants have first to discover what types of actions to combine to get a specific outcome.	
-	The second question is thus how and when to autonomously combine the previously learned actions in a relevant hierarchy of skills (Section \ref{study2}).	
-	Then, we will study the integration of social guidance into those algorithms (Section \ref{study3}).
+	The second question is thus how and when to autonomously combine the previously learned actions in a relevant hierarchy of skills.	
+	Then, we will study the integration of social guidance into those algorithms.
 	
 	\paragraph{}%Future Work:
 	In future work, we also plan to make an experiment in which a robot has to autonomously 
@@ -1817,202 +1832,6 @@
 	(i.e. find useful lower dimensional abstractions of the flows) on which
 	skill acquisition techniques can be applied.
 	
-%
-
-\newpage
-
-\section{Study 1: Exploration of a given hierarchy of skills}
-\label{study1}
-
-	\subsection{Introduction}
-
-		Explain related work: \cite{vig, ugur2014, ugur2015}.
-	
-	%
-
-	\subsection{Questions}
-
-		\begin{itemize}
-			\item Exploring in a structured hierarchy is more efficient than directly from $M$ to $S$.
-			\item Which task should I explore now ?
-			\item How to choose between different means to explore a given space ? 
-			\item How can high-level tasks guide the exploration of lower-level ones ?
-			\item How can the system cope with perturbations on some of the forward models ?		
-		\end{itemize}
-
-	%
-	
-	\subsection{Methods}
-		
-		\subsubsection{Algorithms}
-		
-			\paragraph{}
-			Different module implementations (implemented):
-			\begin{itemize}
-				\item Motor Babbling,
-				\item SAGG-Random.
-			\end{itemize}
-			
-			\paragraph{}
-			Different types of Sensorimotor models (implemented):
-			\begin{itemize}
-				\item NN or LWLR,
-				\item NSLWLR to handle non stationary forward models (See Section \ref{NSLWLR}), or NSNN as NN plus a weighting by time.
-			\end{itemize}
-			
-			\paragraph{}
-			Different possibilities to handle exploration in the hierarchy (implemented):
-			\begin{itemize}
-				\item MAB on all modules (greedy, softmax),
-				\item MAB biaised on lower modules (see Sec. \ref{NSLWLR}),
-				\item ZPDES (see Sec. \ref{zpdes}).
-			\end{itemize}
-			
-			\paragraph{}
-			Different types of Top-Down Drive:
-			\begin{itemize}
-				\item Just add noise to motor command of each module (pb: interferes with competence and progress estimation)  (implemented),
-				\item Exploration budget around goals asked by higher models (explonential in $levels^{n+1}$ so even $n=1$ is not feasible in general but maybe in practice)  (implemented),
-				\item Exploration budget only for the modules one layer below the babbling module (not implemented).
-				\item Balance self-computed interest with Top-Down interest (See Section \ref{tddkdtree}, not implemented).
-			\end{itemize}
-			
-		
-		%
-		
-		\subsubsection{Hierarchies}
-		
-		
-
-			\begin{figure}[H] 
-				\subfloat[]{\input{include/H1.tikz}}
-				\subfloat[]{\input{include/H2.tikz}}
-				\subfloat[]{\input{include/H3.tikz}}
-				\subfloat[]{\input{include/H4.tikz}}
-				\caption{Exemple of hierarchies.}
-				\label{H}					
-			\end{figure}
-		%
-		
-		
-		\subsubsection{Environment}
-		
-			\paragraph{}
-			Different variables to test: motor and sensory dimensionalities, type of functions (linear, cosine, geometric arm, non-continuous interaction with objects), noise.
-			
-			\paragraph{Possible arm models:}
-			\begin{itemize}
-				\item $n$ DOFs 2D geometric arm
-			\end{itemize}
-			
-			\paragraph{Possible tool models:}
-			\begin{itemize}
-				\item static piano
-				\item stick 
-			\end{itemize}
-			
-			\paragraph{Possible object models:}
-			\begin{itemize}
-				\item static object with features depending on the piano
-				\item dynamic object
-			\end{itemize}
-			
-		
-		%
-		
-
-		\subsubsection{Experiments}
-
-				% Experiment 1
-				\paragraph{Experiment 1: Exploring in a structured hierarchy is more efficient than directly from $M$ to $S$.}				
-				\begin{itemize}
-					\item Idea: to compare our simplest algorithm (explore the module with higher progress) in a realistic setting (Hierarchy (a) of Fig. \ref{H}) to the control condition where a sensorimotor model is learned
-							directly from the whole motor space $M$ to the whole sensori space $S$.
-					
-					\item Conditions: Hierarchy (a) vs $M \rightarrow S$, Motor Babbling vs SAGG-Random
-					
-					\item Features: MAB on all modules, NN, No TDD.
-					
-					\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
-							Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-				\end{itemize}
-				
-				% Experiment 2
-				\paragraph{Experiment 2: Which task should I explore now ?}
-				\begin{itemize}
-					\item Idea: to compare the different possibilities to choose the module to explore in the hierarchy: maximizing the progress, maximizing with a bias towards lower-level modules, or use ZPDES,
-							with the same hierarchy (a) of Fig. \ref{H}.
-					
-					\item Conditions: Random module, MAB on all modules, MAB with bias, ZPDES.
-					
-					\item Features: Hierarchy (a), SAGG-Random, NN, No TDD.
-					
-					\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
-							Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-				\end{itemize}
-				
-				% Experiment 3
-				\paragraph{Experiment 3: How to choose between different means to explore a given space ?}
-				\begin{itemize}
-					\item Idea: to explain how we can choose between different means (e.g. different tools) using the one with the maximal competence, or maximal progress.
-							We can use the hierarchy (b) of Fig. \ref{H}, in order to have 2 different tools to move the object.
-					
-					\item Conditions: maximize competence vs progress, noise on each tool, reachability (e.g. size) of each tool.
-					
-					\item Features: Hierarchy (b), MAB on all modules, SAGG-Random, NN, No TDD.
-					
-					\item Measures: exploration of intermediate spaces (hand, tools), exploration of top spaces (object). Competence to reach random goals in reachable parts of intermediate and top spaces. 
-							Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-				\end{itemize}
-				
-				% Experiment 4
-				\paragraph{Experiment 4: How can high-level tasks guide the exploration of lower-level ones ?}
-				\begin{itemize}
-					\item Idea: to compare different possibilities of Top-Down Guidance, with hierarchy (c) of Fig. \ref{H} in order to have TD guidance at different levels: 
-							arm with one higher model, hand with 2 higher models, tool1 with one higher model, or tool2 with 2 higher models.
-					
-					\item Conditions: No TDD, Just add noise to motor command of each module (pb: interferes with competence estimation) 
-							vs explore $n$ points and returns the best (warning: exponential)
-							vs only one layer below the babbling module explores $n$ points.
-					
-					\item Features: Hierarchy (c), MAB on all modules with bias (or no bias?), SAGG-Random, NN.
-					
-					\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
-							Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-				\end{itemize}
-				
-				% Experiment 5
-				\paragraph{Experiment 5: How can the system cope with perturbations on some of the forward models ?}
-				\begin{itemize}
-					\item Idea: to apply perturbations to one of the possible forward models, either blocking, shifting or randomizing one dimension. 
-							We can use the hierarchy (d) of Fig. \ref{H} in order to see an adaptation at 2 levels: the use of one hand to use one tool, the use of both tools to move the object even if only one is perturbated.
-					
-					\item Conditions: No perturbations, which model is perturbated (arm, tool), type of perturbation (blocking, shifting, random).
-					
-					\item Features: Hierarchy (d), MAB on all modules, SAGG-Random, NN, best TDD.
-					
-					\item Measures: exploration of intermediate spaces (hands, tools) and top spaces (objects) before and after perturbations. 
-							Competence to reach random goals in reachable parts of intermediate and top spaces before and after perturbations. 
-							Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-				\end{itemize}
-
-		%
-	
-	%
-	
-%
-
-
-\section{Study 2: Curiosity-driven combination of skills}
-\label{study2}
-
-
-%
-
-
-\section{Study 3: Socially-guided combination of skills}
-\label{study3}
-
 %
 
 
