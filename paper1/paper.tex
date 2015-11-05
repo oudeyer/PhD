@@ -314,15 +314,103 @@ The abstract goes here.
 
 \section{Environment}
 
+	We simulate a 2D robotic arm using tools to push an object in its environment with the help of an experienced pair. 
+	The agent can either try to push objects into boxes on its own, or produce a vocal signal that might engage the experienced pair to help move the object to reach a box.
+	
+	The environment is designed such that each box is more easily reached by one different mean.
+	Box 1 is best reached with the small stick, box 2 with the long stick, and box 3 with the small stick and the help of the pair.
+	
+	An iteration consists of the evaluation of a motor command given by the agent which gives
+	sensory information back to him, and 
+	finally the environment is resetted to its intial state.
+	
 	\begin{figure}[!t]
 		\centering
 		\includegraphics[width=8cm]{./include/tools.png}
 		\caption{Play Environment}
 		\label{env}
 	\end{figure}
+		
+	The next sections precisely describe the different items of the environment and their interactions.	
+	See Fig. \ref{env} for an exemple of the state of the environment. 
 	
-	See Fig. \ref{env} for the initial state of the environment.
 
+	\subsection{Robotic arm}
+	
+		The 2D robotic arm has 3 joints plus a gripper located at the end-effector.
+		Each joint can rotate from $-\pi~rad$ to $\pi~rad$ around its initial position, mapped to a standard interval of $[-1,1]$.
+		The length of the 3 parts of the arm are $0.5$, $0.3$ and $0.2$ so the total length of the arm is $1$ unit.
+		The initial position of the arm is vertical with each joint at $0~rad$ and its base is fixed at position $[0, 0]$.
+		The gripper $g$ has 2 possible positions: \textit{open} ($g \geq 0$) and \textit{closed} ($g < 0$) and its initial position is \textit{open} (with $g = 0$).
+		The robotic arm thus has 4 degrees of freedom represented by a vector in $[-1,1]^4$.
+		A trajectory of the arm will be represented as a sequence of such vectors.
+	
+	%
+	
+		
+	\subsection{Objects and tools}
+		
+		A yellow squared object can be moved into one of the 3 fixed squared boxes. 
+		The initial position of the yellow square is $(-0.75, 1)$ and is thus unreachable with directly with the gripper.
+		One of 2 sticks can be grasped in order to reach the object.
+		A small stick of length $0.5$ is located on the left of the arm, with initial position $(-0.5, 0)$ and initial angle $\frac{3\pi}{4}$ from the horizontal line.
+		A long stick of length $1.$ is located on the right of the arm, with initial position $(0.5, 0)$ and initial angle $\frac{\pi}{4}$ from the horizontal line as in Fig. \ref{env}.
+		
+		If the gripper closes near the end of one of the sticks (closer than $0.2$), it is considered grasped and will follow the gripper's position and the angle (with some noise) of the arm's last part until the gripper opens.
+		The grasped stick will have its angle equal to arm's last part plus a gaussian noise (of size $0.02$ for the small sitck and $0.1$ for the long one), updated at each step of the movement.
+		
+		Similarly, if the other end of a stick reaches the yellow squared object (within $0.25$), the object will follow the end of the stick.
+		Three boxes are fixed at positions $(-1.25, 0)$, $(0, 1.75)$ and $(-1.75, 0)$ and have size $0.5$.
+		At the end of the trial, the object is considered to be in one of the box if its center is in the box.
+	
+	%
+	
+	\subsection{Help from an experienced pair}
+	
+		A pair sitting at the right of the robot will help him put the yellow square into the closer box.
+		It will wait for the robot to move the object on its own, and if the robot also produces the good vocal signal, will move the object to the closest box.
+		
+		However, as the long stick is long enough to reach the any of the 3 boxes but not the small one, the pair will help the robot only when it will use the small stick.
+		Also, as the pair is sitting on the right side of the robot, it will be unable to help reach box 1 (on the left).
+		The pair will help reach box 2 (on the front) but with a bad precision as it is far, and box 3 (on the right) with a good precision.
+		The pair will put the object at the center of box 2 (with a gaussian noise of size $0.2$ on x and y dimensions thus missing the box quite often), 
+		only if the object is located near box 2 at a distance from the base of the arm greater than $1.$ and an angle from the horizontal line between $45°$ and $105°$.
+		If the angle is between $-15°$ and $45°$, then the pair moves it towards the center of box 3 with a gaussian noise of size $0.05$, thus rarely missing the box.
+		
+		We simulate a simple vocal signal controled by pitch and intensity between $-1$ and $1$.
+		The pair will engage in helping the robot only if pitch and intensity were sufficiently high ($>0.$).
+	%
+	
+	\subsection{Motor control}
+	
+		We use Dynamical Movement Primitive \cite{ijspeert_dynamical_2013} to control the arm's movement as this framework permits the production of a diversity of arm's trajectories with few parameters.
+		Each of the 4 arm's degree of freedom (DOF) is controlled by a DMP with a starting and a goal position equal to the rest position of the joint.
+		Each DMP is parameterized by one weight on each of 3 basis functions whose centers are distributed homogeneously throughout the movement.
+		The weights are bounded in the interval $[-200,200]$ (mapped to the standard interval $[-1,1]$) which allow each joint to cover its standard interval $[-1,1]$ during the movement.
+		Each DMP outputs a series of $50$ positions that represents a sampling of the trajectory of one joint during the movement.
+	
+		The arm's movement is thus parameterized by $12$ weights, and the static vocal signal by $2$ weights.
+		Let $M_a$ be the $12D$ space of arm's commands $[-1,1]^{12}$, $M_v$ be the $2D$ vocal space, and $M$ the $14D$ global motor space.
+	
+	%
+	
+	\subsection{Sensory feedback}
+	
+		At the end of the movement, the robot gets sensory feedback from the different items of the environment.
+		It gets the trajectory of its hand and gripper, whether the vocal signal engaged the pair or not, the trajectory of the end of the sticks, 
+		the end position of the object, and whether the object is in each box and at which distance.
+	
+		The trajectory of the hand and of the end point of the sticks is the sequence of x and y positions at different time points: steps $12$, $25$, $37$ during the movement of $50$ steps.
+		The trajectory of the gripper is a sequence of $1$ or $-1$ depending whether the gripper is open or not.
+		The pair understanding of the vocal signal is represented as $1$ if intensity and pitch were correct, $-1$ otherwise.
+		For each box, the robot receives a $1$ if the object was in the box, and $0$ otherwise, plus the distance between the end position of the object and the center of the box.
+		 
+		The sensory information thus contains $6$ dimensions for the trajectory of the hand, $1$ for the pair help, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object, and $2$ for each box.
+		The total sensory space has $44$ dimensions.
+		
+	%
+	
+	
 %
 	
 \section{Random Goal Babbling}
