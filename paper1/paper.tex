@@ -232,6 +232,9 @@ The abstract goes here.
 
 \section{Introduction}
 
+	Curiosity-driven exploration and developmental trajectories...
+	
+	
 	
 	The study of the control of manipulation actions in humans has revealed a modular representation of actions 
 	either in the cerebral cortex and in the spinal 
@@ -239,43 +242,38 @@ The abstract goes here.
 	and generalization: certain neurons (higher 
 	in the hierarchy) can represent actions independently of the effectors used \cite{cangelosi2010integration}.
 	
-	The same idea holds for language expressiveness which is based on syntactic hierarchical combinations 
-	on a vocabulary, that open infinite semantic possibilities. 
-	Greenfield has also argued that this parallel between manipulation and language compositionality can be found in the human ontegenic development
-	with combinatorial steps for manipulation and syntax acquired approximately at the same period and in the same order \cite{green}. 
-	Also, the author explains that the development of the neural substrates for language and tool use could be an ontogenic homology as first of all
-	the same neural computations for hierarchical combinations and their semantics should take place for both modalities, and furthermore 
-	experiments with Broca's and Wernicke's aphasics show that hierarchical organization for language and manipulation is linked. 
-	Broca's aphasics, who have less syntactic organization of speech were shown to also have problems of representation of the hierarchical organization
-	of constructions with blocks, whereas Wernicke's aphasics, whose syntax is normal but speech semantics is impaired, succeed in representing such objects 
-	hierarchies. 
-	
-	Functional MRI experiments by Higuchi et al. have shown that the human's neural substrates for tool use and language is indeed shared in 
-	the dorsal BA44 Broca's area \cite{higuchi}, which gives evidence for the similar neural computations used. 
-	They furthermore argue that these results supports the hypothesis that tool use have appeared first in primate evolution in F5 area,
-	and then the language has developed in humans reusing part of tool use and manipulation neural substrates in human's Broca area, homolog of primate's F5.
-
 	Like a developing child, a developmental robot will have to incrementally explore skills that add up to the hierarchy of previously learned skills 
 	throughout its life, with a constraint being the cost and time of experimentation. 
 	We will seek to define curiosity-driven hierarchical learning architectures 
 	that could reuse the sensorimotor contingencies previously learned and to combine them 
 	to explore more efficiently new complex sensorimotor models. 
 		
-	\subsection{Goal of the study}
+	Here, we will rely on the SAGG-Random architecture \cite{baranes2010intrinsically}.
+	This architecture learns a single mapping between a continuous motor space and and continuous sensory (or task) 
+	space by randomly selecting goals in the sensory space. 
+	In our hierarchy of sensorimotor models, each model will be explored using the SAGG-Random procedure, but it could be replaced by any other exploration architecture.
+	
+	We want to study and compare our exploration strategies in a high-dimensional continuous environment where primitive actions can be reused to influence different perceptual spaces.
+	We will use a simulated 2D robotic arm that can interact with tools and objects. 
+	The robot will have the possibility to use different tools and to ask for the help of a pair to reach certain objects.	
+	Section \ref{sec:env} shows the details of that environment.
+	
+	Section \ref{sec:saggrandom} explains in detail the SAGG-Random exploration architecture and shows how it behaves on the designed environment.
+
+	\subsection{Questions of the study}
 			
 		\begin{itemize}
-			\item Exploring in a structured hierarchy is more efficient than directly from $M$ to $S$.
-			\item Which task should I explore now ?
+			\item Learning a structured hierarchy is more efficient than directly from $M$ to $S$.?
+			\item Which task should be explored now ?
 			\item How to choose between different means to explore a given space ? 
 			\item How can high-level tasks guide the exploration of lower-level ones ?
-			\item How can the system cope with perturbations on some of the forward models ?		
+			\item How can the system cope with perturbations of some of the forward models ?		
 		\end{itemize}
 
-		
 	%
 	
 	\subsection{Related work}
-		\cite{ugur2014, ugur2015}.
+		Explain \cite{ugur2014, ugur2015, schmerlinggoal}.
 
 		Different computational models have the possibility to learn skill hierarchies. 
 		In finite environments represented by a factored Markov Decision Process \cite{vig}, an intrinsic motivation towards actions 
@@ -285,40 +283,37 @@ The abstract goes here.
 		to learn skill hierarchies. 
 		An intrinsic motivation rewards positively the novelty of the states encountered and negatively the prediction error of the learned skill model.
 		
-		The model from Fabisch et al. \cite{fabisch2014active} learns in a setting with a discrete task space (called contexts).
+		The model from Fabisch et al. \cite{fabisch2014active} learns a discrete task space (tasks are called contexts).
 		It uses an intrinsic motivation for learning progress, and a Multi-Armed Bandit algorithm (D-UCB) to choose on which context the agent should train for.
 		The Upper Confidence Bound algorithm chooses between contexts given their estimated learning progress and the uncertainty of these estimations
 		by picking the context with the maximum upper confidence bound.
-		In other words, it maximizes the expected reward plus something related to the uncertainty associated with it, selecting either contexts with 
-		certain high rewards or ones with uncertain poor reward.
-		This algorithm embeds directly a solution the exploration-exploitation trade-off problem as it represents the exploitation 
-		of knowledge by the expected progress and the exploration of other solutions by the uncertainty bonus. 
+		%In other words, it maximizes the expected reward plus something related to the uncertainty associated with it, selecting either contexts with 
+		%certain high rewards or ones with uncertain poor reward.
+		%This algorithm embeds directly a solution the exploration-exploitation trade-off problem as it represents the exploitation 
+		%of knowledge by the expected progress and the exploration of other solutions by the uncertainty bonus. 
 		This algorithm supposes a stationary learning progress on each context so the authors use an adaptation 
-		(D-UCB, \cite{kocsis2006discounted}) to encompass non-stationary learning progress.
+		\cite{kocsis2006discounted} to encompass non-stationary learning progress.
 		% Sliding Window UCB: \cite{garivier2011upper}
 		
 		In a fully continuous setting, Mugan et al. \cite{mugan} have developed an algorithm that first learns a qualitative representation of environment states
 		and actions in order to then learn the structure of Dynamic Bayesian Networks representing the temporal contingencies of those states and actions.
-		In order to choose which action to practice, the authors use the IAC \cite{oudeyer_intrinsic_2007} where the agent 
+		In order to choose which action to practice, the authors use the Intelligent-Adaptive-Curiosity algorithm \cite{oudeyer_intrinsic_2007} where the agent 
 		is intrinsically motivated to choose actions that are estimated to yield high prediction error progress.
 		
-		Here, we will rely more specifically on the SAGG-RIAC architecture \cite{baranes_active_2013}.
-		This architecture learns a single mapping between continuous motor and sensori (or task) 
-		spaces with a competence-based intrinsic motivation. 
-		In our hierarchy of sensorimotor models, each model will be explored using the SAGG-RIAC procedure, but it could be replaced by another one 
-		without changing the mechanisms to learn the hierarchy that will be assessed.
-
 	%
 %
 
 
 \section{Environment}
+\label{sec:env}
 
 	We simulate a 2D robotic arm using tools to push an object in its environment with the help of an experienced pair. 
 	The agent can either try to push objects into boxes on its own, or produce a vocal signal that might engage the experienced pair to help move the object to reach a box.
 	
 	The environment is designed such that each box is more easily reached by one different mean.
 	Box 1 is best reached with the small stick, box 2 with the long stick, and box 3 with the small stick and the help of the pair.
+	
+	A simpler version of that environment will also be considered, where only the small stick is provided to the robot (environment E1) instead of both (environment E2).
 	
 	An iteration consists of the evaluation of a motor command given by the agent which gives
 	sensory information back to him, and 
@@ -378,7 +373,7 @@ The abstract goes here.
 		If the angle is between $-15°$ and $45°$, then the pair moves it towards the center of box 3 with a gaussian noise of size $0.05$, thus rarely missing the box.
 		
 		We simulate a simple vocal signal controled by pitch and intensity between $-1$ and $1$.
-		The pair will engage in helping the robot only if pitch and intensity were sufficiently high ($>0.$).
+		The pair will engage in helping the robot only if pitch and intensity are sufficiently high ($>0$).
 	%
 	
 	\subsection{Motor control}
@@ -403,10 +398,15 @@ The abstract goes here.
 		The trajectory of the hand and of the end point of the sticks is the sequence of x and y positions at different time points: steps $12$, $25$, $37$ during the movement of $50$ steps.
 		The trajectory of the gripper is a sequence of $1$ or $-1$ depending whether the gripper is open or not.
 		The pair understanding of the vocal signal is represented as $1$ if intensity and pitch were correct, $-1$ otherwise.
-		For each box, the robot receives a $1$ if the object was in the box, and $0$ otherwise, plus the distance between the end position of the object and the center of the box.
+		The sensory information about the boxes is composed of 2 values. 
+		The first one tells which box has the object inside ($-1$ if no one, $-0.25$ if box 1, $0.25$ if box 2, and $0.75$ if box 3).
+		The second value is the minimal distance between a box and the object at the end of the movement and after the pair helped.
+		%For each box, the robot receives a $1$ if the object was in the box, and $0$ otherwise, plus the distance between the end position of the object and the center of the box.
 		 
-		The sensory information thus contains $6$ dimensions for the trajectory of the hand, $1$ for the pair help, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object, and $2$ for each box.
-		The total sensory space has $44$ dimensions.
+		The sensory information thus contains $6$ dimensions for the trajectory of the hand, $1$ for the pair help, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object, and $2$ for the boxes.
+		The total sensory space has $34$ dimensions if only the small stick is provided to the robot (environment E1), and $40$ dimensions if both are (environment E2).
+		%The sensory information thus contains $6$ dimensions for the trajectory of the hand, $1$ for the pair help, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object, and $2$ for each box.
+		%The total sensory space has $44$ dimensions.
 		
 	%
 	
@@ -414,8 +414,19 @@ The abstract goes here.
 %
 	
 \section{Random Goal Babbling}
+\label{sec:saggrandom}
+
+	Explain SAGG-Random, NN, show results on environment for GB vs MB.
+	Explain exploration in SAGG-Random, show competence and progress with different measures (and why its important to measure that).
+	The possible perturbation of the standard measure by exploration noise, and a possible fix with the following:
 
 
+	We have $$||s_g - s|| = ||s_g - s_{NN} + s_{NN} - s_p + s_p - s||$$ where $s_{NN}$ is the nearest neighbor of $s_g$ in the sensorimotor mapping, and is also the sensory prediction of $m$, and $s_p$ is the sensory prediction of $m + \epsilon$.
+
+	When there is no exploration, $\epsilon=0$, so $s_{NN} = s_p$ and $$||s_g - s|| = ||s_g - s_{NN} + s_p - s||$$
+	The expression $s_g - s_{NN}$ corresponds to the novelty with respect to the already reached points, and $s_p - s$ to the forward model's prediction error.
+
+	We could also use $||s_g - s_{NN} + s_p - s||$ when $\epsilon > 0$ as the basis of the computation of competence and interest.
 	
 %
 
@@ -434,17 +445,15 @@ The abstract goes here.
 	% Experiment 1
 	\subsection{Experiment 1: Methods}		
 				
-		\begin{itemize}
-			\item Idea: to compare our simplest algorithm (explore the module with higher progress) in a realistic setting (Hierarchy (a) of Fig. \ref{Hierarchies}) to the control condition where a sensorimotor model is learned
-					directly from the whole motor space $M$ to the whole sensori space $S$.
+		Here we want to compare the learning of a structured hierarchy of SAGG-Random modules with the control condition where one sensorimotor model learns
+		directly from the whole motor space $M$ to the whole sensori space $S$. 
+		For the hierarchical conditions, we randomly choose the module of the hierarchy that will explore at each iteration.
+		We also compare Motor Babbling and Goal Babbling in the hierarchical and in the flat hierarchies.
+		We use hierarchy H1 (Fig. \ref{H1}), and environmnent E1.
+		Exploration: only the babbling module will add exploration noise.
 			
-			\item Conditions: Hierarchy (a) vs $M \rightarrow S$, Motor Babbling vs SAGG-Random
-			
-			\item Features: MAB on all modules, NN, No TDD.
-			
-			\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
-					Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-		\end{itemize}
+		We measure the number of times the agent manages to grasp the tool, push the object, and reach a box.
+		TODO: exploration of all spaces (hand, tools, object, boxes), competence to reach random goals.
 		
 	%
 			
@@ -452,29 +461,29 @@ The abstract goes here.
 	
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Competences]{\includegraphics[width=6cm]{./include/H0-GB-log6-competences.png}}
-			\subfloat[Interests]{\includegraphics[width=6cm]{./include/H0-GB-log6-interests.png}}
-			\subfloat[Events]{\includegraphics[width=6cm]{./include/H0-GB-log6-events.png}}
+			\subfloat[Competences]{\includegraphics[width=6cm]{./include/H0-GB-log1-competences.png}}
+			\subfloat[Interests]{\includegraphics[width=6cm]{./include/H0-GB-log1-interests.png}}
+			\subfloat[Events]{\includegraphics[width=6cm]{./include/H0-GB-log1-events.png}}
 			\caption{Competences, interests and events using H0 with Random Goal Babbling}
 			\label{resH0GB}
 		\end{figure*}
 		
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Competences]{\includegraphics[width=6cm]{./include/H1-GB-log5-competences.png}}
-			\subfloat[Interests]{\includegraphics[width=6cm]{./include/H1-GB-log5-interests.png}}
-			\subfloat[Events]{\includegraphics[width=6cm]{./include/H1-GB-log5-events.png}}
+			\subfloat[Competences]{\includegraphics[width=6cm]{./include/H1-GB-log10-competences.png}}
+			\subfloat[Interests]{\includegraphics[width=6cm]{./include/H1-GB-log10-interests.png}}
+			\subfloat[Events]{\includegraphics[width=6cm]{./include/H1-GB-log10-events.png}}
 			\caption{Competences, interests and events using H1 with Random Goal Babbling}
 			\label{resH1GB}
 		\end{figure*}
 		
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Tool]{\includegraphics[width=6cm]{./include/xp1-n_tool_1.png}}
-			\subfloat[Object]{\includegraphics[width=6cm]{./include/xp1-n_obj.png}}
-			\subfloat[Box 1]{\includegraphics[width=6cm]{./include/xp1-n_box_1.png}}\\
-			\subfloat[Box 2]{\includegraphics[width=6cm]{./include/xp1-n_box_2.png}}
-			\subfloat[Box 3]{\includegraphics[width=6cm]{./include/xp1-n_box_3.png}}
+			\subfloat[Tool]{\includegraphics[width=6cm]{./include/xp1-tool_1.png}}
+			\subfloat[Object]{\includegraphics[width=6cm]{./include/xp1-obj.png}}
+			\subfloat[Box 1]{\includegraphics[width=6cm]{./include/xp1-box_1.png}}\\
+			\subfloat[Box 2]{\includegraphics[width=6cm]{./include/xp1-box_2.png}}
+			\subfloat[Box 3]{\includegraphics[width=6cm]{./include/xp1-box_3.png}}
 			\caption{Number of touch of tool, object and boxes for each 100 iterations' bin.}
 			\label{res_xp1_events}
 		\end{figure*}
@@ -497,23 +506,41 @@ The abstract goes here.
 	% Experiment 2
 	\subsection{Experiment 2: Methods}	
 		
-		\begin{itemize}
-			\item Idea: to compare the different possibilities to choose the module to explore in the hierarchy: maximizing the progress, maximizing with a bias towards lower-level modules, or use ZPDES,
-					with the same hierarchy (a) of Fig. \ref{Hierarchies}.
+		Here we want to compare the different possibilities to choose the module to explore in the hierarchy: choosing the one with the max progress (proba proportional to interest), 
+		maximizing with a bias towards lower-level modules, or use ZPDES,
+		with the same hierarchy H1 (Fig. \ref{H1}), and environmnent E1.
 			
-			\item Conditions: Random module, MAB on all modules, MAB with bias, ZPDES.
+		Conditions: Random module (RD), choose with proba proportional to interest (I), the same with bias toward lower levels (IB), or ZPDES.
+		Also try to make all modules add exploration noise (EXPLOA) or only the babbling module (EXPLOB).
 			
-			\item Features: Hierarchy (a), SAGG-Random, NN, No TDD.
-			
-			\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
-					Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-		\end{itemize}
-		
+		We measure the number of times the agent manages to grasp the tool, push the object, and reach a box.
+		TODO: exploration of all spaces (hand, tools, object, boxes), competence to reach random goals.
 	%
 		
 	
 	\subsection{Experiment 2: Results}
 
+		See Fig. \ref{resIEXPLOB} and \ref{res_xp2_events}.
+		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Competences]{\includegraphics[width=6cm]{./include/xp2-I-EXPLOB-log4-competences.png}}
+			\subfloat[Interests]{\includegraphics[width=6cm]{./include/xp2-I-EXPLOB-log4-interests.png}}
+			\subfloat[Events]{\includegraphics[width=6cm]{./include/xp2-I-EXPLOB-log4-events.png}}
+			\caption{Competences, interests and events using H1 with I-EXPLOB}
+			\label{resIEXPLOB}
+		\end{figure*}
+		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Tool]{\includegraphics[width=6cm]{./include/xp2-tool_1.png}}
+			\subfloat[Object]{\includegraphics[width=6cm]{./include/xp2-obj.png}}
+			\subfloat[Box 1]{\includegraphics[width=6cm]{./include/xp2-box_1.png}}\\
+			\subfloat[Box 2]{\includegraphics[width=6cm]{./include/xp2-box_2.png}}
+			\subfloat[Box 3]{\includegraphics[width=6cm]{./include/xp2-box_3.png}}
+			\caption{Number of touch of tool, object and boxes for each 100 iterations' bin.}
+			\label{res_xp2_events}
+		\end{figure*}
 		
 	%
 	
