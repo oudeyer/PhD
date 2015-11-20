@@ -450,7 +450,7 @@ The abstract goes here.
 		For the hierarchical conditions, we randomly choose the module of the hierarchy that will explore at each iteration.
 		We also compare Motor Babbling and Goal Babbling in the hierarchical and in the flat hierarchies.
 		We use hierarchy H1 (Fig. \ref{H1}), and environmnent E1.
-		Exploration: only the babbling module will add exploration noise.
+		Exploration: each module will add some exploration noise (Simple TDD).
 			
 		We measure the number of times the agent manages to grasp the tool, push the object, and reach a box.
 		TODO: exploration of all spaces (hand, tools, object, boxes), competence to reach random goals.
@@ -461,35 +461,47 @@ The abstract goes here.
 	
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Competences]{\includegraphics[width=6cm]{./include/H0-GB-log1-competences.png}}
-			\subfloat[Interests]{\includegraphics[width=6cm]{./include/H0-GB-log1-interests.png}}
-			\subfloat[Events]{\includegraphics[width=6cm]{./include/H0-GB-log1-events.png}}
-			\caption{Competences, interests and events using H0 with Random Goal Babbling}
+			\subfloat[Competences]{\includegraphics[width=4cm]{./include/xp1-H0-GB-log2-competences.png}}
+			\subfloat[Interests]{\includegraphics[width=4cm]{./include/xp1-H0-GB-log2-interests.png}}
+			\subfloat[Events]{\includegraphics[width=4cm]{./include/xp1-H0-GB-log2-events.png}}
+			\subfloat[Object exploration]{\includegraphics[width=4cm]{./include/xp1-H0-GB-log2-obj-explo.png}}
+			\caption{Competences, interests, events and object exploration using H0 with Random Goal Babbling}
 			\label{resH0GB}
 		\end{figure*}
 		
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Competences]{\includegraphics[width=6cm]{./include/H1-GB-log10-competences.png}}
-			\subfloat[Interests]{\includegraphics[width=6cm]{./include/H1-GB-log10-interests.png}}
-			\subfloat[Events]{\includegraphics[width=6cm]{./include/H1-GB-log10-events.png}}
-			\caption{Competences, interests and events using H1 with Random Goal Babbling}
+			\subfloat[Competences]{\includegraphics[width=4cm]{./include/xp1-H1-GB-log1-competences.png}}
+			\subfloat[Interests]{\includegraphics[width=4cm]{./include/xp1-H1-GB-log1-interests.png}}
+			\subfloat[Events]{\includegraphics[width=4cm]{./include/xp1-H1-GB-log1-events.png}}
+			\subfloat[Object exploration]{\includegraphics[width=4cm]{./include/xp1-H1-GB-log1-obj-explo.png}}
+			\caption{Competences, interests, events and object exploration using H1 with Random Goal Babbling}
 			\label{resH1GB}
 		\end{figure*}
 		
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Tool]{\includegraphics[width=6cm]{./include/xp1-tool_1.png}}
-			\subfloat[Object]{\includegraphics[width=6cm]{./include/xp1-obj.png}}
-			\subfloat[Box 1]{\includegraphics[width=6cm]{./include/xp1-box_1.png}}\\
-			\subfloat[Box 2]{\includegraphics[width=6cm]{./include/xp1-box_2.png}}
-			\subfloat[Box 3]{\includegraphics[width=6cm]{./include/xp1-box_3.png}}
-			\caption{Number of touch of tool, object and boxes for each 100 iterations' bin.}
+			\subfloat[Tool]{\includegraphics[width=4cm]{./include/xp1-event-tool_1.png}}
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp1-event-obj.png}}
+			\subfloat[Box 1]{\includegraphics[width=4cm]{./include/xp1-event-box_1.png}}\\
+			\subfloat[Box 2]{\includegraphics[width=4cm]{./include/xp1-event-box_2.png}}
+			\subfloat[Box 3]{\includegraphics[width=4cm]{./include/xp1-event-box_3.png}}
+			\caption{Number of touch of tool, object and boxes for each 10000 iterations' bin.}
 			\label{res_xp1_events}
 		\end{figure*}
 		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Hand]{\includegraphics[width=4cm]{./include/xp1-explo-hand.png}}
+			\subfloat[Tool]{\includegraphics[width=4cm]{./include/xp1-explo-stick_1.png}}
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp1-explo-obj.png}}
+			\subfloat[Box]{\includegraphics[width=4cm]{./include/xp1-explo-box.png}}
+			\caption{Exploration of sensory spaces.}
+			\label{res_xp1_explo}
+		\end{figure*}
 		
-		See Fig. \ref{resH0GB}, \ref{resH1GB} and \ref{res_xp1_events}.
+		
+		See Fig. \ref{resH0GB}, \ref{resH1GB}, \ref{res_xp1_events}, \ref{res_xp1_explo}.
 		
 	%
 	
@@ -510,36 +522,52 @@ The abstract goes here.
 		maximizing with a bias towards lower-level modules, or use ZPDES,
 		with the same hierarchy H1 (Fig. \ref{H1}), and environmnent E1.
 			
-		Conditions: Random module (RD), choose with proba proportional to interest (I), the same with bias toward lower levels (IB), or ZPDES.
-		Also try to make all modules add exploration noise (EXPLOA) or only the babbling module (EXPLOB).
+		Conditions:
+		\begin{itemize}
+			\item Random module (RD),
+			\item choose with proba proportional to interest (I),
+			\item ZPDES (Z).
+		\end{itemize}
+		
+		Exploration: each module will add some exploration noise (Simple TDD).
 			
-		We measure the number of times the agent manages to grasp the tool, push the object, and reach a box.
-		TODO: exploration of all spaces (hand, tools, object, boxes), competence to reach random goals.
+		We measure the number of times the agent manages to grasp the tool, push the object, and reach a box,
+		and the exploration of all spaces (hand, tools, object, boxes).
 	%
 		
 	
 	\subsection{Experiment 2: Results}
 
-		See Fig. \ref{resIEXPLOB} and \ref{res_xp2_events}.
+		See Fig. \ref{resI}, \ref{res_xp2_events} and \ref{res_xp2_explo}.
 		
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Competences]{\includegraphics[width=6cm]{./include/xp2-I-EXPLOB-log4-competences.png}}
-			\subfloat[Interests]{\includegraphics[width=6cm]{./include/xp2-I-EXPLOB-log4-interests.png}}
-			\subfloat[Events]{\includegraphics[width=6cm]{./include/xp2-I-EXPLOB-log4-events.png}}
-			\caption{Competences, interests and events using H1 with I-EXPLOB}
-			\label{resIEXPLOB}
+			\subfloat[Competences]{\includegraphics[width=4cm]{./include/xp2-H1-GB-log1-competences.png}}
+			\subfloat[Interests]{\includegraphics[width=4cm]{./include/xp2-H1-GB-log1-interests.png}}
+			\subfloat[Events]{\includegraphics[width=4cm]{./include/xp2-H1-GB-log1-events.png}}
+			\caption{Competences, interests and events using H1 with I}
+			\label{resI}
 		\end{figure*}
 		
 		\begin{figure*}[!t]
 			\centering
-			\subfloat[Tool]{\includegraphics[width=6cm]{./include/xp2-tool_1.png}}
-			\subfloat[Object]{\includegraphics[width=6cm]{./include/xp2-obj.png}}
-			\subfloat[Box 1]{\includegraphics[width=6cm]{./include/xp2-box_1.png}}\\
-			\subfloat[Box 2]{\includegraphics[width=6cm]{./include/xp2-box_2.png}}
-			\subfloat[Box 3]{\includegraphics[width=6cm]{./include/xp2-box_3.png}}
-			\caption{Number of touch of tool, object and boxes for each 100 iterations' bin.}
+			\subfloat[Tool]{\includegraphics[width=4cm]{./include/xp2-event-tool_1.png}}
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp2-event-obj.png}}
+			\subfloat[Box 1]{\includegraphics[width=4cm]{./include/xp2-event-box_1.png}}\\
+			\subfloat[Box 2]{\includegraphics[width=4cm]{./include/xp2-event-box_2.png}}
+			\subfloat[Box 3]{\includegraphics[width=4cm]{./include/xp2-event-box_3.png}}
+			\caption{Number of touch of tool, object and boxes for each 10000 iterations' bin.}
 			\label{res_xp2_events}
+		\end{figure*}
+		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Hand]{\includegraphics[width=4cm]{./include/xp2-explo-hand.png}}
+			\subfloat[Tool]{\includegraphics[width=4cm]{./include/xp2-explo-stick_1.png}}
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp2-explo-obj.png}}
+			\subfloat[Box]{\includegraphics[width=4cm]{./include/xp2-explo-box.png}}
+			\caption{Exploration of sensory spaces.}
+			\label{res_xp2_explo}
 		\end{figure*}
 		
 	%
@@ -547,6 +575,64 @@ The abstract goes here.
 	\subsection{Experiment 2: Discussion}	
 	
 	%
+
+%
+	
+	
+\section{Top-Down Guidance}
+
+
+	% Experiment 3
+	\subsection{Experiment 3: Methods}	
+	%\paragraph{Experiment 3: How can high-level tasks guide the exploration of lower-level ones ?}
+		
+		\begin{itemize}
+			\item Idea: to compare different possibilities of Top-Down Guidance, with hierarchy H1 with TD guidance at different levels.
+			
+			\item Condition STDD: (simple TDD): add noise to motor command of each module (pb: interferes with competence estimation?).
+			
+			\item Condition EXPLO-N: explore $n$ points and returns the best (exponential if all modules explore $n$ points, so I've implemented that only the chosen module explores $n$ points, and the others add exploration noise)
+			%\item Condition BST: balance between self-interest and top-down points (one parameter).
+			
+			\item Features: H1, choose module based on interest (I), NN.
+			
+			\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
+					Statistics on multiple runs to see regularity/diversity in developmental trajectories.
+		\end{itemize}
+		
+	%
+		
+	\subsection{Experiment 3: Results}
+	
+		See Fig. \ref{res_xp3_events} and \ref{res_xp3_explo}.
+		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Tool]{\includegraphics[width=4cm]{./include/xp3-event-tool_1.png}}
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp3-event-obj.png}}
+			\subfloat[Box 1]{\includegraphics[width=4cm]{./include/xp3-event-box_1.png}}\\
+			\subfloat[Box 2]{\includegraphics[width=4cm]{./include/xp3-event-box_2.png}}
+			\subfloat[Box 3]{\includegraphics[width=4cm]{./include/xp3-event-box_3.png}}
+			\caption{Number of touch of tool, object and boxes for each 10000 iterations' bin.}
+			\label{res_xp3_events}
+		\end{figure*}
+		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Hand]{\includegraphics[width=4cm]{./include/xp3-explo-hand.png}}
+			\subfloat[Tool]{\includegraphics[width=4cm]{./include/xp3-explo-stick_1.png}}
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp3-explo-obj.png}}
+			\subfloat[Box]{\includegraphics[width=4cm]{./include/xp3-explo-box.png}}
+			\caption{Exploration of sensory spaces.}
+			\label{res_xp3_explo}
+		\end{figure*}
+		
+	%
+	
+	\subsection{Experiment 3: Discussion}	
+	
+	%
+	
 
 %
 	
@@ -560,59 +646,49 @@ The abstract goes here.
 	\end{figure}
 	
 
-	% Experiment 3
-	\subsection{Experiment 3: Methods}	
+	% Experiment 4
+	\subsection{Experiment 4: Methods}	
 		
 		\begin{itemize}
 			\item Idea: to explain how we can choose between different means (e.g. different tools) using the one with the maximal competence, or maximal progress.
-					We can use the hierarchy (b) of Fig. \ref{Hierarchies}, in order to have 2 different tools to move the object.
+					We use the hierarchy H2, in order to have 2 different tools to move the object.
 			
-			\item Conditions: maximize competence vs progress, noise on each tool, reachability (e.g. size) of each tool.
+			\item Conditions: maximize competence vs interest vs interest if babbling otherwise competence (C, I, IB), local vs global computation of commpetence or interest (L, G), noise on each tool, reachability (e.g. size) of each tool.
 			
-			\item Features: Hierarchy (b), MAB on all modules, SAGG-Random, NN, No TDD.
+			\item Features: Hierarchy H2, choose module based on interest (I), SAGG-Random, NN, Simple TDD.
 			
-			\item Measures: exploration of intermediate spaces (hand, tools), exploration of top spaces (object). Competence to reach random goals in reachable parts of intermediate and top spaces. 
+			\item Measures: TODO:choice of tool depending on the targeted box, exploration of intermediate spaces (hand, tools), exploration of top spaces (object). Competence to reach random goals in reachable parts of intermediate and top spaces. 
 					Statistics on multiple runs to see regularity/diversity in developmental trajectories.
 		\end{itemize}
 		
 	%
 
-	\subsection{Experiment 3: Results}
-	
-		
-	%
-	
-	\subsection{Experiment 3: Discussion}	
-	
-	%
-	
-%
-	
-\section{Top-Down Guidance}
-
-
-	% Experiment 4
-	\subsection{Experiment 4: Methods}	
-	%\paragraph{Experiment 4: How can high-level tasks guide the exploration of lower-level ones ?}
-		
-		\begin{itemize}
-			\item Idea: to compare different possibilities of Top-Down Guidance, with hierarchy (c) of Fig. \ref{Hierarchies} in order to have TD guidance at different levels: 
-					arm with one higher model, hand with 2 higher models, tool1 with one higher model, or tool2 with 2 higher models.
-			
-			\item Conditions: No TDD, Just add noise to motor command of each module (pb: interferes with competence estimation) 
-					vs explore $n$ points and returns the best (warning: exponential)
-					vs only one layer below the babbling module explores $n$ points.
-			
-			\item Features: Hierarchy (c), MAB on all modules with bias (or no bias?), SAGG-Random, NN.
-			
-			\item Measures: exploration of intermediate spaces (hands, tools), exploration of top spaces (objects). Competence to reach random goals in reachable parts of intermediate and top spaces. 
-					Statistics on multiple runs to see regularity/diversity in developmental trajectories.
-		\end{itemize}
-		
-	%
-		
 	\subsection{Experiment 4: Results}
 	
+		See Fig. \ref{res_xp4_events} and \ref{res_xp4_explo}.
+		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Tool1]{\includegraphics[width=4cm]{./include/xp4-event-tool_1.png}}
+			\subfloat[Tool2]{\includegraphics[width=4cm]{./include/xp4-event-tool_2.png}}
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp4-event-obj.png}}\\
+			\subfloat[Box 1]{\includegraphics[width=4cm]{./include/xp4-event-box_1.png}}
+			\subfloat[Box 2]{\includegraphics[width=4cm]{./include/xp4-event-box_2.png}}
+			\subfloat[Box 3]{\includegraphics[width=4cm]{./include/xp4-event-box_3.png}}
+			\caption{Number of touch of tools, object and boxes for each 10000 iterations' bin.}
+			\label{res_xp4_events}
+		\end{figure*}
+		
+		\begin{figure*}[!t]
+			\centering
+			\subfloat[Hand]{\includegraphics[width=4cm]{./include/xp4-explo-hand.png}}
+			\subfloat[Tool1]{\includegraphics[width=4cm]{./include/xp4-explo-stick_1.png}}
+			\subfloat[Tool2]{\includegraphics[width=4cm]{./include/xp4-explo-stick_2.png}}\\
+			\subfloat[Object]{\includegraphics[width=4cm]{./include/xp4-explo-obj.png}}
+			\subfloat[Box]{\includegraphics[width=4cm]{./include/xp4-explo-box.png}}
+			\caption{Exploration of sensory spaces.}
+			\label{res_xp4_explo}
+		\end{figure*}
 		
 	%
 	
@@ -620,9 +696,8 @@ The abstract goes here.
 	
 	%
 	
-
 %
-	
+
 \section{Robustness to perturbations}
 
 	
@@ -632,11 +707,11 @@ The abstract goes here.
 		
 		\begin{itemize}
 			\item Idea: to apply perturbations to one of the possible forward models, either blocking, shifting or randomizing one dimension. 
-					We can use the hierarchy (d) of Fig. \ref{Hierarchies} in order to see an adaptation at 2 levels: the use of one hand to use one tool, the use of both tools to move the object even if only one is perturbated.
+					We can use the hierarchy H2 in order to see an adaptation at 2 levels: the use of the hand to use one tool, the use of the unbroken tool instead of the broken one.
 			
-			\item Conditions: No perturbations, which model is perturbated (arm, tool), type of perturbation (blocking, shifting, random).
+			\item Conditions: No perturbations, which model is perturbated (arm, tool2), type of perturbation (blocking, shifting, noise).
 			
-			\item Features: Hierarchy (d), MAB on all modules, SAGG-Random, NN, best TDD.
+			\item Features: Hierarchy H2, choose module based on interest (I), SAGG-Random, NSNN, best TDD.
 			
 			\item Measures: exploration of intermediate spaces (hands, tools) and top spaces (objects) before and after perturbations. 
 					Competence to reach random goals in reachable parts of intermediate and top spaces before and after perturbations. 
