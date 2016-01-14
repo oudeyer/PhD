@@ -1,0 +1,30 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Fabisch%
+\ \BBA {} Metzen%
+}{%
+Fabisch%
+\ \BBA {} Metzen%
+}{%
+{\protect \APACyear {2014}}%
+}]{%
+fabisch2014active}
+\APACinsertmetastar {%
+fabisch2014active}%
+\begin{APACrefauthors}%
+Fabisch, A.%
+\BCBT {}\ \BBA {} Metzen, J\BPBI H.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2014}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Active contextual policy search} {Active contextual
+  policy search}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{The Journal of Machine Learning
+  Research}{15}{1}{3371--3399}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}
