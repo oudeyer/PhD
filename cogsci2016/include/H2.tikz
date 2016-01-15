@@ -1,0 +1,53 @@
+
+% H2
+\begin{tikzpicture}[node distance=1cm,>=stealth',bend angle=45,auto]
+
+	\tikzstyle{dom}   = [ellipse, thick, draw=black!75, fill=blue!20,  minimum height=4mm, minimum width=4mm]
+	\tikzstyle{prim dom}   = [dom,  minimum height=5mm, minimum width=5mm,  fill=green!20]
+	\tikzstyle{mod} = [rectangle, thick, draw=black!75, fill=black!20, minimum size=3mm]
+
+	\begin{scope}
+		\scriptsize
+		\node [prim dom] (pd1) {$Arm$};
+
+		\node [mod] (m1) [right of=pd1, xshift=-0.1cm] {}
+		edge [pre]                  (pd1);
+
+		\node [dom] (d1) [right of=m1] {$Hand$}
+		edge [pre]                (m1);
+		
+		\node [mod] (m3) [right of=d1, xshift=-0.1cm,yshift=0.4cm] {}
+		edge [pre]                  (d1);
+		
+		\node [dom] (d3) [right of=m3, xshift=-0.1cm,yshift=0.4cm] {$Stick_1$}
+		edge [pre]                (m3);
+		
+		\node [mod] (m6) [right of=d1, xshift=-0.1cm,yshift=-0.4cm] {}
+		edge [pre]                  (d1);
+		
+		\node [dom] (d6) [right of=m6, xshift=-0.1cm,yshift=-0.4cm] {$Stick_2$}
+		edge [pre]                (m6);
+		
+		\node [mod] (m7) [right of=d6,yshift=0.2cm] {}
+		edge [pre]                  (d6);
+		
+		\node [mod] (m4) [right of=d3,yshift=-0.2cm] {}
+		edge [pre]                  (d3);
+		
+		\node [dom] (d4) [right of=m4, xshift=-0.3cm,yshift=-0.6cm] {$Object$}
+		edge [pre]                (m4)
+		edge [pre]                (m7);
+		
+		\node [mod] (m5) [right of=d4] {}
+		edge [pre]                  (d4);
+		
+		\node [dom] (d5) [right of=m5] {$Boxes$}
+		edge [pre]                (m5);
+		
+		
+	\end{scope}
+	\begin{pgfonlayer}{background}
+		\filldraw [line width=2mm,join=round,black!10]
+		(d3.north  -| d5.east)  rectangle (d6.south  -| pd1.west);
+	\end{pgfonlayer}
+\end{tikzpicture}

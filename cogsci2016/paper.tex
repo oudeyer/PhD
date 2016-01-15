@@ -24,6 +24,8 @@
 \usepackage{pslatex}
 \usepackage{apacite}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
 
 \title{Curiosity-Driven Development of Tool Use Precursors}
  
@@ -50,11 +52,123 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 \section{Introduction}
 
-%
+	\cite{flow}
+	\cite{kidd}
+	\cite{baranes2010intrinsically}
+	\cite{baranes_active_2013}
+	\cite{moulin-frier_self-organization_2014}
+	\cite{gottlieb_information-seeking_2013}
+	\cite{moulin-frier_explauto:_2014}
+	\cite{oudeyer_intrinsic_2007}
+	\cite{ijspeert_dynamical_2013}
+	\cite{riac}
+	\cite{sch}
+	\cite{oudeyer2014evolution}
+	\cite{cangelosi2010integration}
+	\cite{santucci2013}
+	\cite{ugur2015}
+	\cite{schmerlinggoal}
+	\cite{oudeyer_what_2007}
+	\cite{mugan2009}
+	\cite{metzen2013}
+	\cite{horde}
+	\cite{mugan}
+	\cite{vig}
+	\cite{sutton1999between}
+	\cite{}
+	\cite{}
 
+%
 
 \section{Methods}
 
+	\subsection{Environment}
+	\label{sec:env}
+	
+		\paragraph{}
+		We simulate a 2D robotic arm using tools to move an object into different boxes in the environment. 		
+		In each trial, we execute a motor command given by the agent, we evaluate its consequences on the sensory dimensions and we give him
+		this sensory feedback. Finally the environment is resetted to its intial state.
+		
+		The next sections precisely describe the different items of the environment and their interactions.	
+		See Fig. \ref{env} for an exemple of the state of the environment. 
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=8cm]{./include/tools.png}
+			\caption{Play Environment}
+			\label{env}
+		\end{figure}
+			
+
+		\subsubsection{Robotic arm}
+		
+			The 2D robotic arm has 3 joints plus a gripper located at the end-effector.
+			Each joint can rotate from $-\pi~rad$ to $\pi~rad$ around its initial position, mapped to a standard interval of $[-1,1]$.
+			The length of the 3 parts of the arm are $0.5$, $0.3$ and $0.2$ so the total length of the arm is $1$ unit.
+			The initial position of the arm is vertical with each joint at $0~rad$ and its base is fixed at position $[0, 0]$.
+			The gripper $g$ has 2 possible positions: \textit{open} ($g \geq 0$) and \textit{closed} ($g < 0$) and its initial position is \textit{open} (with $g = 0$).
+			The robotic arm thus has 4 degrees of freedom represented by a vector in $[-1,1]^4$.
+			A trajectory of the arm will be represented as a sequence of such vectors.
+		
+		%
+		
+			
+		\subsubsection{Objects and tools}
+			
+			A yellow sphere can be moved into one of the 4 fixed squared boxes. 
+			The initial position of the sphere is $(0, 1.2)$ and is thus unreachable directly with the gripper.
+			One of two sticks can be grasped in order to reach the object.
+			A small stick of length $0.3$ is located on the right of the arm, with initial position $(0.75, 0.25)$ and initial angle $\frac{\pi}{4}$ from the horizontal line.
+			A long stick of length $0.6$ is located on the left of the arm, with initial position $(-0.75, 0.25)$ and initial angle $\frac{3\pi}{4}$ from the horizontal line as in Fig. \ref{env}.			
+			If the gripper closes near the end of one of the sticks (closer than $0.1$), it is considered grasped and will follow the gripper's position and the angle of the arm's last part until the gripper opens.			
+			Similarly, if the other end of a stick reaches the sphere (within $0.1$), the object will follow the end of the stick.
+			Four boxes are fixed at positions $(-1, 0)$, $(-0.5, 1)$, $(1.1, 1.3)$ and $(1.6, 0)$ and have size $0.4$, 
+			so that the two boxes on the left can be reached by the two sticks, and the two boxes on the right can only be reached by the long stick.
+			At the end of the trial, the object is considered to be in one of the box if its center is in the box.\\
+		
+		%
+		
+		\subsubsection{Motor control}
+		
+			We use Dynamical Movement Primitive \cite{ijspeert_dynamical_2013} to control the arm's movement as this framework permits the production of a diversity of arm's trajectories with few parameters.
+			Each of the $4$ arm's degrees-of-freedom (DOF) is controlled by a DMP with a starting and a goal position equal to the rest position of the joint.
+			Each DMP is parameterized by one weight on each of $3$ basis functions whose centers are distributed homogeneously throughout the movement duration.
+			The weights are bounded in the interval $[-200,200]$ (mapped to the standard interval $[-1,1]$) which allow each joint to fairly cover the interval $[-1,1]$ during the movement.
+			Each DMP outputs a series of $50$ positions that represents a sampling of the trajectory of one joint during the movement.		
+			The arm's movement is thus parameterized by $12$ weights which are represented by the motor space $M=[-1,1]^{12}$
+		
+		%
+		
+		\subsubsection{Sensory feedback}
+		
+			At the end of the movement, the robot gets sensory feedback from the different items of the environment.
+			It gets the trajectory of its hand and gripper, the trajectory of the end of the sticks, 
+			the end position of the object, and whether the object is in each box.		
+			The trajectory of the hand and of the end point of the sticks are represented by sequences of x and y positions at different time points: 
+			steps $12$, $25$, $37$ during the movement of $50$ steps ($6$D for the hand and for each stick).
+			Similarly, the trajectory of the gripper is a sequence of $1$ or $-1$ depending whether the gripper is open or closed ($3$D).
+			For each box, the robot receives a $1$ if the object is in the box at the end of the movement, and $0$ otherwise ($4$D).			 
+			The sensory information thus contains $9$ values for the trajectory of the hand and gripper, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object and $4$ for the boxes.
+			The total sensory space has $27$ dimensions.
+			%The sensory information thus contains $6$ dimensions for the trajectory of the hand, $1$ for the pair help, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object, and $2$ for each box.
+			%The total sensory space has $44$ dimensions.
+			
+		%
+		
+	%
+	
+	\subsection{Model's architecture}
+
+			
+		\begin{figure}[h]
+			\center
+			\input{include/H2.tikz}
+			\caption{Hierarchy of sensorimotor models}
+			\label{H}					
+		\end{figure}
+
+	
 %
 
 
@@ -83,7 +197,6 @@ Place acknowledgments (including funding information) in a section at
 the end of the paper.
 
 
-\nocite{fabisch2014active}
 
 
 \bibliographystyle{apacite}
