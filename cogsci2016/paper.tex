@@ -36,6 +36,8 @@
 	INRIA Bordeaux Sud-Ouest\\
 	Bordeaux, France}
 
+\usepackage[caption=false,font=footnotesize]{subfig}
+
 
 \begin{document}
 
@@ -52,38 +54,56 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 \section{Introduction}
 
-	\cite{flow}
+	Development of tool use \cite{guerin2013survey}, precursors of tool use: behavior without objects, behavior with one object, interaction of objects.	
+	Grounding of representation and planning based on a large amount of experiences. 	
+	Seemless progression between the successives phases as overlapping waves. 	
+	Ongoing process of upgrading representations.	
+	Developmental trajectories.
+	
+	
+	Curiosity studies in developmental psychology 
 	\cite{kidd}
-	\cite{baranes2010intrinsically}
-	\cite{baranes_active_2013}
-	\cite{moulin-frier_self-organization_2014}
 	\cite{gottlieb_information-seeking_2013}
-	\cite{moulin-frier_explauto:_2014}
-	\cite{oudeyer_intrinsic_2007}
-	\cite{ijspeert_dynamical_2013}
-	\cite{riac}
-	\cite{sch}
-	\cite{oudeyer2014evolution}
-	\cite{cangelosi2010integration}
-	\cite{santucci2013}
-	\cite{ugur2015}
-	\cite{schmerlinggoal}
+	
+	Curiosity-driven modelling work, emergence of developmental trajectories.
+	\cite{oudeyer_intrinsic_2007} 
 	\cite{oudeyer_what_2007}
+	\cite{flow}
+	\cite{sch}
+	\cite{santucci2013}
+	\cite{cangelosi2010integration}
+	\cite{oudeyer2014evolution}
+	
+	
+	IAC series of architectures and Explauto framework: previous experiments.
+	\cite{moulin-frier_self-organization_2014}
+	\cite{moulin-frier_explauto:_2014}
+	\cite{baranes2010intrinsically}
+	\cite{riac}
+	\cite{baranes_active_2013}
+	
+	Representations in explauto and other models 
 	\cite{mugan2009}
 	\cite{metzen2013}
 	\cite{horde}
 	\cite{mugan}
 	\cite{vig}
 	\cite{sutton1999between}
-	\cite{}
-	\cite{}
+	
+	Other related work
+	\cite{ugur2015}
+	\cite{schmerlinggoal}
 
+	More details on experiments
+	\cite{ijspeert_dynamical_2013}
+	
+	\cite{}
+	
 %
 
 \section{Methods}
 
 	\subsection{Environment}
-	\label{sec:env}
 	
 		\paragraph{}
 		We simulate a 2D robotic arm using tools to move an object into different boxes in the environment. 		
@@ -123,7 +143,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			A long stick of length $0.6$ is located on the left of the arm, with initial position $(-0.75, 0.25)$ and initial angle $\frac{3\pi}{4}$ from the horizontal line as in Fig. \ref{env}.			
 			If the gripper closes near the end of one of the sticks (closer than $0.1$), it is considered grasped and will follow the gripper's position and the angle of the arm's last part until the gripper opens.			
 			Similarly, if the other end of a stick reaches the sphere (within $0.1$), the object will follow the end of the stick.
-			Four boxes are fixed at positions $(-1, 0)$, $(-0.5, 1)$, $(1.1, 1.3)$ and $(1.6, 0)$ and have size $0.4$, 
+			Ten boxes are static at positions $(-1, 0)$, $(-0.5, 1)$, $(1.1, 1.3)$ and $(1.6, 0)$ and have size $0.2$, 
 			so that the two boxes on the left can be reached by the two sticks, and the two boxes on the right can only be reached by the long stick.
 			At the end of the trial, the object is considered to be in one of the box if its center is in the box.\\
 		
@@ -150,51 +170,142 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			Similarly, the trajectory of the gripper is a sequence of $1$ or $-1$ depending whether the gripper is open or closed ($3$D).
 			For each box, the robot receives a $1$ if the object is in the box at the end of the movement, and $0$ otherwise ($4$D).			 
 			The sensory information thus contains $9$ values for the trajectory of the hand and gripper, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object and $4$ for the boxes.
-			The total sensory space has $27$ dimensions.
-			%The sensory information thus contains $6$ dimensions for the trajectory of the hand, $1$ for the pair help, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object, and $2$ for each box.
-			%The total sensory space has $44$ dimensions.
+			The sensory space has a total of $27$ dimensions.
 			
 		%
 		
 	%
 	
-	\subsection{Model's architecture}
+	\subsection{Learning architectures}
 
+		\subsubsection{Explauto framework}
 			
-		\begin{figure}[h]
-			\center
-			\input{include/H2.tikz}
-			\caption{Hierarchy of sensorimotor models}
-			\label{H}					
-		\end{figure}
+			\cite{moulin-frier_explauto:_2014}
+			
+				
+		%
+		
+		\subsubsection{Goal Babbling}
+			
+				
+		%
+		
+		\subsubsection{SAGG-RIAC}
+			
+			\cite{baranes_active_2013}
+			
+				
+		%
+		
+		\subsubsection{Flat architecture}
+			
+				
+		%
+		
+		\subsubsection{Hierarchical architecture}
+			
+			We present here an architecture that represents sensorimotor information with a hierarchical structure.
+			
+			\begin{figure}[t]
+				\center
+				\input{include/H2.tikz}
+				\caption{Hierarchy of sensorimotor models}
+				\label{H}					
+			\end{figure}
 
+				
+		%
+		
+
+	%
+	
+	\subsection{Experiments}
+		
+		NN, 100 iterations of Motor babbling and then 300000 iterations of the condition
+		
+		Only the motor module (mod1) adds exploration noise ($\sigma=0.02$) even in hierarchical architecture.
+		
+		\subsubsection{Conditions}
+			
+			\begin{itemize}
+			
+				\item H0-MB: Random Motor Babbling
+				\item H0-GB: Random Goal Babbling with a flat architecture learning $$M \rightarrow S_{Hand} \times S_{Stick_1} \times S_{Stick_2} \times S_{Object} \times S_{Boxes}$$
+				\item H0-TR: The same architecture but with active goal babbling (my version of SAGG-RIAC)
+				\item H1: Hierarchical architecture with Random Goal Babbling in each module, and choice of module that babbles based on interest ($\epsilon$-prop: probabilities proportional to interest but with $\epsilon=10\%$ of random choice). Choice of tool to use based on the maximum interest of the two modules that learn from the spaces of the tools to the object space, around the goal object point (competence progress on the k=10 NN).
+				\item H1-GR: same as H1 but the choice of module to babble is $\epsilon$-greedy with $\epsilon=0.1$
+				\item H1-CL: same as H1 but the choice of the tool to use is based on the maximum competence around the goal object point (competence of the NN)
+			
+			\end{itemize}
+				
+		%
+		
+		\subsubsection{Measures}
+			
+			Exploration of the different sensory spaces (number of reached cells in a discretization of the space divided by number of cells).
+				
+		%
+		
+	%
 	
 %
 
 
 \section{Results}
 
+
+		\begin{figure*}[ht]
+			\centering
+			\subfloat[Hand]{\includegraphics[width=4.5cm]{./include/xp1-explo-hand.png}}
+			\subfloat[Tool]{\includegraphics[width=4.5cm]{./include/xp1-explo-stick_1.png}}
+			\subfloat[Object]{\includegraphics[width=4.5cm]{./include/xp1-explo-obj.png}}
+			\subfloat[Box]{\includegraphics[width=4.5cm]{./include/xp1-explo-box.png}}
+			\caption{Exploration of sensory spaces.}
+			\label{res_explo}
+		\end{figure*}
+	
+	
+		\begin{figure*}[ht]
+			\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-interests.png}}
+			\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-obj-explo.png}}
+			\caption{Condition H1. (a) Interests of each module. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
+			\label{res_interests}
+		\end{figure*}
+	
+	
+		\begin{figure*}[ht]
+			\subfloat[H1]{\includegraphics[width=9cm]{./include/choice_mod4_H1.png}}
+			\subfloat[H1-CL]{\includegraphics[width=8.8cm]{./include/choice_mod4_H1-CL.png}}
+			\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice.}
+			\label{res_choice}
+		\end{figure*}
+	
 %
 
 
 \section{Discussion}
 
+	\subsection{H0 vs H1}
+	
+	
+	%
+
+	\subsection{H1 vs H1-GR}
+	
+	
+	%
+	
+	\subsection{H1 vs H1-CL}
+	
+	
+	%
+	
 %
-
-
-\begin{figure}[ht]
-\begin{center}
-\fbox{CoGNiTiVe ScIeNcE}
-\end{center}
-\caption{This is a figure.} 
-\label{sample-figure}
-\end{figure}
 
 
 \section{Acknowledgments}
 
-Place acknowledgments (including funding information) in a section at
-the end of the paper.
+%
 
 
 
