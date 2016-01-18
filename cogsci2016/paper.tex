@@ -27,7 +27,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
 
-\title{Curiosity-Driven Development of Tool Use Precursors}
+\title{Curiosity-Driven Development of Tool Use Precursors: a Robotic Model}
  
 \author{{\large \bf S\'ebastien Forestier (sebastien.forestier@inria.fr)} \\
 	INRIA Bordeaux Sud-Ouest\\
@@ -107,11 +107,11 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 		\paragraph{}
 		We simulate a 2D robotic arm using tools to move an object into different boxes in the environment. 		
-		In each trial, we execute a motor command given by the agent, we evaluate its consequences on the sensory dimensions and we give him
-		this sensory feedback. Finally the environment is resetted to its intial state.
+		In each trial, we execute a motor trajectory given by the agent, we evaluate its consequences on the sensory dimensions and we give him
+		this sensory feedback. Finally the arm, tools and objects are resetted to their intial state.
 		
 		The next sections precisely describe the different items of the environment and their interactions.	
-		See Fig. \ref{env} for an exemple of the state of the environment. 
+		See Fig.\ref{env} for an exemple of the state of the environment. 
 		
 		\begin{figure}[h]
 			\centering
@@ -212,6 +212,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			Alternatively, if the exploration noise is reduced, exploration is less efficient as in NN only the motor module will finally apply noise on known motor commands. 
 			With regression instead of NN, noise can instead be put only on the babbling module.
 			
+			How competence and interest of modules is computed.
+			
 			\begin{figure}[t]
 				\center
 				\input{include/H1.tikz}
@@ -227,7 +229,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\subsection{Experiments}
 		
-		NN, 100 iterations of Motor babbling and then 300000 iterations of the condition
+		NN, $100$ iterations of Motor babbling and then $300000$ iterations of the condition. 10 trials per condition, mean and std provided.
 		
 		
 		\subsubsection{Conditions}
@@ -248,7 +250,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		\subsubsection{Measures}
 			
 			Exploration of the different sensory spaces (number of reached cells in a discretization of the space divided by number of cells).
-				
+			
 		%
 		
 	%
@@ -257,45 +259,67 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 
 \section{Results}
+	
+	\paragraph{}
+	We measure the exploration of the different sensory spaces in the $6$ conditions each $5000$ iterations along the $300000$ iterations (Fig. \ref{res_explo}).
+	We provide statistical Mann-Whitney U test results of comparisons of the exploration at the end of the experiments in different pairs of conditions.
+	We first show that the Motor Babbling condition (H0-MB) quickly explores $S_{Hand}$ but explores badly the other sensory spaces, compared to the other conditions (STATS).
+	Then H0-GB and H0-Tr have similar exploration results (STATS maybe Tr better in Boxes).
+	Then H1-GR shows lower exploration of $S_{Hand}$, $S_{Stick_1}$ and $S_{Stick_2}$ than H0-GB and H0-Tr but higher exploration of $S_{Object}$ and $S_{Boxes}$ (STATS).
+	Also, H1-GR shows lower exploration of all spaces than H1 (STATS).
+	H1 shows lower exploration of $S_{Hand}$ than H0-GB and H0-Tr (STATS), similar (STATS?) exploration of $S_{Stick_1}$ and $S_{Stick_2}$ but higher exploration of $S_{Object}$ and $S_{Boxes}$ (STATS).
+	H1-CL vs H1 (STATS?).
+	
+	\begin{figure*}[ht]
+		\centering
+		\subfloat[$Hand$]{\includegraphics[width=4.5cm]{./include/xp1-explo-hand.png}}
+		\subfloat[$Stick_1$]{\includegraphics[width=4.5cm]{./include/xp1-explo-stick_1.png}}
+		\subfloat[$Stick_2$]{\includegraphics[width=4.5cm]{./include/xp1-explo-stick_2.png}}\\
+		\subfloat[$Object$]{\includegraphics[width=4.5cm]{./include/xp1-explo-obj.png}}
+		\subfloat[$Boxes$]{\includegraphics[width=4.5cm]{./include/xp1-explo-box.png}}
+		\caption{Exploration of sensory spaces.}
+		\label{res_explo}
+	\end{figure*}
 
 
-		\begin{figure*}[ht]
-			\centering
-			\subfloat[Hand]{\includegraphics[width=4.5cm]{./include/xp1-explo-hand.png}}
-			\subfloat[Tool]{\includegraphics[width=4.5cm]{./include/xp1-explo-stick_1.png}}
-			\subfloat[Object]{\includegraphics[width=4.5cm]{./include/xp1-explo-obj.png}}
-			\subfloat[Box]{\includegraphics[width=4.5cm]{./include/xp1-explo-box.png}}
-			\caption{Exploration of sensory spaces.}
-			\label{res_explo}
-		\end{figure*}
+	\paragraph{}
+	Fig. \ref{res_interests} shows more details about one (randomly chosen) trial of the condition H1. 
+	We can see the interest of each module during the whole experiment.
+	The interests of modules 1, 2, 5 are almost stable, as the spaces of interests are high-dimensional and homogeneously reachable: a random exploration will find regions to learn more for more iterations than $300000$.
+	The interests of modules 3 and 6 increase abruptly when the object is touch by the corresponding tool.
+	An exemple of exploration of the $2$D space with the object is also provided in Fig. \ref{res_interests}(b) also corresponding to condition H1.
 	
+	\begin{figure*}[ht]
+		\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-interests.png}}
+		\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-obj-explo.png}}
+		\caption{Condition H1. (a) Interests of each module. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
+		\label{res_interests}
+	\end{figure*}
+
+
+	\paragraph{}
+	Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H1 and H1-CL.
+	In those conditions, module $4$ learns a mapping between $S_{Object}$ and $S_{Boxes}$. 
+	When this module is babbling (give \# babbling in the 2 conditions: around $100000$), it chooses a random goal $s_b \in S_{Boxes}$ and infers the best object position $s_o$ to reach $s_b$.
+	To reach $s_o$, one of the tools ($Stick_1$ with module $3$ or $Stick_2$ with module $6$) has to be chosen. 
+	We plot all those choices, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, with one plot for each of the two conditions.
+	We see (or soon will see in new plots, and maybe with smoothed stats along trials?) that in both conditions, 
+	goals that can only be reached with the long stick (the furthest) are actually chosen to be explored with the long stick.
+	However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H1 than in competence-based choice of condition H1-CL.
 	
-		\begin{figure*}[ht]
-			\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-interests.png}}
-			\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-obj-explo.png}}
-			\caption{Condition H1. (a) Interests of each module. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
-			\label{res_interests}
-		\end{figure*}
-	
-	
-		\begin{figure*}[ht]
-			\subfloat[H1]{\includegraphics[width=9cm]{./include/choice_mod4_H1.png}}
-			\subfloat[H1-CL]{\includegraphics[width=8.8cm]{./include/choice_mod4_H1-CL.png}}
-			\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice.}
-			\label{res_choice}
-		\end{figure*}
+	\begin{figure*}[ht]
+		\subfloat[H1]{\includegraphics[width=9cm]{./include/choice_mod4_H1.png}}
+		\subfloat[H1-CL]{\includegraphics[width=8.8cm]{./include/choice_mod4_H1-CL.png}}
+		\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice.}
+		\label{res_choice}
+	\end{figure*}
 	
 %
 
 
 \section{Discussion}
 
-	\subsection{H0 vs H1}
-	
-	
-	%
-
-	\subsection{H1 vs H1-GR}
+	\subsection{H0 vs H1-GR vs H1}
 	
 	
 	%
@@ -305,6 +329,11 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	%
 	
+%
+
+
+\section{Conclusion}
+
 %
 
 
