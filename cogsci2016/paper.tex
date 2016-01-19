@@ -178,21 +178,27 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\subsection{Learning architectures}
 
+		We describe in this section the different learning architectures used in the experiment. 
+		
 		\subsubsection{Explauto framework}
 			
-			\cite{moulin-frier_explauto:_2014}
+			We use the Explauto autonomous exploration library \cite{moulin-frier_explauto:_2014} to easily define experiments with robots exploring their environment. 
+			In this framework, the agent explores a mapping between its given motor space $M$ and sensory space $S$, 
+			using a sensorimotor model that learns the mapping and an interest model that chooses which regions of the spaces to explore.
+			The sensorimotor model processes new information of the form ($m, s$) with $m \in M$ being the experimented motor parameters and $s \in S$ the received sensory feedback 
+			corresponding to that parameters. 
+			It provides forward predictions of probable $s$ given $m$ and inverse inference of a probable $m$ to reach a given $s$.
+			We use the simplest sensorimotor model, the nearest neighbor algorithm 
+			that performs the prediction of $s$ given $m$ using the nearest neighbor of $m$ in $M$ in the database of the previous experiments and returning its sensory part. 
+			The inverse inference is computed as the motor part of the nearest neighbor in $S$ of the given $s$, but with some exploration noise to allow novel motor parameters to be explored.
 			
-				
-		%
-		
-		\subsubsection{Goal Babbling}
-			
-				
-		%
-		
-		\subsubsection{SAGG-RIAC}
-			
-			\cite{baranes_active_2013}
+			The agent also needs an interest model that chooses which regions of the motor or sensory space to explore.
+			If the agent chooses goals in the motor space and explores them it is called Motor Babbling, and if it chooses the goals to explore in the sensory space, this is Goal Babbling.
+			To choose the goals in this space of interest, different strategies are possible. 
+			The simplest one is to draw random goals in this space, but strategies based on the learning progress in different regions of the space have been shown more efficient in [ref].
+			This strategies are called active as the agent autonomously drives its exploration towards regions of the space that are both reachable and learnable. 
+			We use the SAGG-RIAC architecture \cite{baranes_active_2013} where the space of interest is the sensory space (Goal Babbling) and that incrementally splits this space into subregions where the learning progress 
+			is different.
 			
 				
 		%
