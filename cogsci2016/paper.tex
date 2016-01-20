@@ -198,7 +198,9 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			The simplest one is to draw random goals in this space, but strategies based on the learning progress in different regions of the space have been shown more efficient in [ref].
 			This strategies are called active as the agent autonomously drives its exploration towards regions of the space that are both reachable and learnable. 
 			We use the SAGG-RIAC architecture \cite{baranes_active_2013} where the space of interest is the sensory space (Goal Babbling) and that incrementally splits this space into subregions where the learning progress 
-			is different.
+			is different. 
+			The learning progress is here computed as the absolute derivative of the reaching competence. 
+			This competence associated to a sensory goal is minus the distance between the goal and the sensory point.
 			
 				
 		%
@@ -278,11 +280,13 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\begin{figure*}[ht]
 		\centering
-		\subfloat[$Hand$]{\includegraphics[width=4.5cm]{./include/xp1-explo-hand.png}}
-		\subfloat[$Stick_1$]{\includegraphics[width=4.5cm]{./include/xp1-explo-stick_1.png}}
-		\subfloat[$Stick_2$]{\includegraphics[width=4.5cm]{./include/xp1-explo-stick_2.png}}\\
-		\subfloat[$Object$]{\includegraphics[width=4.5cm]{./include/xp1-explo-obj.png}}
-		\subfloat[$Boxes$]{\includegraphics[width=4.5cm]{./include/xp1-explo-box.png}}
+		\subfloat{\includegraphics[width=14cm]{./include/xp1-explo-legend.eps}}\\
+		\vspace{-0.3cm}
+		\subfloat[$Hand$]{\includegraphics[width=3.5cm]{./include/xp1-explo-hand.eps}}
+		\subfloat[$Stick_1$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_1.eps}}
+		\subfloat[$Stick_2$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_2.eps}}
+		\subfloat[$Object$]{\includegraphics[width=3.5cm]{./include/xp1-explo-obj.eps}}
+		\subfloat[$Boxes$]{\includegraphics[width=3.5cm]{./include/xp1-explo-box.eps}}
 		\caption{Exploration of sensory spaces.}
 		\label{res_explo}
 	\end{figure*}
