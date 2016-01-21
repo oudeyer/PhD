@@ -24,6 +24,8 @@
 \usepackage{pslatex}
 \usepackage{apacite}
 
+%\usepackage{hyperref}
+
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
 
@@ -54,17 +56,33 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 \section{Introduction}
 
-	Development of tool use \cite{guerin2013survey}, precursors of tool use: behavior without objects, behavior with one object, interaction of objects.	
-	Grounding of representation and planning based on a large amount of experiences. 	
-	Seemless progression between the successives phases as overlapping waves. 	
-	Ongoing process of upgrading representations.	
-	Developmental trajectories.
+	\paragraph{}
+	Development of tool use: different properties \cite{guerin2013survey} (cite others?). 
+	List of some properties: grounding of representation and planning based on a large amount of experiences, ongoing process of upgrading representations (others?).
+	In that paper we will focus on one important property in the development of precursors of tool use which is the seemless progression 
+	between successives phases of behavior with tools and objects which are called overlapping waves [Siegler]. 
+	One behavioral description of the successives phases differentiate three phases \cite{guerin2013survey}.
+	In the first phase the babies engage mostly in behavior without objects (babbling), in the second phase their behavior has shifted towards interaction with one object, and then interaction between objects.
+	[more details: months, experiments]
 	
+	\paragraph{}
+	We hypothesize that several mechanisms play a role in the structure of this behavioral progression and in particular 
+	1) the intrinsic motivation to explore as a self-regulation of the learning growth of complexity, and 
+	2) the structure of the representation used to encode sensorimotor experience.	
 	
 	Curiosity studies in developmental psychology 
 	\cite{kidd}
 	\cite{gottlieb_information-seeking_2013}
 	
+	\paragraph{}
+	We will study aspects of these hypothesis leveraging and extending models of curiosity-driven learning of sensorimotor models to the exploration of given hierarchies of sensorimotor models.
+	In such hierarchies, parts of the sensory space (e.g. the position of the hand) can be used as a motor space by another higher-level model to explore other sensory spaces.
+	We do not study some other important factors of the development of tool use: the autonomous building and evolution of the hierarchy of models but we consider it given to a learning agent.
+	We also do not address the question of the role of social guidance.
+	
+	
+	
+	Related work
 	Curiosity-driven modelling work, emergence of developmental trajectories.
 	\cite{oudeyer_intrinsic_2007} 
 	\cite{oudeyer_what_2007}
@@ -93,13 +111,16 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	Other related work
 	\cite{ugur2015}
 	\cite{schmerlinggoal}
+	\cite{forestier2015}
+	\cite{unifying}
 
 	More details on experiments
 	\cite{ijspeert_dynamical_2013}
 	
-	\cite{forestier2015}
-	\cite{unifying}
 	\cite{}
+	
+	Along with this paper we provide open-source Python code\footnote{Source code and notebooks available as a Github repository at \url{https://github.com/sebastien-forestier/CogSci2016}} 
+	with iPython/Jupyter notebooks that explain how to reproduce the experiments and analysis. 
 	
 %
 
