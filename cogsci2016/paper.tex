@@ -59,7 +59,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	\paragraph{}
 	Development of tool use: different properties \cite{guerin2013survey} (cite others?). 
 	List of some properties: grounding of representation and planning based on a large amount of experiences, ongoing process of upgrading representations (others?).
-	In that paper we will focus on one important property in the development of precursors of tool use which is the seemless progression 
+	In that paper we will focus on one important property in the development of precursors of tool use which is the seamless progression 
 	between successives phases of behavior with tools and objects which are called overlapping waves [Siegler]. 
 	One behavioral description of the successives phases differentiate three phases \cite{guerin2013survey}.
 	In the first phase the babies engage mostly in behavior without objects (babbling), in the second phase their behavior has shifted towards interaction with one object, and then interaction between objects.
@@ -145,10 +145,12 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			
 		\begin{figure}[h]
 			\centering
-			\includegraphics[width=2.8cm]{./include/mvt-16.pdf}
-			\includegraphics[width=2.8cm]{./include/mvt-33.pdf}
-			\includegraphics[width=2.8cm]{./include/mvt-49.pdf}
-			\caption{Exemple of one mouvement}
+			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-16.pdf}}
+			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-32.pdf}}
+			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-49.pdf}}\\
+			\hspace{-0.4cm}
+			\subfloat{\includegraphics[width=8.8cm]{./include/dmp.pdf}}
+			\caption{Exemple of one mouvement. Top: position of the arm at time steps 17, 33 and 50 along the $50$ steps movement. Bottom: value of the four Dynamical Movement Primitives during the movement.}
 			\label{mvt}
 		\end{figure}
 
@@ -282,13 +284,13 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			
 			\begin{itemize}
 			
-				\item H0-MB: Random Motor Babbling
-				\item H0-GB: Random Goal Babbling with a flat architecture learning $$M \rightarrow S_{Hand} \times S_{Stick_1} \times S_{Stick_2} \times S_{Object} \times S_{Boxes}$$
-				\item H0-TR: The same architecture but with active goal babbling (my version of SAGG-RIAC)
-				\item H1: Hierarchical architecture with Random Goal Babbling in each module, and choice of module that babbles based on interest ($\epsilon$-prop: probabilities proportional to interest but with $\epsilon=10\%$ of random choice). Choice of tool to use based on the maximum interest of the two modules that learn from the spaces of the tools to the object space, around the goal object point (competence progress on the k=10 NN).
-				\item H1-GR: same as H1 but the choice of module to babble is $\epsilon$-greedy with $\epsilon=0.1$
-				\item H1-CL: same as H1 but the choice of the tool to use is based on the maximum competence around the goal object point (competence of the NN)
-			
+				\item F-RmB: Random Motor Babbling with a flat architecture learning $M \rightarrow S_{Hand} \times S_{Stick_1} \times S_{Stick_2} \times S_{Object} \times S_{Boxes}$
+				\item F-RGB: Flat architecture, Random Goal Babbling
+				\item F-AGB: The same architecture but with active goal babbling (my version of SAGG-RIAC)
+				\item H-RGB-P-AMB: Hierarchical architecture with Random Goal Babbling in each module, and choice of module that babbles based on interest ($\epsilon$-prop: probabilities proportional to interest but with $\epsilon=10\%$ of random choice). Choice of tool to use based on the maximum competence of the two modules to reach the goal object point.
+				\item H-RGB-GR-AMB: same as H-RGB-P-AMB but the choice of module to babble is $\epsilon$-greedy with $\epsilon=0.1$
+				\item H-RGB-P-AMB-PGITC: same as H-RGB-P-AMB but the choice of the tool to use is based on the interest (global) of the two modules ($\epsilon$-prop).
+
 			\end{itemize}
 				
 		%
@@ -338,11 +340,22 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	An exemple of exploration of the $2$D space with the object is also provided in Fig. \ref{res_interests}(b) also corresponding to condition H1.
 	
 	\begin{figure*}[ht]
-		\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-interests.png}}
-		\subfloat[]{\includegraphics[width=9cm]{./include/H1-log3-obj-explo.png}}
+		\centering
+		\subfloat[]{\includegraphics[width=9cm]{./include/H-RGB-P-AMB-log9-interests-100000.pdf}}
+		\subfloat[]{\includegraphics[width=9cm]{./include/H-RGB-P-AMB-log9-obj-explo.pdf}}
 		\caption{Condition H1. (a) Interests of each module. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
 		\label{res_interests}
 	\end{figure*}
+
+
+	\begin{figure*}[ht]
+		\centering
+		\subfloat[H-RGB-GR-AMB]{\includegraphics[width=8cm]{./include/H-RGB-GR-AMB-log15-events-100000.pdf}}
+		\subfloat[H-RGB-P-AMB]{\includegraphics[width=8cm]{./include/H-RGB-P-AMB-log8-events-100000.pdf}}
+		\caption{Behavioral measure}
+		\label{res_ow}
+	\end{figure*}
+
 
 
 	\paragraph{}
@@ -356,8 +369,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H1 than in competence-based choice of condition H1-CL.
 	
 	\begin{figure*}[ht]
-		\subfloat[H1]{\includegraphics[width=9cm]{./include/choice_mod4_H1.png}}
-		\subfloat[H1-CL]{\includegraphics[width=8.8cm]{./include/choice_mod4_H1-CL.png}}
+		\subfloat[H-RGB-P-AMB]{\includegraphics[width=9cm]{./include/H-RGB-P-AMB-log9-choice_mod4.png}}
+		\subfloat[H-RGB-P-AMB-PGITC]{\includegraphics[width=8.8cm]{./include/H-RGB-P-AMB-PGITC-log3-choice_mod4.png}}
 		\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice.}
 		\label{res_choice}
 	\end{figure*}
@@ -367,12 +380,12 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 \section{Discussion}
 
-	\subsection{H0 vs H1-GR vs H1}
+	\subsection{F-AGB vs H-RGB-P-AMB vs H-RGB-GR-AMB}
 	
 	
 	%
 	
-	\subsection{H1 vs H1-CL}
+	\subsection{H-RGB-P-AMB vs H-RGB-P-AMB-PGITC}
 	
 	
 	%
