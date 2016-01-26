@@ -153,10 +153,10 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		\subsubsection{Robotic arm}
 		
 			The 2D robotic arm has 3 joints plus a gripper located at the end-effector.
-			Each joint can rotate from $-\pi~rad$ to $\pi~rad$ around its initial position, mapped to a standard interval of $[-1,1]$.
+			Each joint can rotate from $-\pi~rad$ to $\pi~rad$ around its resting position, mapped to a standard interval of $[-1,1]$.
 			The length of the 3 parts of the arm are $0.5$, $0.3$ and $0.2$ so the total length of the arm is $1$ unit.
-			The initial position of the arm is vertical with each joint at $0~rad$ and its base is fixed at position $[0, 0]$.
-			The gripper $g$ has 2 possible positions: \textit{open} ($g \geq 0$) and \textit{closed} ($g < 0$) and its initial position is \textit{open} (with $g = 0$).
+			The resting position of the arm is vertical with each joint at $0~rad$ and its base is fixed at position $[0, 0]$.
+			The gripper $g$ has 2 possible positions: \textit{open} ($g \geq 0$) and \textit{closed} ($g < 0$) and its resting position is \textit{open} (with $g = 0$).
 			The robotic arm thus has 4 degrees of freedom represented by a vector in $[-1,1]^4$.
 			A trajectory of the arm will be represented as a sequence of such vectors.\\
 		
@@ -180,7 +180,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			One of two sticks can be grasped in order to reach the object.
 			A small stick of length $0.3$ is located on the right of the arm, with initial position $(0.75, 0.25)$ and initial angle $\frac{\pi}{4}$ from the horizontal line.
 			A long stick of length $0.6$ is located on the left of the arm, with initial position $(-0.75, 0.25)$ and initial angle $\frac{3\pi}{4}$ from the horizontal line as in Fig. \ref{env}.			
-			If the gripper closes near the end of one of the sticks (closer than $0.1$), it is considered grasped and will follow the gripper's position and the angle of the arm's last part until the gripper opens.			
+			If the gripper is closed near the end of one of the sticks (closer than $0.1$), it is considered grasped and will follow the gripper's position and the angle of the arm's last part until the gripper opens.			
 			Similarly, if the other end of a stick reaches the sphere (within $0.1$), the object will follow the end of the stick.
 			Ten boxes have identifiers $1$ to $10$ and are static at positions $(-1.4, 0)$, $(-1.1, 1.1)$, $(0, 1.4)$, $(1.1, 1.1)$, $(1.4, 0)$, $(-0.9, 0)$, $(-0.6, 0.6)$, $(0, 0.9)$, $(0.6, 0.6)$ and $(0.9, 0)$ and have size $0.2$.
 			The first five boxes can only be reached with the long stick, and the other five can be reached by the two sticks.
@@ -194,7 +194,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			It gets the trajectory of its hand and gripper, the trajectory of the end of the sticks, 
 			the end position of the object, and whether the object is in each box.		
 			The trajectory of the hand and of the end point of the sticks are represented by sequences of x and y positions at different time points: 
-			steps $12$, $25$, $37$ during the movement of $50$ steps ($6$D for the hand and for each stick).
+			steps $17$, $33$, $50$ during the movement of $50$ steps ($6$D for the hand and for each stick).
 			Similarly, the trajectory of the gripper is a sequence of $1$ or $-1$ depending whether the gripper is open or closed ($3$D).
 			The agent receives the identifier of the reached box if one of them has been reached, 0 otherwise. He also gets the minimal distance of the object (at the end of the movement) to the center a box, even if none have been reached.
 			%For each box, the robot receives a $1$ if the object is in the box at the end of the movement, and $0$ otherwise ($4$D).			 
@@ -269,7 +269,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\subsection{Experiments}
 		
-		Nearest Neighbors, $100$ iterations of Motor babbling and then $100000$ iterations of the condition. 10 trials per condition, mean and std provided.
+		Nearest Neighbors, $100$ iterations of Motor babbling and then $100000$ iterations of the condition. $100$ trials per condition.
 		
 		
 		\subsubsection{Conditions}
@@ -342,10 +342,9 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	Fig. \ref{res_explo} shows the total exploration of the different sensory spaces for each condition.
 	We provide statistical Mann-Whitney U test results of comparisons of the exploration at the end of the experiments in different pairs of conditions.
 	Firstly, the Motor Babbling condition (F-RmB) have more explored $S_{Hand}$ and less $S_{Object}$ and $S_{Boxes}$ compared to the other conditions ($p<0.0001$).
-	Then F-RGB and F-AGB don't have significantly different exploration results in any space ($p>0.05$), 
-	and explore less $S_{Stick_1}$, $S_{Stick_2}$, $S_{Object}$ and $S_{Boxes}$ than H-RGB-P-AMB condition ($p<0.05$).
-	Also, H-RGB-GR-AMB shows lower exploration of $S_{Hand}$, $S_{Stick_2}$ and $S_{Object}$ than H-RGB-P-AMB ($p<0.05$).
-	Condition H-RGB-P-AMB-PGITC explores more $S_{Hand}$ ($p<0.01$) and $S_{Stick_2}$ ($p<0.05$) than condition H-RGB-P-AMB.
+	Then, F-RGB explores all spaces less than H-RGB-RMB condition ($p<0.01$).
+	Also, H-RGB-GR-AMB shows lower exploration all spaces than H-RGB-P-AMB ($p<0.01$).
+	Condition H-RGB-P-AMB-PGITC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-RGB-P-AMB, and difference is not significant in other spaces.
 	
 	\begin{figure*}[ht]
 		\centering
@@ -362,13 +361,12 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 
 	\paragraph{}
-	Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H1 and H1-CL.
+	Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H-RGB-P-AMB and H-RGB-P-AMB-PGITC.
 	In those conditions, module $4$ learns a mapping between $S_{Object}$ and $S_{Boxes}$. 
-	When this module is babbling (give \# babbling in the 2 conditions: around $100000$), it chooses a random goal $s_b \in S_{Boxes}$ and infers the best object position $s_o$ to reach $s_b$.
-	To reach $s_o$, one of the tools ($Stick_1$ with module $3$ or $Stick_2$ with module $6$) has to be chosen. 
-	We plot all those choices, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, with one plot for each of the two conditions.
-	We see (or soon will see in new plots, and maybe with smoothed stats along trials?) that in both conditions, 
-	goals that can only be reached with the long stick (the furthest) are actually chosen to be explored with the long stick.
+	When this module is babbling, it chooses a random goal $s_b \in S_{Boxes}$ and infers the best object position $s_o$ to reach $s_b$.
+	To reach $s_o$, one of the tools ($Stick_1$ with module $3$ or $Stick_2$ with module $6$) is chosen. 
+	We plot all those choices, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, in one figure for each of the two conditions.
+	We can see two very different choice structures.
 	However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H1 than in competence-based choice of condition H1-CL.
 	
 	\begin{figure*}[ht]
