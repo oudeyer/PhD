@@ -27,7 +27,7 @@
 %\usepackage{hyperref}
 
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri, fit}
 
 \title{Curiosity-Driven Development of Tool Use Precursors: a Robotic Model}
  
@@ -139,7 +139,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		\begin{figure}[h]
 			\centering
 			\hspace{-0.73cm}
-			\vspace{-0.71cm}
+			\vspace{-0.59cm}
 			\includegraphics[width=9.12cm]{./include/tools.pdf}
 			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-16.pdf}}
 			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-32.pdf}}
@@ -241,7 +241,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		
 		\subsubsection{Hierarchical architecture}
 			
-			We present here an architecture that represents sensorimotor information with a hierarchical structure in Fig. \ref{H1}.
+			We present here an architecture that represents sensorimotor information with a hierarchical structure in Fig. \ref{Architectures}.
 			
 			Only the motor module (mod1) adds exploration noise ($\sigma=0.02$) even in hierarchical architecture. 
 			That was the key to have more efficient hierarchical exploration. 
@@ -254,15 +254,11 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			\begin{figure}[t]
 				\center
 				\input{include/F.tikz}
-				\caption{Flat architecture}
-				\label{F}					
-			\end{figure}
-			
-			\begin{figure}[t]
-				\center
+				\vspace{-0.25cm}
 				\input{include/H1.tikz}
-				\caption{Hierarchy of sensorimotor models}
-				\label{H1}					
+				\vspace{-0.5cm}
+				\caption{Architectures. Top: flat. Bottom: hierarchical.}
+				\label{Architectures}					
 			\end{figure}
 
 				
@@ -273,7 +269,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\subsection{Experiments}
 		
-		NN, $100$ iterations of Motor babbling and then $300000$ iterations of the condition. 10 trials per condition, mean and std provided.
+		Nearest Neighbors, $100$ iterations of Motor babbling and then $100000$ iterations of the condition. 10 trials per condition, mean and std provided.
 		
 		
 		\subsubsection{Conditions}
@@ -293,7 +289,16 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		
 		\subsubsection{Measures}
 			
-			Exploration of the different sensory spaces (number of reached cells in a discretization of the space divided by number of cells).
+			We provide a measure of the different types of behaviors with the sticks and the object during exploration. 
+			We categorize the behaviors into three types.
+			In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus not moved the out-of-reached object.
+			The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
+			The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
+			
+			Also, for each condition we measure the total exploration of the different sensory spaces during training. 
+			The exploration of the hand, sticks and object spaces is defined as the number of reached cells 
+			in a $100\times100$ discretization of the (X,Y) space of the position at timestep $50$ (end of movement).
+			The exploration of the boxes is the number of boxes that have been filled with the object during training.
 			
 		%
 		
@@ -304,44 +309,25 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 \section{Results}
 	
-	\paragraph{}
-	We measure the exploration of the different sensory spaces in the $6$ conditions each $5000$ iterations along the $300000$ iterations (Fig. \ref{res_explo}).
-	We provide statistical Mann-Whitney U test results of comparisons of the exploration at the end of the experiments in different pairs of conditions.
-	We first show that the Motor Babbling condition (F-RmB) quickly explores $S_{Hand}$ and explores badly $S_{Object}$ and $S_{Boxes}$, compared to the other conditions ($p<0.0001$).
-	Then F-RGB and F-AGB don't have significantly different exploration results in any space ($p>0.05$), 
-	and explore less $S_{Stick_1}$, $S_{Stick_2}$, $S_{Object}$ and $S_{Boxes}$ than H-RGB-P-AMB condition ($p<0.05$).
-	Also, H-RGB-GR-AMB shows lower exploration of $S_{Hand}$, $S_{Stick_2}$ and $S_{Object}$ than H-RGB-P-AMB ($p<0.05$).
-	Condition H-RGB-P-AMB-PGITC explores more $S_{Hand}$ ($p<0.01$) and $S_{Stick_2}$ ($p<0.05$) than condition H-RGB-P-AMB.
-	
-	\begin{figure*}[ht]
-		\centering
-		\subfloat{\includegraphics[width=14cm]{./include/xp1-explo-legend.pdf}}\\
-		\vspace{-0.3cm}
-		\subfloat[$Hand$]{\includegraphics[width=3.5cm]{./include/xp1-explo-hand.pdf}}
-		\subfloat[$Stick_1$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_1.pdf}}
-		\subfloat[$Stick_2$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_2.pdf}}
-		\subfloat[$Object$]{\includegraphics[width=3.5cm]{./include/xp1-explo-obj.pdf}}
-		\subfloat[$Boxes$]{\includegraphics[width=3.5cm]{./include/xp1-explo-box.pdf}}
-		\caption{Exploration of sensory spaces.}
-		\label{res_explo}
-	\end{figure*}
-
 
 	\paragraph{}
-	Fig. \ref{res_interests} shows more details about one (randomly chosen) trial of the condition H1. 
+	Fig. \ref{res_interests} shows details about one trial of the condition H-RGB-P-AMB. 
 	We can see the interest of each module during the whole experiment.
-	The interests of modules 1, 2, 5 are almost stable, as the spaces of interests are high-dimensional and homogeneously reachable: a random exploration will find regions to learn more for more iterations than $300000$.
-	The interests of modules 3 and 6 increase abruptly when the object is touch by the corresponding tool.
-	An exemple of exploration of the $2$D space with the object is also provided in Fig. \ref{res_interests}(b) also corresponding to condition H1.
+	The interests of modules 2 and 5 increase abruptly once the arm succeeded in grabbing the corresponding stick.
+	Following that, the interests of modules 3 and 6 also increase abruptly when the object has been touched by the corresponding stick.
+	An exemple of exploration of the $2$D space with the object is also provided in Fig. \ref{res_interests}(b) corresponding to the same condition.
 	
 	\begin{figure*}[ht]
 		\centering
 		\subfloat[]{\includegraphics[width=9cm]{./include/H-RGB-P-AMB-log9-interests-100000.pdf}}
 		\subfloat[]{\includegraphics[width=9cm]{./include/H-RGB-P-AMB-log9-obj-explo.pdf}}
-		\caption{Condition H1. (a) Interests of each module. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
+		\caption{Condition H-RGB-P-AMB. (a) Interests of each module. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
 		\label{res_interests}
 	\end{figure*}
 
+
+	\paragraph{}
+	Fig. \ref{res_ow} shows the proportion of the three categories of behavior along the $100000$ iterations for conditions H-RGB-GR-AMB and H-RGB-P-AMB.
 
 	\begin{figure*}[ht]
 		\centering
@@ -351,6 +337,28 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		\label{res_ow}
 	\end{figure*}
 
+
+	\paragraph{}
+	Fig. \ref{res_explo} shows the total exploration of the different sensory spaces for each condition.
+	We provide statistical Mann-Whitney U test results of comparisons of the exploration at the end of the experiments in different pairs of conditions.
+	Firstly, the Motor Babbling condition (F-RmB) have more explored $S_{Hand}$ and less $S_{Object}$ and $S_{Boxes}$ compared to the other conditions ($p<0.0001$).
+	Then F-RGB and F-AGB don't have significantly different exploration results in any space ($p>0.05$), 
+	and explore less $S_{Stick_1}$, $S_{Stick_2}$, $S_{Object}$ and $S_{Boxes}$ than H-RGB-P-AMB condition ($p<0.05$).
+	Also, H-RGB-GR-AMB shows lower exploration of $S_{Hand}$, $S_{Stick_2}$ and $S_{Object}$ than H-RGB-P-AMB ($p<0.05$).
+	Condition H-RGB-P-AMB-PGITC explores more $S_{Hand}$ ($p<0.01$) and $S_{Stick_2}$ ($p<0.05$) than condition H-RGB-P-AMB.
+	
+	\begin{figure*}[ht]
+		\centering
+		\includegraphics[width=14cm]{./include/xp1-explo-legend.pdf}\\
+		\vspace{-0.3cm}
+		\subfloat[$Hand$]{\includegraphics[width=3.5cm]{./include/xp1-explo-hand.pdf}}
+		\subfloat[$Stick_1$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_1.pdf}}
+		\subfloat[$Stick_2$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_2.pdf}}
+		\subfloat[$Object$]{\includegraphics[width=3.5cm]{./include/xp1-explo-obj.pdf}}
+		\subfloat[$Boxes$]{\includegraphics[width=3.5cm]{./include/xp1-explo-box.pdf}}
+		\caption{Exploration of sensory spaces.}
+		\label{res_explo}
+	\end{figure*}
 
 
 	\paragraph{}
