@@ -138,20 +138,16 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		
 		\begin{figure}[h]
 			\centering
-			\includegraphics[width=8cm]{./include/tools.pdf}
-			\caption{Play Environment}
-			\label{env}
-		\end{figure}
-			
-		\begin{figure}[h]
-			\centering
+			\hspace{-0.73cm}
+			\vspace{-0.71cm}
+			\includegraphics[width=9.12cm]{./include/tools.pdf}
 			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-16.pdf}}
 			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-32.pdf}}
 			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-49.pdf}}\\
-			\hspace{-0.4cm}
+			\hspace{-0.42cm}
 			\subfloat{\includegraphics[width=8.8cm]{./include/dmp.pdf}}
-			\caption{Exemple of one mouvement. Top: position of the arm at time steps 17, 33 and 50 along the $50$ steps movement. Bottom: value of the four Dynamical Movement Primitives during the movement.}
-			\label{mvt}
+			\caption{Top: a state of the environment. Middle: position of the arm at time steps 17, 33 and 50 along the $50$ steps movement. Bottom: value of the four DMPs during the movement.}
+			\label{env}
 		\end{figure}
 
 		\subsubsection{Robotic arm}
@@ -311,22 +307,21 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	\paragraph{}
 	We measure the exploration of the different sensory spaces in the $6$ conditions each $5000$ iterations along the $300000$ iterations (Fig. \ref{res_explo}).
 	We provide statistical Mann-Whitney U test results of comparisons of the exploration at the end of the experiments in different pairs of conditions.
-	We first show that the Motor Babbling condition (H0-MB) quickly explores $S_{Hand}$ but explores badly the other sensory spaces, compared to the other conditions (STATS).
-	Then H0-GB and H0-Tr have similar exploration results (STATS maybe Tr better in Boxes).
-	Then H1-GR shows lower exploration of $S_{Hand}$, $S_{Stick_1}$ and $S_{Stick_2}$ than H0-GB and H0-Tr but higher exploration of $S_{Object}$ and $S_{Boxes}$ (STATS).
-	Also, H1-GR shows lower exploration of all spaces than H1 (STATS).
-	H1 shows lower exploration of $S_{Hand}$ than H0-GB and H0-Tr (STATS), similar (STATS?) exploration of $S_{Stick_1}$ and $S_{Stick_2}$ but higher exploration of $S_{Object}$ and $S_{Boxes}$ (STATS).
-	H1-CL vs H1 (STATS?).
+	We first show that the Motor Babbling condition (F-RmB) quickly explores $S_{Hand}$ and explores badly $S_{Object}$ and $S_{Boxes}$, compared to the other conditions ($p<0.0001$).
+	Then F-RGB and F-AGB don't have significantly different exploration results in any space ($p>0.05$), 
+	and explore less $S_{Stick_1}$, $S_{Stick_2}$, $S_{Object}$ and $S_{Boxes}$ than H-RGB-P-AMB condition ($p<0.05$).
+	Also, H-RGB-GR-AMB shows lower exploration of $S_{Hand}$, $S_{Stick_2}$ and $S_{Object}$ than H-RGB-P-AMB ($p<0.05$).
+	Condition H-RGB-P-AMB-PGITC explores more $S_{Hand}$ ($p<0.01$) and $S_{Stick_2}$ ($p<0.05$) than condition H-RGB-P-AMB.
 	
 	\begin{figure*}[ht]
 		\centering
-		\subfloat{\includegraphics[width=14cm]{./include/xp1-explo-legend.eps}}\\
+		\subfloat{\includegraphics[width=14cm]{./include/xp1-explo-legend.pdf}}\\
 		\vspace{-0.3cm}
-		\subfloat[$Hand$]{\includegraphics[width=3.5cm]{./include/xp1-explo-hand.eps}}
-		\subfloat[$Stick_1$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_1.eps}}
-		\subfloat[$Stick_2$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_2.eps}}
-		\subfloat[$Object$]{\includegraphics[width=3.5cm]{./include/xp1-explo-obj.eps}}
-		\subfloat[$Boxes$]{\includegraphics[width=3.5cm]{./include/xp1-explo-box.eps}}
+		\subfloat[$Hand$]{\includegraphics[width=3.5cm]{./include/xp1-explo-hand.pdf}}
+		\subfloat[$Stick_1$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_1.pdf}}
+		\subfloat[$Stick_2$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_2.pdf}}
+		\subfloat[$Object$]{\includegraphics[width=3.5cm]{./include/xp1-explo-obj.pdf}}
+		\subfloat[$Boxes$]{\includegraphics[width=3.5cm]{./include/xp1-explo-box.pdf}}
 		\caption{Exploration of sensory spaces.}
 		\label{res_explo}
 	\end{figure*}
