@@ -65,7 +65,6 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	In the first phase the babies engage mostly in behavior without objects (babbling), in the second phase their behavior has shifted towards interaction with one object, and then interaction between objects.
 	[more details: months, experiments]
 	
-	\paragraph{}
 	We hypothesize that several mechanisms play a role in the structure of this behavioral progression and in particular 
 	1) the intrinsic motivation to explore as a self-regulation of the learning growth of complexity, and 
 	2) the structure of the representation used to encode sensorimotor experience.	
@@ -74,7 +73,6 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	\cite{kidd}
 	\cite{gottlieb_information-seeking_2013}
 	
-	\paragraph{}
 	We will study aspects of these hypothesis leveraging and extending models of curiosity-driven learning of sensorimotor models to the exploration of given hierarchies of sensorimotor models.
 	In such hierarchies, parts of the sensory space (e.g. the position of the hand) can be used as a motor space by another higher-level model to explore other sensory spaces.
 	We do not study some other important factors of the development of tool use: the autonomous building and evolution of the hierarchy of models but we consider it given to a learning agent.
@@ -84,9 +82,9 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	Related work
 	Curiosity-driven modelling work, emergence of developmental trajectories.
-	\cite{oudeyer_intrinsic_2007} 
+	%\cite{oudeyer_intrinsic_2007} 
 	\cite{oudeyer_what_2007}
-	\cite{flow}
+	%\cite{flow}
 	\cite{sch}
 	\cite{santucci2013}
 	\cite{cangelosi2010integration}
@@ -96,15 +94,15 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	IAC series of architectures and Explauto framework: previous experiments.
 	\cite{moulin-frier_self-organization_2014}
 	\cite{moulin-frier_explauto:_2014}
-	\cite{baranes2010intrinsically}
-	\cite{riac}
+	%\cite{baranes2010intrinsically}
+	%\cite{riac}
 	\cite{baranes_active_2013}
 	
 	Representations in explauto and other models 
 	\cite{mugan2009}
 	\cite{metzen2013}
-	\cite{horde}
-	\cite{mugan}
+	%\cite{horde}
+	%\cite{mugan}
 	\cite{vig}
 	\cite{sutton1999between}
 	
@@ -132,9 +130,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		We simulate a 2D robotic arm using tools to move an object into different boxes in the environment. 		
 		In each trial, we execute a motor trajectory given by the agent, we evaluate its consequences on the sensory dimensions and we give him
 		this sensory feedback. Finally the arm, tools and objects are resetted to their intial state.
-		
 		The next sections precisely describe the different items of the environment and their interactions.	
-		See Fig.\ref{env} for an exemple of the state of the environment. 
+		See Fig.\ref{env} for an exemple state of the environment. 
 		
 		\begin{figure}[h]
 			\centering
@@ -146,19 +143,19 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-49.pdf}}\\
 			\hspace{-0.42cm}
 			\subfloat{\includegraphics[width=8.8cm]{./include/dmp.pdf}}
-			\caption{Top: a state of the environment. Middle: position of the arm at time steps 17, 33 and 50 along the $50$ steps movement. Bottom: value of the four DMPs during the movement.}
+			\caption{Top: a state of the environment. Middle: position of the arm at time steps $17$, $33$ and $50$ along the $50$ steps movement. Bottom: value of the four DMPs during the movement.}
 			\label{env}
 		\end{figure}
 
 		\subsubsection{Robotic arm}
 		
-			The 2D robotic arm has 3 joints plus a gripper located at the end-effector.
+			The 2D robotic arm has $3$ joints plus a gripper located at the end-effector.
 			Each joint can rotate from $-\pi~rad$ to $\pi~rad$ around its resting position, mapped to a standard interval of $[-1,1]$.
-			The length of the 3 parts of the arm are $0.5$, $0.3$ and $0.2$ so the total length of the arm is $1$ unit.
+			The length of the $3$ segments of the arm are $0.5$, $0.3$ and $0.2$ so the total length of the arm is $1$ unit.
 			The resting position of the arm is vertical with each joint at $0~rad$ and its base is fixed at position $[0, 0]$.
 			The gripper $g$ has 2 possible positions: \textit{open} ($g \geq 0$) and \textit{closed} ($g < 0$) and its resting position is \textit{open} (with $g = 0$).
 			The robotic arm thus has 4 degrees of freedom represented by a vector in $[-1,1]^4$.
-			A trajectory of the arm will be represented as a sequence of such vectors.\\
+			A trajectory of the arm will be represented as a sequence of such vectors.
 		
 		%
 		
@@ -175,31 +172,31 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			
 		\subsubsection{Objects and tools}
 			
-			A yellow sphere can be moved into one of the 4 fixed squared boxes. 
+			A yellow sphere can be moved into one of ten fixed squared boxes. 
 			The initial position of the sphere is $(0, 1.2)$ and is thus unreachable directly with the gripper.
-			One of two sticks can be grasped in order to reach the object.
-			A small stick of length $0.3$ is located on the right of the arm, with initial position $(0.75, 0.25)$ and initial angle $\frac{\pi}{4}$ from the horizontal line.
-			A long stick of length $0.6$ is located on the left of the arm, with initial position $(-0.75, 0.25)$ and initial angle $\frac{3\pi}{4}$ from the horizontal line as in Fig. \ref{env}.			
-			If the gripper is closed near the end of one of the sticks (closer than $0.1$), it is considered grasped and will follow the gripper's position and the angle of the arm's last part until the gripper opens.			
-			Similarly, if the other end of a stick reaches the sphere (within $0.1$), the object will follow the end of the stick.
-			Ten boxes have identifiers $1$ to $10$ and are static at positions $(-1.4, 0)$, $(-1.1, 1.1)$, $(0, 1.4)$, $(1.1, 1.1)$, $(1.4, 0)$, $(-0.9, 0)$, $(-0.6, 0.6)$, $(0, 0.9)$, $(0.6, 0.6)$ and $(0.9, 0)$ and have size $0.2$.
-			The first five boxes can only be reached with the long stick, and the other five can be reached by the two sticks.
-			At the end of the trial, the object is considered to be in one of the box if its center is in the box.\\
+			Two sticks can be grasped in order to reach the object.
+			A small stick of length $0.3$ is located at position $(0.75, 0.25)$ with initial angle $\frac{\pi}{4}$ from the horizontal line.
+			A long stick of length $0.6$ is located at position $(-0.75, 0.25)$ with initial angle $\frac{3\pi}{4}$ as in Fig. \ref{env}.			
+			If the gripper is closed near the handle of one stick (closer than $0.2$), it is considered grasped and will follow the gripper's position and the angle of the arm's last segment until the gripper opens.			
+			Similarly, if the other end of a stick reaches the sphere (within $0.1$), the sphere will follow the end of the stick.
+			The ten boxes (identified from $1$ to $10$) are static and have size $0.2$.
+			Boxes $1$ to $5$ can only be reached with the long stick, and the other five boxes can be reached with both sticks.
+			At the end of the mouvement, the object is considered to be in one of the box if its center is in the box.
 		
 		%
 		
 		\subsubsection{Sensory feedback}
 		
 			At the end of the movement, the robot gets sensory feedback from the different items of the environment.
-			It gets the trajectory of its hand and gripper, the trajectory of the end of the sticks, 
-			the end position of the object, and whether the object is in each box.		
-			The trajectory of the hand and of the end point of the sticks are represented by sequences of x and y positions at different time points: 
-			steps $17$, $33$, $50$ during the movement of $50$ steps ($6$D for the hand and for each stick).
-			Similarly, the trajectory of the gripper is a sequence of $1$ or $-1$ depending whether the gripper is open or closed ($3$D).
-			The agent receives the identifier of the reached box if one of them has been reached, 0 otherwise. He also gets the minimal distance of the object (at the end of the movement) to the center a box, even if none have been reached.
-			%For each box, the robot receives a $1$ if the object is in the box at the end of the movement, and $0$ otherwise ($4$D).			 
-			The sensory information thus contains $9$ values for the trajectory of the hand and gripper ($S_{Hand}$), $6$ for the trajectory of the end of each stick ($S_{Stick_1}$ and $S_{Stick_2}$), $2$ for the end position of the object ($S_{Object}$) and $2$ for the boxes ($S_{Boxes}$).
-			The sensory space has a total of $25$ dimensions.
+			It gets the trajectory of the gripper ($S_{Hand}$), the trajectory of the end of the sticks ($S_{Stick_1}$ and $S_{Stick_2}$), 
+			the position of the object at the end of the mouvement ($S_{Object}$), and whether the object is in a box at the end of the mouvement and the distance between the object and the nearest box ($S_{Boxes}$).		
+			The trajectory of the gripper is represented as the $x$ and $y$ positions and the aperture ($1$ or $-1$) of the gripper at $3$ time points: 
+			steps $17$, $33$, $50$ during the movement of $50$ steps ($9$D).
+			Similarly, the trajectories of the end points of the sticks are $3$-points sequences of $x$ and $y$ positions ($6$D for each stick).
+			The agent receives the identifier (from $1$ to $10$) of the reached box if one of them has been reached by the sphere, 0 otherwise. 
+			He also gets the minimal distance of the object (at the end of the movement) to the center of a box, even if none have been reached.			 
+			The sensory information thus contains $9$ values for the trajectory of the gripper, $6$ for the trajectory of the end of each stick, $2$ for the end position of the object and $2$ for the boxes.
+			The total sensory space $S$ has $25$ dimensions.
 			
 		%
 		
@@ -207,39 +204,40 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\subsection{Learning architectures}
 
-		We describe in this section the different learning architectures used in the experiment. 
+		\paragraph{}
+		The problem settings for the learning agent is to explore its sensorimotor space by iteratively choosing motor parameters that represents arm trajectories and receiving sensory feedback.
+		In this section we describe the different learning architectures that we will compare in the experiment.
 		
-		\subsubsection{Explauto framework}
+		\subsubsection{Flat architectures}
 			
-			We use the Explauto autonomous exploration library \cite{moulin-frier_explauto:_2014} to easily define experiments with robots exploring their environment. 
-			In this framework, the agent explores a mapping between its given motor space $M$ and sensory space $S$, 
-			using a sensorimotor model that learns the mapping and an interest model that chooses which regions of the spaces to explore.
-			The sensorimotor model processes new information of the form ($m, s$) with $m \in M$ being the experimented motor parameters and $s \in S$ the received sensory feedback 
-			corresponding to that parameters. 
-			It provides forward predictions of probable $s$ given $m$ and inverse inference of a probable $m$ to reach a given $s$.
-			We use the simplest sensorimotor model, the nearest neighbor algorithm 
-			that performs the prediction of $s$ given $m$ using the nearest neighbor of $m$ in $M$ in the database of the previous experiments and returning its sensory part. 
-			The inverse inference is computed as the motor part of the nearest neighbor in $S$ of the given $s$, but with some exploration noise to allow novel motor parameters to be explored.
+			We define a flat architecture as directly learning a mapping between the motor space $M$ ($12$D) and the sensory space $S$ ($25$D).
+			The control condition is a random motor babbling condition (F-RmB) that randomly chooses new motor parameters $m$ to try at each iteration.
+			In the other conditions, the agent performs Goal Babbling, by self-generating a goal in the sensory space at each iteration and trying to reach it.
+			To do so, the agent needs a sensorimotor model that learns the mapping and provides inverse inference of a probable $m$ to reach a given $s$.
+			The sensorimotor model stores new information of the form ($m, s$) with $m \in M$ being the experimented motor parameters and $s \in S$ the associated sensory feedback. 
+			It computes the inverse inference with the nearest neighbor algorithm: 
+			it gets the motor part of the nearest neighbor of the given $s$ in $S$, and adds exploration noise (gaussian with $\sigma=0.01$) to allow new motor parameters to be explored.
 			
-			The agent also needs an interest model that chooses which regions of the motor or sensory space to explore.
-			If the agent chooses goals in the motor space and explores them it is called Motor Babbling, and if it chooses the goals to explore in the sensory space, this is Goal Babbling.
-			To choose the goals in this space of interest, different strategies are possible. 
-			The simplest one is to draw random goals in this space, but strategies based on the learning progress in different regions of the space have been shown more efficient in [ref].
-			This strategies are called active as the agent autonomously drives its exploration towards regions of the space that are both reachable and learnable. 
-			We use the SAGG-RIAC architecture \cite{baranes_active_2013} where the space of interest is the sensory space (Goal Babbling) and that incrementally splits this space into subregions where the learning progress 
-			is different. 
-			The learning progress is here computed as the absolute derivative of the reaching competence. 
-			This competence associated to a sensory goal is minus the distance between the goal and the sensory point.
+			The agent also needs an interest model that chooses goals in the sensory space.
+			To generate those goals, different strategies have been studied \cite{baranes_active_2013}. 
+			It was shown that estimating the learning progress in different regions of the sensory space and generating the goals where the progress is high leads to a fast learning.
+			However, this idea can't be applied in a $25$D sensory space as a learning progress signal can't be properly estimated in this volume.
+			Thus we use a simpler random generation of goals in the sensory space as an interest model in the flat random goal babbling condition (F-RGB).
+			We use the Explauto autonomous exploration library \cite{moulin-frier_explauto:_2014} to easily define those sensorimotor and interest models.
 			
+			\begin{figure}[t]
+				\center
+				\input{include/F.tikz}
+				\vspace{-0.25cm}
+				\input{include/H1.tikz}
+				\vspace{-0.5cm}
+				\caption{Architectures. Top: Flat. Bottom: Hierarchical.}
+				\label{Architectures}					
+			\end{figure}
 				
 		%
 		
-		\subsubsection{Flat architecture}
-			
-				
-		%
-		
-		\subsubsection{Hierarchical architecture}
+		\subsubsection{Hierarchical architectures}
 			
 			We present here an architecture that represents sensorimotor information with a hierarchical structure in Fig. \ref{Architectures}.
 			
@@ -250,58 +248,45 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			With regression instead of NN, noise can instead be put only on the babbling module.
 			
 			How competence and interest of modules is computed.
+			The learning progress is here computed as the absolute derivative of the reaching competence. 
+			This competence associated to a sensory goal is minus the distance between the goal and the sensory point.
 			
-			\begin{figure}[t]
-				\center
-				\input{include/F.tikz}
-				\vspace{-0.25cm}
-				\input{include/H1.tikz}
-				\vspace{-0.5cm}
-				\caption{Architectures. Top: flat. Bottom: hierarchical.}
-				\label{Architectures}					
-			\end{figure}
-
-				
-		%
-		
-
-	%
-	
-	\subsection{Experiments}
-		
-		Nearest Neighbors, $100$ iterations of Motor babbling and then $100000$ iterations of the condition. $100$ trials per condition.
-		
-		
-		\subsubsection{Conditions}
 			
 			\begin{itemize}
 			
-				\item F-RmB: Random Motor Babbling with a flat architecture learning $M \rightarrow S_{Hand} \times S_{Stick_1} \times S_{Stick_2} \times S_{Object} \times S_{Boxes}$
-				\item F-RGB: Flat architecture, Random Goal Babbling
-				\item F-AGB: The same architecture but with active goal babbling (my version of SAGG-RIAC)
-				\item H-RGB-P-AMB: Hierarchical architecture with Random Goal Babbling in each module, and choice of module that babbles based on interest ($\epsilon$-prop: probabilities proportional to interest but with $\epsilon=10\%$ of random choice). Choice of tool to use based on the maximum competence of the two modules to reach the goal object point.
+				\item H-RGB-RMB: Hierarchical architecture with Random Goal Babbling in each module, and Random Module Babbling. 
+				Choice of tool to use based on the maximum competence of the two modules to reach the goal object point.
+				\item H-RGB-P-AMB: same as H-RGB-RMB but Active Module Babbling with a choice of module to babble Proportional to interest of modules  ($\epsilon$-prop: probabilities proportional to interest but with $\epsilon=10\%$ of random choice). 
 				\item H-RGB-GR-AMB: same as H-RGB-P-AMB but the choice of module to babble is $\epsilon$-greedy with $\epsilon=0.1$
-				\item H-RGB-P-AMB-PGITC: same as H-RGB-P-AMB but the choice of the tool to use is based on the interest (global) of the two modules ($\epsilon$-prop).
+				\item H-RGB-P-AMB-PGITC: same as H-RGB-P-AMB but the choice of the tool to use is Proportional to the Global Interest of the two modules ($\epsilon$-prop).
 
 			\end{itemize}
 				
+				
 		%
+		Nearest Neighbors, $100$ iterations of Motor babbling and then $100000$ iterations of the condition. $100$ trials per condition.
 		
-		\subsubsection{Measures}
-			
-			We provide a measure of the different types of behaviors with the sticks and the object during exploration. 
-			We categorize the behaviors into three types.
-			In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus not moved the out-of-reached object.
-			The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
-			The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
-			
-			Also, for each condition we measure the total exploration of the different sensory spaces during training. 
-			The exploration of the hand, sticks and object spaces is defined as the number of reached cells 
-			in a $100\times100$ discretization of the (X,Y) space of the position at timestep $50$ (end of movement).
-			The exploration of the boxes is the number of boxes that have been filled with the object during training.
-			
-		%
 		
+		
+
+
+
+	%
+	
+	\subsection{Measures}
+		
+		
+		We provide a measure of the different types of behaviors with the sticks and the object during exploration. 
+		We categorize the behaviors into three types.
+		In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus not moved the out-of-reached object.
+		The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
+		The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
+		
+		Also, for each condition we measure the total exploration of the different sensory spaces during training. 
+		The exploration of the hand, sticks and object spaces is defined as the number of reached cells 
+		in a $100\times100$ discretization of the (X,Y) space of the position at timestep $50$ (end of movement).
+		The exploration of the boxes is the number of boxes that have been filled with the object during training.
+			
 	%
 	
 %
@@ -336,6 +321,13 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		\caption{Behavioral measure}
 		\label{res_ow}
 	\end{figure*}
+	
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=7cm]{./include/nbc.pdf}
+		\caption{Number of abrupt behavioral changes}
+		\label{res_nbc}
+	\end{figure}
 
 
 	\paragraph{}
