@@ -24,6 +24,9 @@
 \usepackage{pslatex}
 \usepackage{apacite}
 
+\usepackage{amsmath}
+
+\usepackage{relsize}
 %\usepackage{hyperref}
 
 \usepackage{tikz}
@@ -115,7 +118,6 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	More details on experiments
 	\cite{ijspeert_dynamical_2013}
 	
-	\cite{}
 	
 	Along with this paper we provide open-source Python code\footnote{Source code and notebooks available as a Github repository at \url{https://github.com/sebastien-forestier/CogSci2016}} 
 	with iPython/Jupyter notebooks that explain how to reproduce the experiments and analysis. 
@@ -223,7 +225,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			It was shown that estimating the learning progress in different regions of the sensory space and generating the goals where the progress is high leads to a fast learning.
 			However, this idea can't be applied in a $25$D sensory space as a learning progress signal can't be properly estimated in this volume.
 			Thus we use a simpler random generation of goals in the sensory space as an interest model in the flat random goal babbling condition (F-RGB).
-			We use the Explauto autonomous exploration library \cite{moulin-frier_explauto:_2014} to easily define those sensorimotor and interest models.
+			We use the Explauto autonomous exploration library \cite{moulin-frier_explauto:_2014} to easily define those sensorimotor and interest models.\\
 			
 			\begin{figure}[t]
 				\center
@@ -239,37 +241,46 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		
 		\subsubsection{Hierarchical architectures}
 			
-			We present here an architecture that represents sensorimotor information with a hierarchical structure in Fig. \ref{Architectures}.
+			The $25$D sensory space can be structured to reflect the interaction of the different items of the environment.
+			Indeed, the arm motor position influence the gripper, which influence one of the tools (but not both at the same time), which influence the position of the object and the filling of the boxes.
+			We thus study here learning architectures that could make use of this sensorimotor structure, and we call them hierarchical.
+			Those architecture learn $6$ models at the same time (see Fig. \ref{Architectures}: gray squares are models). 
+			Each of those models functions in the same way as the random goal babbling flat architecture (F-RGB). 
+			Each model has a motor space (e.g. motor space of model $2$ is $S_{Hand}$), a sensory space (respectively $S_{Stick_1}$, see arrows in Fig. \ref{Architectures}, and can choose goals randomly in this sensory space.
+			At each iteration, the architecture first have to choose the model that will choose a goal, a procedure that we call Model Babbling.
+			Once a model is chosen, it finds a goal in its sensory space, and infer motor parameters (that can be in a sensory space) to reach that goal.
+			Then, it passes those parameters as a goal to be reached by the lower-level model, 
+			which similarly infers motor parameters and passes those ones until the actual $Arm$ motor space gets parameters to try in the environment (with the same exploration noise as in Flat architectures).
+			Model $4$ have also to choose which lower-level model to use in order to reach an object end position $s_o$ in $S_{Object}$, as two models ($3$ and $6$) have $S_{Object}$ as sensory space. 
+			Model $4$ chooses the tool that have allowed to reached $s_o$ as close as possible in the past.
+			Finally, when motor parameters $m$ have been tested in the environment and feedback $s$ received, the mappings of all models are updated, but if model $4$ chose one tool then the mapping of the other tool is not.
 			
-			Only the motor module (mod1) adds exploration noise ($\sigma=0.02$) even in hierarchical architecture. 
-			That was the key to have more efficient hierarchical exploration. 
-			Indeed, if all modules successively add exploration noise, few iterations succeed in touching the object. 
-			Alternatively, if the exploration noise is reduced, exploration is less efficient as in NN only the motor module will finally apply noise on known motor commands. 
-			With regression instead of NN, noise can instead be put only on the babbling module.
-			
-			How competence and interest of modules is computed.
-			The learning progress is here computed as the absolute derivative of the reaching competence. 
-			This competence associated to a sensory goal is minus the distance between the goal and the sensory point.
-			
-			
-			\begin{itemize}
-			
-				\item H-RGB-RMB: Hierarchical architecture with Random Goal Babbling in each module, and Random Module Babbling. 
-				Choice of tool to use based on the maximum competence of the two modules to reach the goal object point.
-				\item H-RGB-P-AMB: same as H-RGB-RMB but Active Module Babbling with a choice of module to babble Proportional to interest of modules  ($\epsilon$-prop: probabilities proportional to interest but with $\epsilon=10\%$ of random choice). 
-				\item H-RGB-GR-AMB: same as H-RGB-P-AMB but the choice of module to babble is $\epsilon$-greedy with $\epsilon=0.1$
-				\item H-RGB-P-AMB-PGITC: same as H-RGB-P-AMB but the choice of the tool to use is Proportional to the Global Interest of the two modules ($\epsilon$-prop).
+			A first condition is to randomly choose the model that will find a goal, this is Random Model Babbling (H-RGB-RMB).
+			The problem of Model Babbling is an instance of strategic learning \cite{nguyen2012}, 
+			where different outcomes and strategies to learn them are available and the agent learns which strategies are useful for which outcomes.
+			In that paper, they show that an active choice of the outcomes and strategies based on the learning progress on each of them increase learning efficiency compared to random choice.
+			To develop active learning strategies, we first define a measure of learning progress for each of the $6$ models.
+			When a model has been chosen to babble, it draws a random goal $s_g$, and finds motor parameters $m$ to reach it using the lower-level models.
+			The actual outcome $s$ in the sensory space of the module, associated to $m$ might be very different from $s_g$ as this goal might be unreachable, or because lower-level modules are not mature enough for that goal.
+			We define the competence associated to a goal $s_g$ as $C(s_g)=-||s_g-s||$, and the interest $I(s_g)$ associated to this goal
+			as the absolute difference between $C(s_g)$ and the mean competence of the ($k=20$) nearest previous goals.
+			The interest of a model is initialized at $0$ and updated to follow the interest of the goals:
+			$$I_{model}=\frac{n-1}{n}~I_{model} + \frac{1}{n}~I(s_g)$$
+			In condition H-RGB-P-AMB, the choice of module is proportional to their interest (probabilities are proportional to interest but with $\epsilon=10\%$ of random choice). 
+			In condition H-RGB-GR-AMB, the choice of module is greedy (module with maximum interest) but also with $\epsilon=10\%$ of random choice.
+			Finally, condition H-RGB-P-AMB-PGITC is the same as H-RGB-P-AMB but the choice of the tool to use (model $3$ or $6$) is with probabilities proportional to the interest of the two models, 
+			instead of being based on the more competent tool for the given object goal position.
 
-			\end{itemize}
-				
-				
 		%
-		Nearest Neighbors, $100$ iterations of Motor babbling and then $100000$ iterations of the condition. $100$ trials per condition.
-		
-		
-		
+	
+%
 
 
+\section{Results}
+	
+		
+	Nearest Neighbors, $100$ iterations of Motor babbling and then $100000$ iterations of the condition. $100$ trials per condition.
+		
 
 	%
 	
@@ -288,12 +299,6 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		The exploration of the boxes is the number of boxes that have been filled with the object during training.
 			
 	%
-	
-%
-
-
-\section{Results}
-	
 
 	\paragraph{}
 	Fig. \ref{res_interests} shows details about one trial of the condition H-RGB-P-AMB. 
@@ -304,8 +309,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\begin{figure*}[ht]
 		\centering
-		\subfloat[]{\includegraphics[width=9cm]{./include/H-RGB-P-AMB-log9-interests-100000.pdf}}
-		\subfloat[]{\includegraphics[width=9cm]{./include/H-RGB-P-AMB-log9-obj-explo.pdf}}
+		\subfloat[]{\includegraphics[width=7cm]{./include/H-RGB-P-AMB-log9-interests-100000.pdf}}
+		\subfloat[]{\includegraphics[width=7cm]{./include/H-RGB-P-AMB-log9-obj-explo.pdf}}
 		\caption{Condition H-RGB-P-AMB. (a) Interests of each module. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
 		\label{res_interests}
 	\end{figure*}
@@ -316,8 +321,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 	\begin{figure*}[ht]
 		\centering
-		\subfloat[H-RGB-GR-AMB]{\includegraphics[width=8cm]{./include/H-RGB-GR-AMB-log15-events-100000.pdf}}
-		\subfloat[H-RGB-P-AMB]{\includegraphics[width=8cm]{./include/H-RGB-P-AMB-log8-events-100000.pdf}}
+		\subfloat[H-RGB-GR-AMB]{\includegraphics[width=7cm]{./include/H-RGB-GR-AMB-log15-events-100000.pdf}}
+		\subfloat[H-RGB-P-AMB]{\includegraphics[width=7cm]{./include/H-RGB-P-AMB-log8-events-100000.pdf}}
 		\caption{Behavioral measure}
 		\label{res_ow}
 	\end{figure*}
