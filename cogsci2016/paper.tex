@@ -304,105 +304,112 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	\end{figure*}
 
 
-	We provide a measure of the different types of behaviors with the sticks and the object during exploration. 
-	We categorize the behaviors into three types.
-	In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus not moved the out-of-reached object.
-	The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
-	The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
-	Fig. \ref{res_ow} shows the prototypical evolution of the proportion of the three categories of behavior along the $100000$ iterations for conditions H-GR-AMB and H-P-AMB.
-    We performed a more detailed analysis by counting the trials where the evolution of the three types of behaviors were similar to the one of Fig. \ref{res_ow}(b).
-    A structure was considered similar if it validated each of the following criteria:
-    behaviors of categories $stick$ and $object$ increase quikly from $0$ to more than $10\%$ (potentially after an initial phase with a steady low value), 
-    and are followed by a plateau (steady curve with small slope) with no abrupt changes, and behaviors of category $object$ start to raise at least $1000$ iterations after $stick$ started to raise.
-    We counted no structures of that type in Flat conditions, $7$ for H-GR-AMB, $60$ for H-RMB, $70$ for H-P-AMB and $79$ for H-P-AMB-ATC.
-    Also, the median number of abrupt changes (steady change of more than $10\%$) in conditions F-RmB, F-RGB, H-RMB, H-P-AMB, H-GR-AMB and H-P-AMB-ATC was respectively $0$, $1$, $2$, $2$, $6$, $1$, 
-    with a significant difference between condition H-GR-AMB and the others (Mann-Whitney U tests, $p<0.0001$).
-
-	\begin{table}[!ht]
-		\small
-		\begin{center} 
-		\caption{Behavioral analysis} 
-		\label{sample-table} 
-		\vskip 0.12in
-		\begin{tabular}{| c | c | c |} 
-			\hline
-			Condition  &  \begin{tabular}{@{}c@{}}Number of Trials \\ validating criteria\end{tabular}   & \begin{tabular}{@{}c@{}}Median number of  \\ Abrupt changes \end{tabular}\\
-			\hline
-			F-RmB        &    0 &  0\\
-			F-RGB        &    0 &  1\\
-			H-RMB        &   60 &  2\\
-			H-P-AMB      &   70 &  2\\
-			H-GR-AMB     &    7 &  6\\
-			H-P-AMB-ATC  &   79 &  1\\
-			\hline
-		\end{tabular} 
-		\end{center} 
-	\end{table}
-
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=4.4cm]{./include/H-RGB-GR-AMB-log15-events-100000.pdf}
-		\hspace{-0.4cm}
-		\includegraphics[width=4.4cm]{./include/H-RGB-P-AMB-log8-events-100000.pdf}
-		\caption{Behavioral measure. Left: H-GR-AMB, Right: H-P-AMB.}
-		\label{res_ow}
-	\end{figure}
 	
-	%\begin{figure}[ht]
-		%\centering
-		%\includegraphics[width=7cm]{./include/nbc.pdf}
-		%\caption{Number of abrupt behavioral changes}
-		%\label{res_nbc}
-	%\end{figure}
-
-	Also, for each condition we measure the total exploration of the different sensory spaces during training. 
-	The exploration of the hand, sticks and object spaces is defined as the number of reached cells 
-	in a $100\times100$ discretization of the (X,Y) space of the position at timestep $50$ (end of movement).
-	The exploration of the boxes is the number of boxes that have been filled with the object during training.
-	Fig. \ref{res_explo} shows the total exploration of the different sensory spaces for each condition.
-	We provide statistical Mann-Whitney U test results of comparisons of the exploration in different pairs of conditions.
-	Firstly, the Motor Babbling condition (F-RmB) have more explored $S_{Hand}$ and less $S_{Object}$ and $S_{Boxes}$ compared to the other conditions ($p<0.0001$).
-	Then, F-RGB explores all spaces less than H-RMB condition ($p<0.01$).
-	H-RMB explores more $S_{Hand}$ ($p<0.001$) and less $S_{Object}$ ($p<0.05$) than H-P-AMB.
-	Also, H-GR-AMB shows lower exploration all spaces than H-P-AMB ($p<0.01$).
-	Condition H-P-AMB-ATC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-P-AMB, and difference is not significant in other spaces.
+	\subsection{Structure of the evolution of behaviors}
 	
-	\begin{figure*}[ht]
-		\centering
-		\includegraphics[width=14cm]{./include/xp1-explo-legend.pdf}\\
-		\vspace{-0.4cm}
-		\subfloat[$Hand$]{\includegraphics[width=3.5cm]{./include/xp1-explo-hand.pdf}}
-		\subfloat[$Stick_1$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_1.pdf}}
-		\subfloat[$Stick_2$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_2.pdf}}
-		\subfloat[$Object$]{\includegraphics[width=3.5cm]{./include/xp1-explo-obj.pdf}}
-		\subfloat[$Boxes$]{\includegraphics[width=3.3cm]{./include/xp1-explo-box.pdf}}
-		\caption{Exploration of sensory spaces. Box plots show for each condition and space the median and quartiles of the $100$ trials.}
-		\label{res_explo}
-	\end{figure*}
+		We provide a measure of the different types of behaviors with the sticks and the object during exploration. 
+		We categorize the behaviors into three types.
+		In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus did not move the out-of-reached object.
+		The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
+		The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
+		Fig. \ref{res_ow} shows the prototypical evolution of the proportion of the three categories of behavior along the $100000$ iterations for conditions H-GR-AMB and H-P-AMB.
+		We performed a more detailed analysis by counting the trials where the evolution of the three types of behaviors were similar to the one of Fig. \ref{res_ow}(b).
+		A structure was considered similar if it validated each of the following criteria:
+		behaviors of categories $stick$ and $object$ increase quikly from $0$ to more than $10\%$ (potentially after an initial phase with a steady low value), 
+		and are followed by a plateau (steady curve with small slope) with no abrupt changes, and behaviors of category $object$ start to raise at least $1000$ iterations after $stick$ started to raise.
+		See Table \ref{table} for the results of this analysis per condition.
+		Also, the median number of abrupt changes across trials for each condition are reported in the same table (as the sum of steady changes of more than $10\%$ in the three behaviors).
+		with a significant difference between condition H-GR-AMB and the others (Mann-Whitney U tests, $p<0.0001$).
 
-	Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H-P-AMB and H-P-AMB-ATC.
-	In those conditions, model $4$ learns a mapping between $S_{Object}$ and $S_{Boxes}$. 
-	When this model is babbling, it chooses a random goal $s_b \in S_{Boxes}$ and infers the best object position $s_o$ to reach $s_b$.
-	To reach $s_o$, one of the tools ($Stick_1$ with model $3$ or $Stick_2$ with model $6$) is chosen. 
-	We plot all those choices, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, in one figure for each of the two conditions.
-	We can see two very different choice structures.
-	However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H-P-AMB-ATC than in competence-based choice of condition H-P-AMB.
+		\begin{table}[!ht]
+			\small
+			\begin{center} 
+			\caption{Behavioral analysis} 
+			\label{table} 
+			\vskip 0.12in
+			\begin{tabular}{| c | c | c |} 
+				\hline
+				Condition  &  \begin{tabular}{@{}c@{}}Number of Trials \\ validating criteria\end{tabular}   & \begin{tabular}{@{}c@{}}Median number of  \\ Abrupt changes \end{tabular}\\
+				\hline
+				F-RmB        &    0 &  0\\
+				F-RGB        &    0 &  1\\
+				H-RMB        &   60 &  2\\
+				H-P-AMB      &   70 &  2\\
+				H-GR-AMB     &    7 &  6\\
+				H-P-AMB-ATC  &   79 &  1\\
+				\hline
+			\end{tabular} 
+			\end{center} 
+		\end{table}
+
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[width=4.4cm]{./include/H-RGB-GR-AMB-log15-events-100000.pdf}
+			\hspace{-0.4cm}
+			\includegraphics[width=4.4cm]{./include/H-RGB-P-AMB-log8-events-100000.pdf}
+			\caption{Behavioral measure. Left: H-GR-AMB, Right: H-P-AMB.}
+			\label{res_ow}
+		\end{figure}
+		
+	%
 	
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=4.5cm]{./include/H-RGB-P-AMB-log9-choice_mod4.png}
-		\hspace{-0.6cm}
-		\includegraphics[width=4.5cm]{./include/H-RGB-P-AMB-PGITC-log3-choice_mod4.png}
-		\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice. Left: H-P-AMB, Right: H-P-AMB-ATC.}
-		\label{res_choice}
-	\end{figure}
+	
+	\subsection{Exploration efficiency}
+
+		Also, for each condition we measure the total exploration of the different sensory spaces during training. 
+		The exploration of the hand, sticks and object spaces is defined as the number of reached cells 
+		in a $100\times100$ discretization of the (X,Y) space of the position at timestep $50$ (end of movement).
+		The exploration of the boxes is the number of boxes that have been filled with the object during training.
+		Fig. \ref{res_explo} shows the total exploration of the different sensory spaces for each condition.
+		We provide statistical Mann-Whitney U test results of comparisons of the exploration in different pairs of conditions.
+		Firstly, the Motor Babbling condition (F-RmB) have more explored $S_{Hand}$ and less $S_{Object}$ and $S_{Boxes}$ compared to the other conditions ($p<0.0001$).
+		Then, F-RGB explores all spaces less than H-RMB condition ($p<0.01$).
+		H-RMB explores more $S_{Hand}$ ($p<0.001$) and less $S_{Object}$ ($p<0.05$) than H-P-AMB.
+		Also, H-GR-AMB shows lower exploration all spaces than H-P-AMB ($p<0.01$).
+		Condition H-P-AMB-ATC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-P-AMB, and difference is not significant in other spaces.
+		
+		\begin{figure*}[ht]
+			\centering
+			\includegraphics[width=14cm]{./include/xp1-explo-legend.pdf}\\
+			\vspace{-0.4cm}
+			\subfloat[$Hand$]{\includegraphics[width=3.5cm]{./include/xp1-explo-hand.pdf}}
+			\subfloat[$Stick_1$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_1.pdf}}
+			\subfloat[$Stick_2$]{\includegraphics[width=3.5cm]{./include/xp1-explo-stick_2.pdf}}
+			\subfloat[$Object$]{\includegraphics[width=3.5cm]{./include/xp1-explo-obj.pdf}}
+			\subfloat[$Boxes$]{\includegraphics[width=3.3cm]{./include/xp1-explo-box.pdf}}
+			\caption{Exploration of sensory spaces. Box plots show for each condition and space the median and quartiles of the $100$ trials.}
+			\label{res_explo}
+		\end{figure*}
+
+	%
+	
+	\subsection{Structure of tool choice}
+
+		Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H-P-AMB and H-P-AMB-ATC.
+		In those conditions, model $4$ learns a mapping between $S_{Object}$ and $S_{Boxes}$. 
+		When this model is babbling, it chooses a random goal $s_b \in S_{Boxes}$ and infers the best object position $s_o$ to reach $s_b$.
+		To reach $s_o$, one of the tools ($Stick_1$ with model $3$ or $Stick_2$ with model $6$) is chosen. 
+		We plot all those choices model $4$ made during exploration, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, in one figure for each of the two conditions.
+		We can see two very different choice structures.
+		However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H-P-AMB-ATC than in competence-based choice of condition H-P-AMB.
+		
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[width=4.5cm]{./include/H-RGB-P-AMB-log9-choice_mod4.png}
+			\hspace{-0.6cm}
+			\includegraphics[width=4.5cm]{./include/H-RGB-P-AMB-PGITC-log3-choice_mod4.png}
+			\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice. Left: H-P-AMB, Right: H-P-AMB-ATC.}
+			\label{res_choice}
+		\end{figure}
+		
+	%
 	
 %
 
 
 \section{Discussion}
 
-	\subsection{Structure of the evolution of behavior}
+	\subsection{Structure of the evolution of behaviors}
 	
 		Results show different structures of behavior evolution in the different conditions.
 		H-GR-AMB shows successive behavioral steps with abrupt changes.
