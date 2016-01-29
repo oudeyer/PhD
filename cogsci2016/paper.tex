@@ -34,11 +34,9 @@
 \title{Curiosity-Driven Development of Tool Use Precursors: a Robotic Model}
  
 \author{{\large \bf S\'ebastien Forestier (sebastien.forestier@inria.fr)} \\
-	Inria Bordeaux Sud-Ouest and Ensta Paristech,\\
-	200 Avenue de la Vieille Tour, 33405 Talence, France
+	Inria Bordeaux Sud-Ouest and Ensta Paristech, France
   \AND {\large \bf Pierre-Yves Oudeyer (pierre-yves.oudeyer@inria.fr)} \\
-	Inria Bordeaux Sud-Ouest and Ensta Paristech,\\
-	200 Avenue de la Vieille Tour, 33405 Talence, France}
+	Inria Bordeaux Sud-Ouest and Ensta Paristech, France}
 
 
 \begin{document}
@@ -50,13 +48,13 @@
 This is the abstract.
 
 \textbf{Keywords:} 
-curiosity-driven learning; tool use; goal babbling; overlapping waves; 
+curiosity-driven learning; tool use; goal babbling; overlapping waves; developmental trajectory; hierarchical skill learning; HiCu model
 \end{abstract}
 
 
 \section{Introduction}
 
-	The ontegenetic development of tool use shows different properties \cite{guerin2013survey}, \cite{fenson1976developmental}: 
+	The ontogenetic development of tool use shows different properties \cite{guerin2013survey}, \cite{fenson1976developmental}: 
 	representations are grounded on a large amount of experiences and follow an ongoing process of upgrading [cite others?].
 	In this paper we focus on one important property in the development of precursors of tool use which is the seamless progression 
 	between overlapping phases of behavior with tools and objects, which have been called overlapping waves \cite{siegler1996emerging}. 
@@ -72,18 +70,19 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	In the Playground Experiment \cite{oudeyer_what_2007}, a quadruped robot learned how to use its motor primitives to interact with the items of an infant play mat and a robot peer.
 	Also, in a study of the self-organization of vocalizations \cite{moulin-frier_self-organization_2014}, an agent had to learn how to
 	use a vocal synthesizer by self-exploration or with the help of humans' demonstrations of phonetic items. 
+	Their model reproduces accurately major phases of infant vocal development until $6$ month old.
 	In both studies, developmental trajectories of increasing complexity are emerging from learning, with both regularities in developmental steps and diversity.
-	The diversity comes from different mechanisms: random generation in the algorithms, variability in the environment, and the multiples attractors of the dynamic learning system.
-	In those models, the agent learns only one mapping that relates a motor space to a sensory or task space. 
-	However, in the perspective of an open-ended development of reusable skills, and specifically in the development of tool use, multiple interdependent task spaces should be available to the agent
+	The diversity comes from different mechanisms: stochasticity in the algorithms, variability in the environment, and the multiples attractors of the dynamic learning system.
+	In existing models, the agent learns only one mapping that relates a motor space to a sensory or task space. 
+	However, in the perspective of an open-ended development of reusable skills, and specifically in the development of tool use, multiple interdependent and hierarchically organized task spaces should be available to the agent
 	as for instance complex actions with tools could make use of previously learned parameterized interaction with the tool.
 	
-	In this paper we study aspects of those hypothesis leveraging and extending previous models of curiosity-driven learning.
+	In this paper we study aspects of those hypothesis leveraging previous models of curiosity-driven learning and extending them to the active exploration of sensorimotor and task spaces.
 	We define hierarchies of sensorimotor models that structure the sensory space to reflect the interaction of the different items of the environment.
 	In such hierarchies of models to explore, different exploration choices are available to the agent at each learning iteration: which model to explore, and how to explore that model.
-	This problem is an instance of strategic learning \cite{nguyen2012}, 
+	The problem of finding an efficient active choice strategy is an instance of strategic learning \cite{nguyen2012}, 
 	where different outcomes and strategies are available and the agent has to learn which strategies are useful for which outcomes. 
-	We define and compare several strategies based on active learning to solve this problem.
+	We define and compare several strategies to study the role of active learning and hierarchical representation in the structuration of developmental trajectories.
 	We compare the different learning conditions in a $2$D environment where a simulated arm with three joints plus a gripper can grab tools to move an out-of-reach object.
 	We measure the different phases of behavior during exploration and compare the structure of the behavioral waves. [more results here?]
 	
@@ -120,8 +119,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 	\subsection{Environment}
 	
-		We simulate a 2D robotic arm using tools to move an object into different boxes in the environment. 		
-		In each trial, we execute a motor trajectory given by the agent, we evaluate its consequences on the sensory dimensions and we give him
+		We simulate a 2D robotic arm that can grasp tools that can be used to move an object into different boxes in the environment. 		
+		In each trial, the agent executes a motor trajectory, we evaluate its consequences on the sensory dimensions and we give him
 		this sensory feedback. Finally the arm, tools and objects are resetted to their intial state.
 		The next sections precisely describe the different items of the environment and their interactions.	
 		See Fig.\ref{env} for an exemple state of the environment. 
@@ -136,7 +135,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			\subfloat{\includegraphics[width=2.8cm]{./include/mvt-49.pdf}}\\
 			\hspace{-0.42cm}
 			\subfloat{\includegraphics[width=8.8cm]{./include/dmp.pdf}}
-			\caption{Top: a state of the environment. Middle: position of the arm at time steps $17$, $33$ and $50$ along the $50$ steps movement. Bottom: value of the four DMPs during the movement.}
+			\caption{Top: a state of the environment. Middle: position of the arm at time steps $17$, $33$ and $50$ along the $50$ steps movement. Bottom: trajectory of each of the four virtual motors, generated by a DMP.}
 			\label{env}
 		\end{figure}
 
@@ -165,24 +164,24 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			
 		\subsubsection{Objects and tools}
 			
-			A yellow sphere can be moved into one of ten fixed squared boxes. 
-			The initial position of the sphere is $(0, 1.2)$ and is thus unreachable directly with the gripper.
-			Two sticks can be grasped in order to reach the object.
+			Two sticks can be grasped by the handle side in order to catch an out-of-reached object.
 			A small stick of length $0.3$ is located at position $(0.75, 0.25)$ with initial angle $\frac{\pi}{4}$ from the horizontal line.
-			A long stick of length $0.6$ is located at position $(-0.75, 0.25)$ with initial angle $\frac{3\pi}{4}$ as in Fig. \ref{env}.			
+			A long stick of length $0.6$ is located at position $(-0.75, 0.25)$ with initial angle $\frac{3\pi}{4}$ as in Fig. \ref{env}.	
+			A yellow sphere can be caught by the magnetic side of one of the two sticks, moved and possibly placed into one of ten fixed squared boxes. 
+			The initial position of the sphere is $(0, 1.2)$ and is thus unreachable directly with the gripper.		
 			If the gripper is closed near the handle of one stick (closer than $0.2$), it is considered grasped and will follow the gripper's position and the angle of the arm's last segment until the gripper opens.			
 			Similarly, if the other end of a stick reaches the sphere (within $0.1$), the sphere will follow the end of the stick.
 			The ten boxes (identified from $1$ to $10$) are static and have size $0.2$.
 			Boxes $1$ to $5$ can only be reached with the long stick, and the other five boxes can be reached with both sticks.
-			At the end of the mouvement, the object is considered to be in one of the box if its center is in the box.
+			At the end of the movement, the object is considered to be in one of the box if its center is in the box.
 		
 		%
 		
 		\subsubsection{Sensory feedback}
 		
 			At the end of the movement, the robot gets sensory feedback from the different items of the environment.
-			It gets the trajectory of the gripper ($S_{Hand}$), the trajectory of the end of the sticks ($S_{Stick_1}$ and $S_{Stick_2}$), 
-			the position of the object at the end of the mouvement ($S_{Object}$), and whether the object is in a box at the end of the mouvement and the distance between the object and the nearest box ($S_{Boxes}$).		
+			It gets the trajectory of the gripper ($S_{Hand}$, $9$D), the trajectory of the end of the sticks ($S_{Stick_1}, $6$D$ and $S_{Stick_2}, $6$D$), 
+			the position of the object at the end of the mouvement ($S_{Object}, $2$D$), and whether the object is in a box at the end of the mouvement and the distance between the object and the nearest box ($S_{Boxes}, $2$D$).		
 			The trajectory of the gripper is represented as the $x$ and $y$ positions and the aperture ($1$ or $-1$) of the gripper at $3$ time points: 
 			steps $17$, $33$, $50$ during the movement of $50$ steps ($9$D).
 			Similarly, the trajectories of the end points of the sticks are $3$-points sequences of $x$ and $y$ positions ($6$D for each stick).
@@ -213,7 +212,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			The agent also needs an interest model that chooses goals in the sensory space.
 			To generate those goals, different strategies have been studied \cite{baranes_active_2013}. 
 			It was shown that estimating the learning progress in different regions of the sensory space and generating the goals where the progress is high leads to a fast learning.
-			However, this idea can't be applied in a $25$D sensory space as a learning progress signal can't be properly estimated in this volume.
+			However, this idea cannot be applied in a $25$D sensory space as a learning progress signal cannot be properly estimated in this volume.
 			Thus we use a simpler random generation of goals in the sensory space as an interest model in the flat random goal babbling condition (F-RGB).
 			We use the Explauto autonomous exploration library \cite{moulin-frier_explauto:_2014} to easily define those sensorimotor and interest models.\\
 			
@@ -237,15 +236,19 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			Those architecture learn $6$ models at the same time (see Fig. \ref{Architectures}: gray squares are models). 
 			Each of those models functions in the same way as the random goal babbling flat architecture (F-RGB). 
 			Each model has a motor space (e.g. motor space of model $2$ is $S_{Hand}$), a sensory space (respectively $S_{Stick_1}$, see arrows in Fig. \ref{Architectures}, and can choose goals randomly in this sensory space.
-			At each iteration, the architecture first have to choose the model that will choose a goal, a procedure that we call Model Babbling.
+			At each iteration, the architecture first have to choose the model in which to choose a goal, a procedure that we call Model Babbling.
 			Once a model is chosen, it finds a goal in its sensory space, and infer motor parameters (that can be in a sensory space) to reach that goal.
 			Then, it passes those parameters as a goal to be reached by the lower-level model, 
 			which similarly infers motor parameters and passes those ones until the actual $Arm$ motor space gets parameters to try in the environment (with the same exploration noise as in Flat architectures).
 			Model $4$ have also to choose which lower-level model to use in order to reach an object end position $s_o$ in $S_{Object}$, as two models ($3$ and $6$) have $S_{Object}$ as sensory space. 
 			Model $4$ chooses the tool that have allowed to reached $s_o$ as close as possible in the past.
-			Finally, when motor parameters $m$ have been tested in the environment and feedback $s$ received, the mappings of all models are updated, but if model $4$ chose one tool then the mapping of the other tool is not.
+			Finally, when motor parameters $m$ have been tested in the environment and feedback $s$ received, the mappings of all models are updated, but if model $4$ chose one tool then the mapping of the other tool is not.\\
 			
-			A first condition is to randomly choose the model that will find a goal, this is Random Model Babbling (H-RGB-RMB).
+		%
+		
+		\subsubsection{Random vs Active Model Babbling}
+		
+			A first condition is to randomly choose the model that will find a goal, this is Random Model Babbling (H-RMB).
 			The problem of Model Babbling is an instance of strategic learning \cite{nguyen2012}, 
 			where different outcomes and strategies to learn them are available and the agent learns which strategies are useful for which outcomes.
 			In that paper, they show that an active choice of the outcomes and strategies based on the learning progress on each of them increase learning efficiency compared to random choice.
@@ -266,9 +269,9 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			\begin{equation}
 				I_{model}=\frac{n-1}{n}~I_{model} + \frac{1}{n}~I(s_g)
 			\end{equation}
-			In condition H-RGB-P-AMB, the choice of model is proportional to their interest (probabilities are proportional to interest but with $\epsilon=10\%$ of random choice). 
-			In condition H-RGB-GR-AMB, the choice of model is greedy (model with maximum interest) but also with $\epsilon=10\%$ of random choice.
-			Finally, condition H-RGB-P-AMB-PGITC is the same as H-RGB-P-AMB but the choice of the tool to use (model $3$ or $6$) is with probabilities proportional to the interest of the two models, 
+			In condition H-P-AMB, the choice of model is proportional to their interest (probabilities are proportional to interest but with $\epsilon=10\%$ of random choice). 
+			In condition H-GR-AMB, the choice of model is greedy (model with maximum interest) but also with $\epsilon=10\%$ of random choice.
+			Finally, condition H-P-AMB-ATC is the same as H-P-AMB but the choice of the tool to use (model $3$ or $6$) is with probabilities proportional to the interest of the two models, 
 			instead of being based on the more competent tool for the given object goal position.
 
 		%
@@ -286,7 +289,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	We also give a measure of the total exploration of the different spaces during simulations.
 	Finally, we compare the structure of tool choice made to reach object goal position during exploration in the two conditions for which only this choice differs.
 		
-	Fig. \ref{res_interests} shows details about one trial of the condition H-RGB-P-AMB. 
+	Fig. \ref{res_interests} shows details about one trial of the condition H-P-AMB. 
 	We can see the interest of each model during the whole experiment.
 	The interests of models 2 and 5 increase abruptly once the arm succeeded in grabbing the corresponding stick.
 	Following that, the interests of models 3 and 6 also increase abruptly when the object has been touched by the corresponding stick.
@@ -296,7 +299,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		\centering
 		\subfloat[]{\includegraphics[width=7cm]{./include/H-RGB-P-AMB-log9-interests-100000.pdf}}
 		\subfloat[]{\includegraphics[width=7cm]{./include/H-RGB-P-AMB-log9-obj-explo.pdf}}
-		\caption{Condition H-RGB-P-AMB. (a) Interests of each model. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
+		\caption{Condition H-P-AMB. (a) Interests of each model. (b) Exploration of the object space: each dot is one point reached with the object at the end of one movement.}
 		\label{res_interests}
 	\end{figure*}
 
@@ -306,22 +309,42 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus not moved the out-of-reached object.
 	The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
 	The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
-	Fig. \ref{res_ow} shows the prototypical evolution of the proportion of the three categories of behavior along the $100000$ iterations for conditions H-RGB-GR-AMB and H-RGB-P-AMB.
+	Fig. \ref{res_ow} shows the prototypical evolution of the proportion of the three categories of behavior along the $100000$ iterations for conditions H-GR-AMB and H-P-AMB.
     We performed a more detailed analysis by counting the trials where the evolution of the three types of behaviors were similar to the one of Fig. \ref{res_ow}(b).
     A structure was considered similar if it validated each of the following criteria:
     behaviors of categories $stick$ and $object$ increase quikly from $0$ to more than $10\%$ (potentially after an initial phase with a steady low value), 
     and are followed by a plateau (steady curve with small slope) with no abrupt changes, and behaviors of category $object$ start to raise at least $1000$ iterations after $stick$ started to raise.
-    We counted no structures of that type in Flat conditions, $7$ for H-RGB-GR-AMB, $60$ for H-RGB-RMB, $70$ for H-RGB-P-AMB and $79$ for H-RGB-P-AMB-PGITC.
-    Also, the median number of abrupt changes (steady change of more than $10\%$) in conditions F-RmB, F-RGB, H-RGB-RMB, H-RGB-P-AMB, H-RGB-GR-AMB and H-RGB-P-AMB-PGITC was respectively $0$, $1$, $2$, $2$, $6$, $1$, 
-    with a significant difference between condition H-RGB-GR-AMB and the others (Mann-Whitney U tests, $p<0.0001$).
+    We counted no structures of that type in Flat conditions, $7$ for H-GR-AMB, $60$ for H-RMB, $70$ for H-P-AMB and $79$ for H-P-AMB-ATC.
+    Also, the median number of abrupt changes (steady change of more than $10\%$) in conditions F-RmB, F-RGB, H-RMB, H-P-AMB, H-GR-AMB and H-P-AMB-ATC was respectively $0$, $1$, $2$, $2$, $6$, $1$, 
+    with a significant difference between condition H-GR-AMB and the others (Mann-Whitney U tests, $p<0.0001$).
 
+	\begin{table}[!ht]
+		\small
+		\begin{center} 
+		\caption{Behavioral analysis} 
+		\label{sample-table} 
+		\vskip 0.12in
+		\begin{tabular}{| c | c | c |} 
+			\hline
+			Condition  &  \begin{tabular}{@{}c@{}}Number of Trials \\ validating criteria\end{tabular}   & \begin{tabular}{@{}c@{}}Median number of  \\ Abrupt changes \end{tabular}\\
+			\hline
+			F-RmB        &    0 &  0\\
+			F-RGB        &    0 &  1\\
+			H-RMB        &   60 &  2\\
+			H-P-AMB      &   70 &  2\\
+			H-GR-AMB     &    7 &  6\\
+			H-P-AMB-ATC  &   79 &  1\\
+			\hline
+		\end{tabular} 
+		\end{center} 
+	\end{table}
 
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=4.4cm]{./include/H-RGB-GR-AMB-log15-events-100000.pdf}
 		\hspace{-0.4cm}
 		\includegraphics[width=4.4cm]{./include/H-RGB-P-AMB-log8-events-100000.pdf}
-		\caption{Behavioral measure. Left: H-RGB-GR-AMB, Right: H-RGB-P-AMB.}
+		\caption{Behavioral measure. Left: H-GR-AMB, Right: H-P-AMB.}
 		\label{res_ow}
 	\end{figure}
 	
@@ -339,10 +362,10 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	Fig. \ref{res_explo} shows the total exploration of the different sensory spaces for each condition.
 	We provide statistical Mann-Whitney U test results of comparisons of the exploration in different pairs of conditions.
 	Firstly, the Motor Babbling condition (F-RmB) have more explored $S_{Hand}$ and less $S_{Object}$ and $S_{Boxes}$ compared to the other conditions ($p<0.0001$).
-	Then, F-RGB explores all spaces less than H-RGB-RMB condition ($p<0.01$).
-	H-RGB-RMB explores more $S_{Hand}$ ($p<0.001$) and less $S_{Object}$ ($p<0.05$) than H-RGB-P-AMB.
-	Also, H-RGB-GR-AMB shows lower exploration all spaces than H-RGB-P-AMB ($p<0.01$).
-	Condition H-RGB-P-AMB-PGITC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-RGB-P-AMB, and difference is not significant in other spaces.
+	Then, F-RGB explores all spaces less than H-RMB condition ($p<0.01$).
+	H-RMB explores more $S_{Hand}$ ($p<0.001$) and less $S_{Object}$ ($p<0.05$) than H-P-AMB.
+	Also, H-GR-AMB shows lower exploration all spaces than H-P-AMB ($p<0.01$).
+	Condition H-P-AMB-ATC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-P-AMB, and difference is not significant in other spaces.
 	
 	\begin{figure*}[ht]
 		\centering
@@ -357,20 +380,20 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 		\label{res_explo}
 	\end{figure*}
 
-	Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H-RGB-P-AMB and H-RGB-P-AMB-PGITC.
+	Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H-P-AMB and H-P-AMB-ATC.
 	In those conditions, model $4$ learns a mapping between $S_{Object}$ and $S_{Boxes}$. 
 	When this model is babbling, it chooses a random goal $s_b \in S_{Boxes}$ and infers the best object position $s_o$ to reach $s_b$.
 	To reach $s_o$, one of the tools ($Stick_1$ with model $3$ or $Stick_2$ with model $6$) is chosen. 
 	We plot all those choices, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, in one figure for each of the two conditions.
 	We can see two very different choice structures.
-	However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H-RGB-P-AMB-PGITC than in competence-based choice of condition H-RGB-P-AMB.
+	However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H-P-AMB-ATC than in competence-based choice of condition H-P-AMB.
 	
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=4.5cm]{./include/H-RGB-P-AMB-log9-choice_mod4.png}
 		\hspace{-0.6cm}
 		\includegraphics[width=4.5cm]{./include/H-RGB-P-AMB-PGITC-log3-choice_mod4.png}
-		\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice. Left: H-RGB-P-AMB, Right: H-RGB-P-AMB-PGITC.}
+		\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice. Left: H-P-AMB, Right: H-P-AMB-ATC.}
 		\label{res_choice}
 	\end{figure}
 	
@@ -383,7 +406,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 		Results show different structures of behavior evolution in the different conditions.
 		F-RGB shows 
-		H-RGB-GR-AMB shows successive behavioral steps with abrupt changes.
+		H-GR-AMB shows successive behavioral steps with abrupt changes.
 		Random model babbling and active model babbling both show overlapping waves structure in the evolution of the three behaviors, 
 		but random model babbling explores slightly less the object position.
 		In this setup, the difference is more on the cognitive or intentional level, as active model babbling monitors the progress on each model whereas random model babbling do not, than on a quantitative level, 
@@ -395,16 +418,10 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	\subsection{Variability of strategies to reach goals}
 	
-		Different structure of tool choice: overlapping waves of strategies to fulfill given goals in condition H-RGB-P-AMB-PGITC.
+		Different structure of tool choice: overlapping waves of strategies to fulfill given goals in condition H-P-AMB-ATC.
 	
 	%
 	
-%
-
-
-
-\section{Acknowledgments}
-
 %
 
 
