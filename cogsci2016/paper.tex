@@ -252,9 +252,17 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 			To develop active learning strategies, we first define a measure of learning progress for each of the $6$ models.
 			When a model has been chosen to babble, it draws a random goal $s_g$, and finds motor parameters $m$ to reach it using the lower-level models.
 			The actual outcome $s$ in the sensory space of the model, associated to $m$ might be very different from $s_g$ as this goal might be unreachable, or because lower-level models are not mature enough for that goal.
-			We define the competence associated to a goal $s_g$ as $C(s_g)=-||s_g-s||$, and the interest $I(s_g)$ associated to this goal
-			as the absolute difference between $C(s_g)$ and the mean competence of the ($k=20$) nearest previous goals.
-			The interest of a model is initialized at $0$ and updated to follow the interest of the goals:
+			We define the competence associated to a goal $s_g$ as minus the distance between the goal and the reached point, divided by the maximal distance in this space, to scale this measure across different spaces:
+			
+			\begin{equation}
+				C(s_g)=-\frac{||s_g-s||}{max_{s'}||s'-s||}
+			\end{equation}
+			 and the interest $I(s_g)$ associated to this goal as 
+			\begin{equation}
+				I(s_g) = |C(s_g) - mean_{kNN}C(s)|
+			\end{equation}
+			the absolute difference between $C(s_g)$ and the mean competence of the ($k=20$) nearest previous goals.
+			The interest of a model is initialized at $0$ and updated to follow the interest of the goals (with rate $n=200$):
 			\begin{equation}
 				I_{model}=\frac{n-1}{n}~I_{model} + \frac{1}{n}~I(s_g)
 			\end{equation}
@@ -371,11 +379,12 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 
 \section{Discussion}
 
-	\subsection{F-RGB vs H-RGB-P-AMB vs H-RGB-GR-AMB}
+	\subsection{Structure of the evolution of behavior}
 	
-		Results show different structures of behavior evolution in those 3 conditions.
-		
-		Results show that random model babbling and active model babbling both show overlapping waves structure in the evolution of the three behaviors, 
+		Results show different structures of behavior evolution in the different conditions.
+		F-RGB shows 
+		H-RGB-GR-AMB shows successive behavioral steps with abrupt changes.
+		Random model babbling and active model babbling both show overlapping waves structure in the evolution of the three behaviors, 
 		but random model babbling explores slightly less the object position.
 		In this setup, the difference is more on the cognitive or intentional level, as active model babbling monitors the progress on each model whereas random model babbling do not, than on a quantitative level, 
 		because here all models are still useful to explore.
@@ -384,7 +393,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves;
 	
 	%
 	
-	\subsection{H-RGB-P-AMB vs H-RGB-P-AMB-PGITC}
+	\subsection{Variability of strategies to reach goals}
 	
 		Different structure of tool choice: overlapping waves of strategies to fulfill given goals in condition H-RGB-P-AMB-PGITC.
 	
