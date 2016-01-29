@@ -1,0 +1,23 @@
+
+\begin{tikzpicture}[node distance=1.2cm,>=stealth',bend angle=45,auto]
+
+	\tikzstyle{dom}   = [ellipse, thick, draw=black!75, fill=blue!20,  minimum height=4mm, minimum width=4mm]
+	\tikzstyle{prim dom}   = [dom,  minimum height=5mm, minimum width=5mm,  fill=green!20]
+	\tikzstyle{mod} = [rectangle, thick, draw=black!75, fill=black!20, minimum size=3mm]
+
+	\begin{scope}[local bounding box=bb]
+		\scriptsize
+		\node [prim dom, label=below:$12$D] (pd1) {$Arm$};
+
+		\node [mod] (m1) [right of=pd1] {}
+		edge [pre]                  (pd1);
+
+		\node [dom] (d1) [right of=m1, xshift=2.6cm, label=below:$25$D] {$S_{Hand} \times S_{Stick_1} \times S_{Stick_2} \times S_{Object} \times S_{Boxes}$}
+		edge [pre]                (m1);
+		
+		
+	\end{scope}
+	\begin{pgfonlayer}{background}
+                \node  [fill=black!10,join=round,fit=(bb)] {};
+	\end{pgfonlayer}
+\end{tikzpicture}
