@@ -45,10 +45,16 @@
 
 
 \begin{abstract}
-This is the abstract.
+This is the abstract.\\
+This is the abstract.\\
+This is the abstract.\\
+This is the abstract.\\
+This is the abstract.\\
+This is the abstract.\\
+This is the abstract.\\
 
 \textbf{Keywords:} 
-curiosity-driven learning; tool use; goal babbling; overlapping waves; developmental trajectory; hierarchical skill learning; HiCu model
+curiosity-driven learning; tool use; goal babbling; overlapping waves; developmental trajectory; hierarchical skill learning; HACOB model
 \end{abstract}
 
 
@@ -73,52 +79,48 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	We hypothesize that several mechanisms play a role in the structure of this behavioural progression and in particular 
 	1) the intrinsic motivation to explore as a self-regulation of the learning growth of complexity, and 
 	2) the structure of the representation used to encode sensorimotor experience.	
-	Indeed, curiosity-driven learning models with an intrinsic motivation towards situations yielding a high learning progress 
-	have shown that developmental trajectories could emerge from the active learning of sensorimotor mappings, in very different settings.
+	Active learning is a paradigm where the learning agent chooses which actions to perform in its environment.
+	To make this choice the agent can optimize some extrinsic rewards given by the environment, as in standard Reinfocement Learning tasks.
+	These extrinsic rewards are not suited for an open-ended autonomous exploration of the environment that could reflect children learning by free play.
+	Based on infant's developmental psychology, different types of intrinsic motivations have been studied \cite{santucci2013}.
+	One way to define an intrinsic motivation is to autonomously search for situations where the learning progress is high, so as to avoid unreachable or unlearnable situations.
+	Computational models have shown that developmental trajectories could emerge from the curiosity-driven learning of sensorimotor mappings, in very different settings.
 	In the Playground Experiment \cite{oudeyer_what_2007}, a quadruped robot learned how to use its motor primitives to interact with the items of an infant play mat and a robot peer.
 	Also, in a study of the self-organization of vocalizations \cite{moulin-frier_self-organization_2014}, an agent had to learn how to
 	use a vocal synthesizer by self-exploration or with the help of humans' demonstrations of phonetic items. 
-	Their model reproduces accurately major phases of infant vocal development until $6$ month old.
+	This model reproduces accurately major phases of infant vocal development until $6$ months.
 	In both studies, developmental trajectories of increasing complexity are emerging from learning, with both regularities in developmental steps and diversity.
 	The diversity comes from different mechanisms: stochasticity in the algorithms, variability in the environment, and the multiples attractors of the dynamic learning system.
-	In existing models, the agent learns only one mapping that relates a motor space to a sensory or task space. 
+	In existing models, the agent learns only one mapping that relates a motor space to a single task space. 
 	However, in the perspective of an open-ended development of reusable skills, and specifically in the development of tool use, multiple interdependent and hierarchically organized task spaces should be available to the agent
-	as for instance complex actions with tools could make use of previously learned parameterized interaction with the tool.
+	as for instance using a tool to act upon an object could make use of previously explored parameterized interaction with the tool.
 	
-	We study aspects of those hypothesis leveraging previous models of curiosity-driven learning and extending them to the active exploration of sensorimotor and task spaces.
+	We study aspects of those hypothesis leveraging previous models of curiosity-driven learning and extending them to the active exploration of hierarchical sensorimotor and task spaces.
 	We define hierarchies of sensorimotor models that structure the sensory space to reflect the interaction of the different items of the environment.
 	In such hierarchies of models to explore, different exploration choices are available to the agent at each learning iteration: which model to explore, and how to explore that model.
 	The problem of finding an efficient active choice strategy is an instance of strategic learning \cite{nguyen2012}, 
 	where different outcomes and strategies are available and the agent has to learn which strategies are useful for which outcomes. 
-	We define and compare several strategies to study the role of active learning and hierarchical representation in the structuration of developmental trajectories.
-	We compare the different learning conditions in a $2$D environment where a simulated arm with three joints plus a gripper can grab tools to move an out-of-reach object.
-	We measure the different phases of behaviour during exploration and compare the structure of the behavioural waves. [more results here?]
+	This can be viewed as a generalization of active learning methods in machine learning.
+	We define the HACOB (Hierarchical Active Curiosity-driven mOdel Babbling) architecture and compare several possible strategies 
+	to study the role of active learning and hierarchical representation in the structuration of developmental trajectories.
+	We compare the different learning conditions in a $2$D environment where a simulated arm with three joints plus a gripper can grab one of two available tools to move an out-of-reach object.
+	We measure the different phases of behaviour during exploration and compare the different structures of behavioural evolution.
 	
-	Robotics related work.
-	\cite{ugur2015}
-	To our knowledge, this model is the first to show overlapping waves structure in the development of tool use [can we say it is the first model of curiosity-driven development of tool use ?].
+	To our knowledge, HACOB is the first model of the curiosity-driven development of tool use, 
+	and the first to show the autonomous emergence of overlapping phases of behaviour in the development of object manipulation skills.
+	Here we define  tool use as the ability to perform different effects on an object with the help of an intermediate object, using some sort of learned inverse mapping.
+	Our model is also the first to allow the intrinsically-motivated parallel exploration of different tools to reach a same goal, in line with Siegler's overlapping waves theory.
+	Other models predefine successive learning phases in the learning of object affordances \cite{ugur2015}, or do not study the role of intrinsic motivation in the learning of tool affordances \cite{stoytchev2005behavior}.
 	
 	However, here we do not study some other important factors in the development of tool use.
-	We consider the hierarchy of models given to the agent and do not study its autonomous building and evolution during developmental stages.
+	We consider the hierarchy of sensorimotor models to learn as given to the agent and do not study its autonomous building and evolution during developmental stages.
 	Also, social guidance with imitation and mimicry is of central importance for the development of tool use in infants but we do not address the question
 	of its modeling in this paper nor the interplay and tradeoff between social learning and self-exploration.
 	Another important feature of young infants' learning of tool use is the need to adapt to a developing body and to the maturation of vision during ontogenetic development, 
 	but here we consider motor control and sensory perception steady over the simulated learning time span.
-	
-	Footnote
-	\cite{forestier2015}
-	\cite{unifying}
 
 	Along with this paper we provide open-source Python code\footnote{Source code and notebooks available as a Github repository at \url{https://github.com/sebastien-forestier/CogSci2016}} 
 	with iPython/Jupyter notebooks that explain how to reproduce the experiments and analysis. 
-	
-	%Representations in explauto and other models 
-	%\cite{mugan2009}
-	%\cite{metzen2013}
-	%%\cite{horde}
-	%%\cite{mugan}
-	%\cite{vig}
-	%\cite{sutton1999between}
 	
 %
 
@@ -204,7 +206,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	\subsection{Learning architectures}
 
 		The problem settings for the learning agent is to explore its sensorimotor space by iteratively choosing motor parameters that represents arm trajectories and receiving sensory feedback.
-		In this section we describe the different learning architectures that we will compare in the experiment.
+		In this section we describe the different learning architectures that we will compare in the experiment.\\
 		
 		\subsubsection{Flat architectures}
 			
@@ -240,6 +242,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			The $25$D sensory space can be structured to reflect the interaction of the different items of the environment.
 			Indeed, the arm motor position influence the gripper, which influence one of the tools (but not both at the same time), which influence the position of the object and the filling of the boxes.
 			We thus study here learning architectures that could make use of this sensorimotor structure, and we call them hierarchical.
+			%\footnote{Other work have used a simple hierarchy of two sensorimotor models for object manipulation: \cite{forestier2015} and \cite{unifying}.}
 			Those architecture learn $6$ models at the same time (see Fig. \ref{Architectures}: gray squares are models). 
 			Each of those models functions in the same way as the random goal babbling flat architecture (F-RGB). 
 			Each model has a motor space (e.g. motor space of model $2$ is $S_{Hand}$), a sensory space (respectively $S_{Stick_1}$, see arrows in Fig. \ref{Architectures}, and can choose goals randomly in this sensory space.
