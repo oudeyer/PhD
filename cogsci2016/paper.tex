@@ -54,15 +54,21 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 \section{Introduction}
 
-	The ontogenetic development of tool use shows different properties \cite{guerin2013survey}, \cite{fenson1976developmental}: 
-	representations are grounded on a large amount of experiences and follow an ongoing process of upgrading [cite others?].
-	In this paper we focus on one important property in the development of precursors of tool use which is the seamless progression 
-	between overlapping phases of behavior with tools and objects, which have been called overlapping waves \cite{siegler1996emerging}. 
-	The behavioral study of these phases differentiate three categories of behaviors \cite{guerin2013survey}.
-	In the first phase, from birth to one year old, babies engage in behaviors without objects, in the second phase, from 4-5 months old, their behavior shifts towards more interaction with a single object, and from 9 months old, begins a simple relational play with several objects.
-	[more details?]
 	
-	We hypothesize that several mechanisms play a role in the structure of this behavioral progression and in particular 
+	The understanding of tool use development in young children is one of the key question for the more general understanding of the ontogeny of human cognition.
+	Indeed, a series of abilities are progressively developed from the simplest reaching movements of the arms through more dexterous manipulation of a spoon, towards advanced control of multiple interacting objects.
+	The latter shows an understanding of shapes, forces and other physical properties that can be recruited for mental transformations and planning operations which are pillars of human cognition.
+	Children's development has first been described as staircase-like successive stages in which all children go through \cite{piaget1952origins}.
+	More recently, a different view was developed \cite{siegler1996emerging} describing variability among children's developmental paths and in a child's set of current methods to solve a same task (called overlapping waves). 
+	This applies in particular to the development of tool use precursors, which can be described as three consecutive and overlapping stages of behaviours \cite{guerin2013survey}: 
+	behaviours without objects, behaviours with a single object, and behaviours with several interacting objects.
+	A study of free manipulative play \cite{fenson1976developmental} shows that play at $7$ months was mostly composed of tactile and visual examination and mouthing of one object, 
+	but simple relational acts of banging two objects together was already common.
+	Later at $13\frac{1}{2}$ months, another study reveals that most children instead prefer to explore the relationships
+	among objects \cite{Zelazo198095}.
+	
+	In this paper we focus on the study of this seamless progression between overlapping phases of behaviour with objects.	
+	We hypothesize that several mechanisms play a role in the structure of this behavioural progression and in particular 
 	1) the intrinsic motivation to explore as a self-regulation of the learning growth of complexity, and 
 	2) the structure of the representation used to encode sensorimotor experience.	
 	Indeed, curiosity-driven learning models with an intrinsic motivation towards situations yielding a high learning progress 
@@ -77,15 +83,17 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	However, in the perspective of an open-ended development of reusable skills, and specifically in the development of tool use, multiple interdependent and hierarchically organized task spaces should be available to the agent
 	as for instance complex actions with tools could make use of previously learned parameterized interaction with the tool.
 	
-	In this paper we study aspects of those hypothesis leveraging previous models of curiosity-driven learning and extending them to the active exploration of sensorimotor and task spaces.
+	We study aspects of those hypothesis leveraging previous models of curiosity-driven learning and extending them to the active exploration of sensorimotor and task spaces.
 	We define hierarchies of sensorimotor models that structure the sensory space to reflect the interaction of the different items of the environment.
 	In such hierarchies of models to explore, different exploration choices are available to the agent at each learning iteration: which model to explore, and how to explore that model.
 	The problem of finding an efficient active choice strategy is an instance of strategic learning \cite{nguyen2012}, 
 	where different outcomes and strategies are available and the agent has to learn which strategies are useful for which outcomes. 
 	We define and compare several strategies to study the role of active learning and hierarchical representation in the structuration of developmental trajectories.
 	We compare the different learning conditions in a $2$D environment where a simulated arm with three joints plus a gripper can grab tools to move an out-of-reach object.
-	We measure the different phases of behavior during exploration and compare the structure of the behavioral waves. [more results here?]
+	We measure the different phases of behaviour during exploration and compare the structure of the behavioural waves. [more results here?]
 	
+	Robotics related work.
+	\cite{ugur2015}
 	To our knowledge, this model is the first to show overlapping waves structure in the development of tool use [can we say it is the first model of curiosity-driven development of tool use ?].
 	
 	However, here we do not study some other important factors in the development of tool use.
@@ -95,10 +103,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	Another important feature of young infants' learning of tool use is the need to adapt to a developing body and to the maturation of vision during ontogenetic development, 
 	but here we consider motor control and sensory perception steady over the simulated learning time span.
 	
-	
-	Other related work.
-	\cite{ugur2015}
-	\cite{schmerlinggoal}
+	Footnote
 	\cite{forestier2015}
 	\cite{unifying}
 
@@ -285,7 +290,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	Each simulation starts with $100$ iterations of motor babbling and then runs for $100000$ iterations of the condition.
 	In this section we provide results for different types of measures. 
 	First we show an exemple of a run of a hierarchical condition to illustrate a possible evolution of the interest of each model, and the result in the exploration of the object space.
-	Then, we define a behavioral measure to categorize the different types of behaviors with objects and study the structure of their evolution.
+	Then, we define a behavioural measure to categorize the different types of behaviours with objects and study the structure of their evolution.
 	We also give a measure of the total exploration of the different spaces during simulations.
 	Finally, we compare the structure of tool choice made to reach object goal position during exploration in the two conditions for which only this choice differs.
 		
@@ -305,26 +310,26 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 
 	
-	\subsection{Structure of the evolution of behaviors}
+	\subsection{Structure of the evolution of behaviours}
 	
-		We provide a measure of the different types of behaviors with the sticks and the object during exploration. 
-		We categorize the behaviors into three types.
+		We provide a measure of the different types of behaviours with the sticks and the object during exploration. 
+		We categorize the behaviours into three types.
 		In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus did not move the out-of-reached object.
 		The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
 		The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
-		Fig. \ref{res_ow} shows the prototypical evolution of the proportion of the three categories of behavior along the $100000$ iterations for conditions H-GR-AMB and H-P-AMB.
-		We performed a more detailed analysis by counting the trials where the evolution of the three types of behaviors were similar to the one of Fig. \ref{res_ow}(b).
+		Fig. \ref{res_ow} shows the prototypical evolution of the proportion of the three categories of behaviour along the $100000$ iterations for conditions H-GR-AMB and H-P-AMB.
+		We performed a more detailed analysis by counting the trials where the evolution of the three types of behaviours were similar to the one of Fig. \ref{res_ow}(b).
 		A structure was considered similar if it validated each of the following criteria:
-		behaviors of categories $stick$ and $object$ increase quikly from $0$ to more than $10\%$ (potentially after an initial phase with a steady low value), 
-		and are followed by a plateau (steady curve with small slope) with no abrupt changes, and behaviors of category $object$ start to raise at least $1000$ iterations after $stick$ started to raise.
+		behaviours of categories $stick$ and $object$ increase quikly from $0$ to more than $10\%$ (potentially after an initial phase with a steady low value), 
+		and are followed by a plateau (steady curve with small slope) with no abrupt changes, and behaviours of category $object$ start to raise at least $1000$ iterations after $stick$ started to raise.
 		See Table \ref{table} for the results of this analysis per condition.
-		Also, the median number of abrupt changes across trials for each condition are reported in the same table (as the sum of steady changes of more than $10\%$ in the three behaviors).
+		Also, the median number of abrupt changes across trials for each condition are reported in the same table (as the sum of steady changes of more than $10\%$ in the three behaviours).
 		with a significant difference between condition H-GR-AMB and the others (Mann-Whitney U tests, $p<0.0001$).
 
 		\begin{table}[!ht]
 			\small
 			\begin{center} 
-			\caption{Behavioral analysis} 
+			\caption{behavioural analysis} 
 			\label{table} 
 			\vskip 0.12in
 			\begin{tabular}{| c | c | c |} 
@@ -347,7 +352,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			\includegraphics[width=4.4cm]{./include/H-RGB-GR-AMB-log15-events-100000.pdf}
 			\hspace{-0.4cm}
 			\includegraphics[width=4.4cm]{./include/H-RGB-P-AMB-log8-events-100000.pdf}
-			\caption{Behavioral measure. Left: H-GR-AMB, Right: H-P-AMB.}
+			\caption{behavioural measure. Left: H-GR-AMB, Right: H-P-AMB.}
 			\label{res_ow}
 		\end{figure}
 		
@@ -409,16 +414,16 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 \section{Discussion}
 
-	\subsection{Structure of the evolution of behaviors}
+	\subsection{Structure of the evolution of behaviours}
 	
-		Results show different structures of behavior evolution in the different conditions.
-		H-GR-AMB shows successive behavioral steps with abrupt changes.
-		Random model babbling and active model babbling both show overlapping waves structure in the evolution of the three behaviors, 
+		Results show different structures of behaviour evolution in the different conditions.
+		H-GR-AMB shows successive behavioural steps with abrupt changes.
+		Random model babbling and active model babbling both show overlapping waves structure in the evolution of the three behaviours, 
 		but random model babbling explores slightly less the object position.
 		In this setup, the difference is more on the cognitive or intentional level, as active model babbling monitors the progress on each model whereas random model babbling do not, than on a quantitative level, 
 		because here all models are still useful to explore.
 		However, in others setups where some tasks are learned much faster than others and where at some point it become useless to explore a mastered task, then active model babbling would
-		make a key difference on a quantitative exploration point of view, and on the structure of the evolution of the measured behaviors.
+		make a key difference on a quantitative exploration point of view, and on the structure of the evolution of the measured behaviours.
 	
 	%
 	
