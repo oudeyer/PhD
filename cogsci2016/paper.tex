@@ -205,24 +205,26 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	
 	\subsection{Learning architectures}
 
-		The problem settings for the learning agent is to explore its sensorimotor space by iteratively choosing motor parameters that represents arm trajectories and receiving sensory feedback.
-		In this section we describe the different learning architectures that we will compare in the experiment.\\
+		The problem settings for the learning agent is to explore its sensorimotor space and collect data so as to generate diversity in the produced effects and to learn an inverse model to 
+		be able to reproduce those effects.
+		In this section we describe the different learning architectures that we will compare in the experiments.\\
 		
 		\subsubsection{Flat architectures}
 			
 			We define a flat architecture as directly learning a mapping between the motor space $M$ ($12$D) and the sensory space $S$ ($25$D).
-			The control condition is a random motor babbling condition (F-RmB) that randomly chooses new motor parameters $m$ to try at each iteration.
-			In the other conditions, the agent performs Goal Babbling, by self-generating a goal in the sensory space at each iteration and trying to reach it.
 			To do so, the agent needs a sensorimotor model that learns the mapping and provides inverse inference of a probable $m$ to reach a given $s$.
 			The sensorimotor model stores new information of the form ($m, s$) with $m \in M$ being the experimented motor parameters and $s \in S$ the associated sensory feedback. 
 			It computes the inverse inference with the nearest neighbor algorithm: 
 			it gets the motor part of the nearest neighbor of the given $s$ in $S$, and adds exploration noise (gaussian with $\sigma=0.01$) to allow new motor parameters to be explored.
 			
 			The agent also needs an interest model that chooses goals in the sensory space.
+			The control condition is a random motor babbling condition (F-RmB) that randomly chooses new motor parameters $m$ to try at each iteration.
+			In the other conditions, the agent performs Goal Babbling, a method by which it self-generates a goal in the sensory space at each iteration and trying to reach it.
 			To generate those goals, different strategies have been studied \cite{baranes_active_2013}. 
 			It was shown that estimating the learning progress in different regions of the sensory space and generating the goals where the progress is high leads to a fast learning.
 			However, this idea cannot be applied in a $25$D sensory space as a learning progress signal cannot be properly estimated in this volume.
-			Thus we use a simpler random generation of goals in the sensory space as an interest model in the flat random goal babbling condition (F-RGB).
+			Thus we use a simpler random generation of goals in the sensory space as an interest model in the flat random goal babbling condition (F-RGB), 
+			which was nevertheless proven to be highly efficient in complex sensorimotor spaces \cite{rolf}.
 			We use the Explauto autonomous exploration library \cite{moulin-frier_explauto:_2014} to easily define those sensorimotor and interest models.\\
 			
 			\begin{figure}[t]
@@ -247,12 +249,13 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			Each of those models functions in the same way as the random goal babbling flat architecture (F-RGB). 
 			Each model has a motor space (e.g. motor space of model $2$ is $S_{Hand}$), a sensory space (respectively $S_{Stick_1}$, see arrows in Fig. \ref{Architectures}, and can choose goals randomly in this sensory space.
 			At each iteration, the architecture first have to choose the model in which to choose a goal, a procedure that we call Model Babbling.
-			Once a model is chosen, it finds a goal in its sensory space, and infer motor parameters (that can be in a sensory space) to reach that goal.
-			Then, it passes those parameters as a goal to be reached by the lower-level model, 
+			Once a model is chosen, it finds a goal in its sensory space, and infer motor parameters (that can be in the sensory space of a lower-level model) to reach that goal.
+			Then, it passes those parameters as a goal to be reached by a lower-level model, 
 			which similarly infers motor parameters and passes those ones until the actual $Arm$ motor space gets parameters to try in the environment (with the same exploration noise as in Flat architectures).
 			Model $4$ have also to choose which lower-level model to use in order to reach an object end position $s_o$ in $S_{Object}$, as two models ($3$ and $6$) have $S_{Object}$ as sensory space. 
-			Model $4$ chooses the tool that have allowed to reached $s_o$ as close as possible in the past.
-			Finally, when motor parameters $m$ have been tested in the environment and feedback $s$ received, the mappings of all models are updated, but if model $4$ chose one tool then the mapping of the other tool is not.\\
+			Model $4$ chooses the tool that have allowed to reached $s_o$ as close as possible in the past, e.g. if model $3$ has in its history a reached sensory
+			point $s$ closer to $s_o$ than any reached point with model $6$, then model $3$ is chosen.
+			Finally, when motor parameters $m$ have been tested in the environment and feedback $s$ received, the mappings of all models are updated, but if model $4$ have chosen a given tool, then the mapping of the other tool is not.\\
 			
 		%
 		
