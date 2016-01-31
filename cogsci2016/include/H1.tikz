@@ -10,7 +10,7 @@
 		\scriptsize
 		\node [prim dom, label=below:$12$D] (pd1) {$Arm$};
 
-		\node [mod] (m1) [right of=pd1, xshift=-0.1cm] {$1$}
+		\node [mod, label=above:$Model_1$] (m1) [right of=pd1, xshift=-0.1cm] {$1$}
 		edge [pre]                  (pd1);
 
 		\node [dom, label=below:$9$D] (d1) [right of=m1] {$Hand$}
