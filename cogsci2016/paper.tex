@@ -433,22 +433,40 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 	\subsubsection{Structure of the evolution of behaviours}
 	
-		Results show different structures of behaviour evolution in the different conditions.
-		H-GR-AMB shows successive behavioural steps with abrupt changes.
-		Random model babbling and active model babbling both show overlapping waves structure in the evolution of the three behaviours, 
-		but random model babbling explores slightly less the object position.
-		In this setup, the difference is more on the cognitive or intentional level, as active model babbling monitors the progress on each model whereas random model babbling do not, than on a quantitative level, 
-		because here all models are still useful to explore.
-		However, in others setups where some tasks are learned much faster than others and where at some point it become useless to explore a mastered task, then active model babbling would
-		make a key difference on a quantitative exploration point of view, and on the structure of the evolution of the measured behaviours.
+		Results show different structures of behaviour evolution in the different conditions.		
+		Flat architectures do not use the structure of the environment and do not separate the high-dimensional sensorimotor space into learnable subspaces.
+		Therefore, they do not show structure in the behavioural evolution but rather steady proportions of the three behaviours.
+		By contrast, hierarchical condition H-GR-AMB shows successive behavioural steps with abrupt changes, which reflects the greedy choice of model to babble.
+		When one model becomes more interesting than another, it is chosen
+		for a large number of iterations until another model exceeds its interest.
+		However, random model babbling shows overlapping phases structures in the evolution of the three behaviours more compatible with infants' studies ($60\%$), 
+		but less than active model babbling ($70\%$ and $79\%$).
+		This is because random model babbling does not adapt its choice of models to their interests along development.
+		Indeed, it often explores model $1$ even if it is sufficiently explored to make progress on higher-level models, 
+		and so explores less the object position space than active model babbling (H-P-AMB).
+		Also, in this setup, all models are still useful to explore after the number of iterations simulated 
+		here so the first behavioural phases ($hand$ and $stick$) do not lessen towards the end of the simulations in active conditions. 
+		Consequently, the difference between active and random model babbling is more on the cognitive or intentional level, 
+		as active model babbling monitors the current progress of each model whereas random model babbling do not, than on a quantitative level.
+		However, in others setups where some tasks are learned much faster than others and where at some point it become useless to explore a mastered task, active model babbling would
+		make a key difference on a quantitative exploration point of view and on the structure of the evolution of the measured behaviours.
 	
 	%
 	
 	\subsubsection{Variability of strategies to reach goals}
 	
-		Different structure of tool choice: overlapping waves of strategies to fulfill given goals in condition H-P-AMB-ATC.
-	
+		The comparison of conditions H-P-AMB and H-P-AMB-ATC shows that when the agent chooses the tool to reach a given object goal position based on the interest of the corresponding models,
+		both tools are trained to reach all goals instead of training only the best performing tool.
+		Indeed, we can see that with the active choice of tool, the small stick has produced more diverse effects on the object than in the best choice of tool's condition, even if those effects could also have been 
+		generated with the long tool.
+		The active tool choice is in accordance with Siegler's overlapping waves theory that documents the parallell use of non-optimal strategies in infants in different contexts
+		and explains that a non-optimal strategy gains to be refined as it might turn to be finally a good one for this or for different but related problems.
+		
 	%
+	
+	Finally, in our model, H is determinant and A reinforces the emergence of structures.
+	Link with children ?
+	First model to 
 	
 %
 
