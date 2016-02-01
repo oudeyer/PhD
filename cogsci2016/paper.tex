@@ -64,7 +64,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	The understanding of tool use development in young children is one of the key question for the more general understanding of the ontogeny of human cognition.
 	Indeed, a series of abilities are progressively developed from the simplest reaching movements of the arms through more dexterous manipulation of a spoon, towards advanced control of multiple interacting objects.
 	The latter shows an understanding of shapes, forces and other physical properties that can be recruited for mental transformations and planning operations which are pillars of human cognition.
-	Children's development has first been described as staircase-like successive stages in which all children go through \cite{piaget1952origins}.
+	Child development has first been described as staircase-like successive stages in which all children go through \cite{piaget1952origins}.
 	More recently, different views were developed describing variability among children's developmental paths. 
 	Siegler's overlapping waves theory \cite{siegler1996emerging} also describes variability in a child's set of current methods to solve a problem, and documents their evolution. 
 	In particular, the development of tool use precursors can be described as three consecutive and overlapping stages of behaviours \cite{guerin2013survey}: 
@@ -80,7 +80,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	1) the intrinsic motivation to explore as a self-regulation of the learning growth of complexity, and 
 	2) the structure of the representation used to encode sensorimotor experience.	
 	Active learning is a paradigm where the learning agent chooses which actions to perform in its environment.
-	To make this choice the agent can optimize some extrinsic rewards given by the environment, as in standard Reinfocement Learning tasks.
+	To make this choice the agent can optimize some extrinsic rewards given by the environment, as in standard Reinforcement Learning tasks.
 	These extrinsic rewards are not suited for an open-ended autonomous exploration of the environment that could reflect children learning by free play.
 	Based on infant's developmental psychology, different types of intrinsic motivations have been studied \cite{santucci2013}.
 	One way to define an intrinsic motivation is to autonomously search for situations where the learning progress is high, so as to avoid unreachable or unlearnable situations.
@@ -102,7 +102,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	where different outcomes and strategies are available and the agent has to learn which strategies are useful for which outcomes. 
 	This can be viewed as a generalization of active learning methods in machine learning.
 	We define the HACOB (Hierarchical Active Curiosity-driven mOdel Babbling) architecture and compare several possible strategies 
-	to study the role of active learning and hierarchical representation in the structuration of developmental trajectories.
+	to study the role of active learning and hierarchical representation in the structuring of developmental trajectories.
 	We compare the different learning conditions in a $2$D environment where a simulated arm with three joints plus a gripper can grab one of two available tools to move an out-of-reach object.
 	We measure the different phases of behaviour during exploration and compare the different structures of behavioural evolution.
 	
@@ -115,7 +115,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	However, here we do not study some other important factors in the development of tool use.
 	We consider the hierarchy of sensorimotor models to learn as given to the agent and do not study its autonomous building and evolution.
 	Also, social guidance with imitation and mimicry is of central importance for the development of tool use in infants but we do not address the question
-	of its modeling in this paper nor the interplay and tradeoff between social learning and self-exploration.
+	of its modeling in this paper nor the interplay and trade-off between social learning and self-exploration.
 	Another important feature of young infants' learning of tool use is the need to adapt to a developing body and to the maturation of vision during ontogenetic development, 
 	but here we consider motor control and sensory perception steady over the simulated learning time span.
 
@@ -130,9 +130,9 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	
 		We simulate a 2D robotic arm that can grasp tools that can be used to move an object into different boxes in the environment. 		
 		In each trial, the agent executes a motor trajectory and gets the associated sensory feedback. 
-		Finally the arm, tools and objects are resetted to their intial state.
+		Finally the arm, tools and objects are resetted to their initial state.
 		The next sections precisely describe the items of the environment and their interactions.	
-		See Fig.\ref{env} for an exemple state of the environment. 
+		See Fig.\ref{env} for an example state of the environment. 
 		
 		\begin{figure}[h]
 			\centering
@@ -190,7 +190,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		
 			At the end of the movement, the robot gets sensory feedback from the different items of the environment.
 			It gets the trajectory of the gripper ($S_{Hand}$, $9$D), the trajectory of the end of the sticks ($S_{Stick_1}, $6$D$ and $S_{Stick_2}, $6$D$), 
-			the position of the object at the end of the mouvement ($S_{Object}, $2$D$), and whether the object is in a box at the end of the mouvement and the distance between the object and the nearest box ($S_{Boxes}, $2$D$).		
+			the position of the object at the end of the movement ($S_{Object}, $2$D$), and whether the object is in a box at the end of the movement and the distance between the object and the nearest box ($S_{Boxes}, $2$D$).		
 			The trajectory of the gripper is represented as the $x$ and $y$ positions and the aperture ($1$ or $-1$) of the gripper at $3$ time points: 
 			steps $17$, $33$, $50$ during the movement of $50$ steps ($9$D).
 			Similarly, the trajectories of the end points of the sticks are $3$-points sequences of $x$ and $y$ positions ($6$D for each stick).
@@ -307,7 +307,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	We can see the interest of each model during the whole experiment.
 	The interests of models 2 and 5 increase abruptly once the arm succeeded in grabbing the corresponding stick.
 	Following that, the interests of models 3 and 6 increase abruptly once the object has been touched by the corresponding stick.
-	An exemple of exploration of the $2$D space of the object is also provided in Fig. \ref{res_interests}(b) for the same condition.
+	An example of exploration of the $2$D space of the object is also provided in Fig. \ref{res_interests}(b) for the same condition.
 	
 	\begin{figure}[ht]
 		\centering
@@ -328,13 +328,13 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	
 		We provide a measure of the different types of behaviours with the sticks and the object during exploration. 
 		We categorize the behaviours into three types.
-		In the first category ($hand$) are mouvements of the arm that did not grab any stick and thus did not move the out-of-reached object.
-		The second category ($stick$) are mouvements that did grab one of the two sticks but did not touch the object with it.
-		The third category ($object$) contains the mouvements where both a stick was grabbed and the object was moved by the stick.
+		In the first category ($hand$) are movements of the arm that did not grab any stick and thus did not move the out-of-reached object.
+		The second category ($stick$) are movements that did grab one of the two sticks but did not touch the object with it.
+		The third category ($object$) contains the movements where both a stick was grabbed and the object was moved by the stick.
 		Fig. \ref{res_ow} shows the prototypical evolution of the proportion of the three categories of behaviour along the $100000$ iterations for conditions H-GR-AMB and H-P-AMB.
 		We performed a more detailed analysis by counting the trials where the evolution of the three types of behaviours were similar to the one of Fig. \ref{res_ow}(b).
 		A structure was considered similar if it validated each of the following criteria:
-		behaviours of categories $stick$ and $object$ increase quikly from $0$ to more than $10\%$ (potentially after an initial phase with a steady low value), 
+		behaviours of categories $stick$ and $object$ increase quickly from $0$ to more than $10\%$ (potentially after an initial phase with a steady low value), 
 		and are followed by a plateau (steady curve with small slope) with no abrupt changes, and behaviours of category $object$ start to raise at least $1000$ iterations after $stick$ started to raise.
 		See Table \ref{table} for the results of this analysis per condition.
 		Also, the median number of abrupt changes across trials for each condition are reported in the same table (as the sum of steady changes of more than $10\%$ in the three behaviours).
@@ -366,7 +366,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			\includegraphics[width=5.5cm]{./include/F-RGB-log53-events-100000.pdf}
 			\includegraphics[width=5.5cm]{./include/H-RGB-GR-AMB-log13-events-100000.pdf}
 			\includegraphics[width=5.5cm]{./include/H-RGB-P-AMB-log38-events-100000.pdf}
-			\caption{Behavioural phases typical exemples. Left: F-RGB. Middle: H-GR-AMB, Right: H-P-AMB. Only hierarchical active condition H-P-AMB shows overlapping phases of behaviour similar to infant development.}
+			\caption{Behavioural phases typical examples. Left: F-RGB. Middle: H-GR-AMB, Right: H-P-AMB. Only hierarchical active condition H-P-AMB shows overlapping phases of behaviour similar to infant development.}
 			\label{res_ow}
 		\end{figure*}
 		
@@ -434,7 +434,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	\subsubsection{Structure of the Evolution of Behaviours}
 	
 		Results show different structures of behaviour evolution in the different conditions.		
-		Flat architectures do not use the structure of the environment and do not separate the high-dimensional sensorimotor space into learnable subspaces.
+		Flat architectures do not use the structure of the environment and do not separate the high-dimensional sensorimotor space into learnable sub-spaces.
 		Therefore, they do not show structure in the behavioural evolution but rather steady proportions of the three behaviours.
 		By contrast, hierarchical condition H-GR-AMB shows successive behavioural steps with abrupt changes, which reflects the greedy choice of model to babble.
 		When one model becomes more interesting than another, it is chosen
@@ -459,7 +459,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		both tools are trained to reach all goals instead of training only the best performing tool.
 		Indeed, we can see that with the active choice of tool, the small stick has produced more diverse effects on the object than in the best choice of tool's condition, even if those effects could also have been 
 		generated with the long tool.
-		The active tool choice is in accordance with Siegler's overlapping waves theory that documents the parallell use of non-optimal strategies in infants in different contexts
+		The active tool choice is in accordance with Siegler's overlapping waves theory that documents the parallel use of non-optimal strategies in infants in different contexts
 		and explains that a non-optimal strategy gains to be refined as it might turn to be finally a good one for this or for different but related problems.
 		
 	%
