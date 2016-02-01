@@ -89,19 +89,20 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	We hypothesize that several mechanisms play a role in the structure of this behavioural progression and in particular 
 	1) the intrinsic motivation to explore as a self-regulation of the learning growth of complexity, and 
 	2) the structure of the representation used to encode sensorimotor experience.	
-	Active learning is a paradigm where the learning agent chooses which actions to perform in its environment.
-	To make this choice the agent can optimize extrinsic rewards given by the environment, as in standard Reinforcement Learning tasks.
-	These extrinsic rewards are not suited for an open-ended autonomous exploration of the environment that could reflect children learning by free play.
-	Based on infant's developmental psychology, different types of intrinsic motivations have been studied \cite{santucci2013}.
-	One way to define an intrinsic motivation is to autonomously search for situations where the learning progress is high, so as to avoid unreachable or unlearnable situations.
-	Computational models have shown that developmental trajectories could emerge from the curiosity-driven learning of sensorimotor mappings, in very different settings.
-	In the Playground Experiment \cite{oudeyer_what_2007}, a quadruped robot learned how to use its motor primitives to interact with the items of an infant play mat and a robot peer.
-	Also, in a study of the learning of vocalizations \cite{moulin-frier_self-organization_2014}, an agent had to learn how to
-	use a vocal synthesizer by self-exploration or with the help of humans' demonstrations of phonetic items. 
+	
+	Intrinsic motivation, sometimes called "curiosity", have been identified to play a fundamental role in driving spontaneous exploration in infant free play (REF Kidd and Hayden, 2015).
+They have been defined as mechanisms that push infants to explore activities for their own sake, driven by the search of novelty, surprise, dissonances or optimal challenge (Gottlieb et al., 2013).
+In the last decade, various families of computational models of intrinsic motivation were developped, often based on the formal frameworks of active learning and reinforcement learning (Baldassarre and Mirolli, 2013). One family of models, that has targeted to study the developmental dimensions of intrinsic motivation, has considered a curiosity-driven learning mechanism where
+the learner actively engages in sensorimotor activities that provide high learning progress, avoiding situations that are too easy or too difficult and progressively focusing on activities of increasing complexity (Gottlieb et al., 2013). 
+
+	Such computational models have shown that developmental trajectories could emerge from the curiosity-driven learning of sensorimotor mappings, in very different settings.
+	In the Playground Experiment (REF Gottlieb et al., 2013), a quadruped robot motivated to maximize its learning progress acquired how to use its motor primitives to interact with the items of an infant play mat and a robot peer, following a self-organized learning curriculum.
+	In a model of active vocal development \cite{moulin-frier_self-organization_2014}, an agent had to learn how to
+	produce sounds with its vocal tract by self-exploration combined with imitation of adult speech sounds. 
 	This model reproduces accurately major phases of infant vocal development until $6$ months.
-	In both studies, developmental trajectories are emerging from learning, with both regularities in developmental steps and diversity.
-	The diversity comes from different mechanisms: stochasticity in the algorithms, variability in the environment, and the multiples attractors of the dynamic learning system.
-	In existing models, the agent learns only one mapping that relates a motor space to a single task space. 
+	In both studies, developmental trajectories are emerging from learning, with both regularities in developmental steps and diversity. Regularities result from the attractor dynamics of the interaction between motivated learning, the body and the environment.
+	The diversity comes from different mechanisms: stochasticity in the algorithms, variability in the environment, and the multiple attractors of the dynamic learning system.
+	Existing models have considered the exploration and learning of sensorimotor correspondances mapping a motor space to a single task/sensori space. 
 	However, in the perspective of an open-ended development of reusable skills, and specifically in the development of tool use, multiple interdependent and hierarchically organized task spaces should be available to the agent.
 	For instance, using a tool to act upon an object could make use of previously explored parameterized interaction with the tool.
 	
