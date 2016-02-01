@@ -28,8 +28,16 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,backgrounds,petri,fit}
 
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.2}
+\renewcommand{\floatpagefraction}{0.7}
 
 
+%\usepackage{fixltx2e}
 
 \title{Curiosity-Driven Development of Tool Use Precursors: a Robotic Model}
  
@@ -298,6 +306,41 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 \section{Results}
 	
+	\begin{figure}[t]
+		\centering
+		\hspace{-0.7cm}	
+		\vspace{0pt}
+		\includegraphics[width=4.4cm]{./include/H-RGB-P-AMB-log9-interests-100000.png}
+		\hspace{-0.1cm}	
+		%\vspace{-0.2cm}
+		\vspace{0pt}
+		\includegraphics[width=4.26cm]{./include/obj-explo.pdf}
+		\caption{Condition H-P-AMB. Left: Interests of each model. Right: Exploration of the object space: each dot is one point reached with the object at the end of a movement.}
+		\label{res_interests}
+	\end{figure}
+	
+	\begin{figure*}[t]
+		\centering
+		\includegraphics[width=5.5cm]{./include/F-RGB-log53-events-100000.pdf}
+		\includegraphics[width=5.5cm]{./include/H-RGB-GR-AMB-log13-events-100000.pdf}
+		\includegraphics[width=5.5cm]{./include/H-RGB-P-AMB-log38-events-100000.pdf}
+		\caption{Behavioural phases typical examples. Left: F-RGB. Middle: H-GR-AMB, Right: H-P-AMB. Only hierarchical active condition H-P-AMB shows overlapping phases of behaviour similar to infant development.}
+		\label{res_ow}
+	\end{figure*}
+	
+	\begin{figure*}[t]
+		\centering
+		\includegraphics[width=14cm]{./include/xp1-explo-legend.pdf}\\
+		\vspace{-0.4cm}
+		\subfloat[$Hand$]{\includegraphics[height=5.5cm]{./include/xp1-explo-hand.pdf}}
+		\subfloat[$Stick_1$]{\includegraphics[height=5.5cm]{./include/xp1-explo-stick_1.pdf}}
+		\subfloat[$Stick_2$]{\includegraphics[height=5.5cm]{./include/xp1-explo-stick_2.pdf}}
+		\subfloat[$Object$]{\includegraphics[height=5.5cm]{./include/xp1-explo-obj.pdf}}
+		\subfloat[$Boxes$]{\includegraphics[height=5.5cm]{./include/xp1-explo-box.pdf}}
+		\caption{Exploration of sensory spaces. Box plots show for each condition and space the median and quartiles of the $100$ trials.}
+		\label{res_explo}
+	\end{figure*}
+		
 	We perform $100$ simulations per condition. 
 	Each simulation starts with $100$ iterations of motor babbling and then runs for $100000$ iterations of the condition.
 	In this section we provide results for different types of measures. 
@@ -311,18 +354,6 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	Following that, the interests of models 3 and 6 increase abruptly once the object has been touched by the corresponding stick.
 	An example of exploration of the $2$D space of the object is also provided in Fig. \ref{res_interests}(b) for the same condition.
 	
-	\begin{figure}[ht]
-		\centering
-		\hspace{-0.7cm}	
-		\vspace{0pt}
-		\includegraphics[width=4.4cm]{./include/H-RGB-P-AMB-log9-interests-100000.png}
-		\hspace{-0.1cm}	
-		%\vspace{-0.2cm}
-		\vspace{0pt}
-		\includegraphics[width=4.26cm]{./include/obj-explo.pdf}
-		\caption{Condition H-P-AMB. Left: Interests of each model. Right: Exploration of the object space: each dot is one point reached with the object at the end of a movement.}
-		\label{res_interests}
-	\end{figure}
 
 
 	
@@ -342,7 +373,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		Also, the median number of abrupt changes across trials for each condition are reported in the same table (as the sum of steady changes of more than $10\%$ in the three behaviours).
 		with a significant difference between condition H-GR-AMB and the others (Mann-Whitney U tests, $p<0.0001$).
 
-		\begin{table}[!ht]
+		\begin{table}[h]
 			\small
 			\begin{center} 
 			\caption{Behavioural analysis} 
@@ -363,14 +394,6 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			\end{center} 
 		\end{table}
 
-		\begin{figure*}[ht]
-			\centering
-			\includegraphics[width=5.5cm]{./include/F-RGB-log53-events-100000.pdf}
-			\includegraphics[width=5.5cm]{./include/H-RGB-GR-AMB-log13-events-100000.pdf}
-			\includegraphics[width=5.5cm]{./include/H-RGB-P-AMB-log38-events-100000.pdf}
-			\caption{Behavioural phases typical examples. Left: F-RGB. Middle: H-GR-AMB, Right: H-P-AMB. Only hierarchical active condition H-P-AMB shows overlapping phases of behaviour similar to infant development.}
-			\label{res_ow}
-		\end{figure*}
 		
 	%
 	
@@ -390,18 +413,6 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		%Also, H-GR-AMB shows lower exploration of all spaces than H-P-AMB ($p<0.01$).
 		%Condition H-P-AMB-ATC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-P-AMB, and difference is not significant in other spaces.
 		
-		\begin{figure*}[ht]
-			\centering
-			\includegraphics[width=14cm]{./include/xp1-explo-legend.pdf}\\
-			\vspace{-0.4cm}
-			\subfloat[$Hand$]{\includegraphics[height=5.5cm]{./include/xp1-explo-hand.pdf}}
-			\subfloat[$Stick_1$]{\includegraphics[height=5.5cm]{./include/xp1-explo-stick_1.pdf}}
-			\subfloat[$Stick_2$]{\includegraphics[height=5.5cm]{./include/xp1-explo-stick_2.pdf}}
-			\subfloat[$Object$]{\includegraphics[height=5.5cm]{./include/xp1-explo-obj.pdf}}
-			\subfloat[$Boxes$]{\includegraphics[height=5.5cm]{./include/xp1-explo-box.pdf}}
-			\caption{Exploration of sensory spaces. Box plots show for each condition and space the median and quartiles of the $100$ trials.}
-			\label{res_explo}
-		\end{figure*}
 
 	%
 	
@@ -416,7 +427,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		By contrast, in condition H-P-AMB-ATC, both tools are chosen in all regions.
 
 		
-		\begin{figure}[ht]
+		\begin{figure}[!]
 			\centering
 			\includegraphics[width=4.3cm]{./include/choice-H-RGB-P-AMB.pdf}
 			\hspace{-0.2cm}
