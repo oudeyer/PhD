@@ -328,9 +328,9 @@
      inkscape:window-height="1003"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="5.1998149"
-     inkscape:cx="153.77724"
-     inkscape:cy="265.47783"
+     inkscape:zoom="20.79926"
+     inkscape:cx="133.23613"
+     inkscape:cy="291.56036"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -831,4 +831,34 @@
          id="tspan3755"
          x="117.41803"
          y="-221.7632">****</tspan></text>
+<text
+       xml:space="preserve"
+       style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="36.462837"
+       y="-276.00983"
+       id="text3367"
+       sodipodi:linespacing="125%"
+       transform="scale(1,-1)"><tspan
+         sodipodi:role="line"
+         id="tspan3369"
+         x="36.462837"
+         y="-276.00983"
+         style="font-size:9.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans">Reached Cells</tspan></text>
+<path
+       inkscape:connector-curvature="0"
+       d="m 115.22259,227.74278 0,2.59074 -22.285747,0 0,-2.59074"
+       style="fill:none;stroke:#aaaaaa;stroke-width:0.98884404;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
+       id="path776-8" /><text
+       xml:space="preserve"
+       style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="97.426544"
+       y="-229.162"
+       id="text3389"
+       sodipodi:linespacing="125%"
+       transform="scale(1,-1)"><tspan
+         sodipodi:role="line"
+         id="tspan3391"
+         x="97.426544"
+         y="-229.162"
+         style="font-size:9.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans">***</tspan></text>
 </g></svg>

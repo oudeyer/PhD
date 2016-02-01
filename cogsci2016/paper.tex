@@ -92,8 +92,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	In both studies, developmental trajectories of increasing complexity are emerging from learning, with both regularities in developmental steps and diversity.
 	The diversity comes from different mechanisms: stochasticity in the algorithms, variability in the environment, and the multiples attractors of the dynamic learning system.
 	In existing models, the agent learns only one mapping that relates a motor space to a single task space. 
-	However, in the perspective of an open-ended development of reusable skills, and specifically in the development of tool use, multiple interdependent and hierarchically organized task spaces should be available to the agent
-	as for instance using a tool to act upon an object could make use of previously explored parameterized interaction with the tool.
+	However, in the perspective of an open-ended development of reusable skills, and specifically in the development of tool use, multiple interdependent and hierarchically organized task spaces should be available to the agent.
+	For instance, using a tool to act upon an object could make use of previously explored parameterized interaction with the tool.
 	
 	We study aspects of those hypothesis leveraging previous models of curiosity-driven learning and extending them to the active exploration of hierarchical sensorimotor and task spaces.
 	We define hierarchies of sensorimotor models that structure the sensory space to reflect the interaction of the different items of the environment.
@@ -129,8 +129,8 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	\subsection{Environment}
 	
 		We simulate a 2D robotic arm that can grasp tools that can be used to move an object into different boxes in the environment. 		
-		In each trial, the agent executes a motor trajectory, we evaluate its consequences on the sensory dimensions and we give him
-		this sensory feedback. Finally the arm, tools and objects are resetted to their intial state.
+		In each trial, the agent executes a motor trajectory and gets the associated sensory feedback. 
+		Finally the arm, tools and objects are resetted to their intial state.
 		The next sections precisely describe the items of the environment and their interactions.	
 		See Fig.\ref{env} for an exemple state of the environment. 
 		
@@ -148,7 +148,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			\label{env}
 		\end{figure}
 
-		\subsubsection{Robotic arm}
+		\subsubsection{Robotic Arm}
 		
 			The 2D robotic arm has $3$ joints plus a gripper located at the end-effector.
 			Each joint can rotate from $-\pi~rad$ to $\pi~rad$ around its resting position, mapped to a standard interval of $[-1,1]$.
@@ -160,7 +160,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		
 		%
 		
-		\subsubsection{Motor control}
+		\subsubsection{Motor Control}
 		
 			We use Dynamical Movement Primitives \cite{ijspeert_dynamical_2013} to control the arm's movement as this framework permits the production of a diversity of arm's trajectories with few parameters.
 			Each of the $4$ arm's degrees-of-freedom (DOF) is controlled by a DMP starting at the rest position of the joint.
@@ -171,22 +171,22 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		
 		%
 			
-		\subsubsection{Objects and tools}
+		\subsubsection{Objects and Tools}
 			
-			Two sticks can be grasped by the handle side in order to catch an out-of-reached object.
+			Two sticks can be grasped by the handle side in order to catch an out-of-reach object.
 			A small stick of length $0.3$ is located at position $(0.75, 0.25)$ with initial angle $\frac{\pi}{4}$ from the horizontal line.
 			A long stick of length $0.6$ is located at position $(-0.75, 0.25)$ with initial angle $\frac{3\pi}{4}$ as in Fig. \ref{env}.	
 			A yellow sphere can be caught by the magnetic side of one of the two sticks, moved and possibly placed into one of ten fixed squared boxes. 
 			The initial position of the sphere is $(0, 1.2)$ and is thus unreachable directly with the gripper.		
-			If the gripper is closed near the handle of one stick (closer than $0.2$), it is considered grasped and will follow the gripper's position and the angle of the arm's last segment until the gripper opens.			
-			Similarly, if the other end of a stick reaches the sphere (within $0.1$), the sphere will follow the end of the stick.
+			If the gripper is closed near the handle of one stick (closer than $0.2$), it is considered grasped and follows the gripper's position and the angle of the arm's last segment until the gripper opens.			
+			Similarly, if the magnetic side of a stick reaches the sphere (within $0.1$), the sphere will then follow the magnet.
 			The ten boxes (identified from $1$ to $10$) are static and have size $0.2$.
 			Boxes $1$ to $5$ can only be reached with the long stick, and the other five boxes can be reached with both sticks.
 			At the end of the movement, the object is considered to be in one of the box if its center is in the box.
 		
 		%
 		
-		\subsubsection{Sensory feedback}
+		\subsubsection{Sensory Feedback}
 		
 			At the end of the movement, the robot gets sensory feedback from the different items of the environment.
 			It gets the trajectory of the gripper ($S_{Hand}$, $9$D), the trajectory of the end of the sticks ($S_{Stick_1}, $6$D$ and $S_{Stick_2}, $6$D$), 
@@ -203,13 +203,13 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		
 	%
 	
-	\subsection{Learning architectures}
+	\subsection{Learning Architectures}
 
 		The problem settings for the learning agent is to explore its sensorimotor space and collect data so as to generate a diversity of effects and to learn an inverse model to 
 		be able to reproduce those effects.
 		In this section we describe the learning architectures that we will compare in the experiments.
 		
-		\subsubsection{Flat architectures}
+		\subsubsection{Flat Architectures}
 			
 			We define a flat architecture as directly learning a mapping between the motor space $M$ ($12$D) and the sensory space $S$ ($25$D).
 			To do so, the agent needs a sensorimotor model that learns the mapping and provides inverse inference of a probable $m$ to reach a given $s$.
@@ -219,7 +219,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			
 			The agent also needs an interest model that chooses goals in the sensory space.
 			The control condition is a random motor babbling condition (F-RmB) that randomly chooses new motor parameters $m$ to try at each iteration.
-			In the other conditions, the agent performs Goal Babbling, a method by which it self-generates a goal in the sensory space at each iteration and trying to reach it.
+			In the other conditions, the agent performs Goal Babbling, a method by which it self-generates a goal in the sensory space at each iteration and tries to reach it.
 			To generate those goals, different strategies have been studied \cite{baranes_active_2013}. 
 			It was shown that estimating the learning progress in different regions of the sensory space and generating the goals where the progress is high leads to a fast learning.
 			However, this idea cannot be applied in a $25$D sensory space as a learning progress signal cannot be properly estimated in this volume.
@@ -240,7 +240,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 				
 		%
 		
-		\subsubsection{Hierarchical architectures}
+		\subsubsection{Hierarchical Architectures}
 			
 			The $25$D sensory space can be structured to reflect the interaction of the different items of the environment.
 			Indeed, the arm motor position influence the gripper, which influence one of the tools (but not both at the same time), which influence the position of the object and the filling of the boxes.
@@ -248,7 +248,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			%\footnote{Other work have used a simple hierarchy of two sensorimotor models for object manipulation: \cite{forestier2015} and \cite{unifying}.}
 			Those architecture learn $6$ models at the same time (see Fig. \ref{Architectures}: gray squares are models). 
 			Each of those models functions in the same way as the random goal babbling flat architecture (F-RGB). 
-			Each model has a motor space (e.g. motor space of model $2$ is $S_{Hand}$), a sensory space (respectively $S_{Stick_1}$, see arrows in Fig. \ref{Architectures}, and can choose goals randomly in this sensory space.
+			Each model has a motor space (e.g. motor space of model $2$ is $S_{Hand}$), a sensory space (respectively $S_{Stick_1}$, see arrows in Fig. \ref{Architectures}), and can choose goals randomly in this sensory space.
 			At each iteration, the architecture first have to choose the model in which to choose a goal, a procedure that we call Model Babbling.
 			Once a model is chosen, it finds a goal in its sensory space, and infer motor parameters (that can be in the sensory space of a lower-level model) to reach that goal.
 			Then, it passes those parameters as a goal to be reached by a lower-level model, 
@@ -278,7 +278,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			\begin{equation}
 				I(s_g) = |C(s_g) - mean_{kNN}C(s)|
 			\end{equation}
-			the absolute difference between $C(s_g)$ and the mean competence of the ($k=20$) nearest previous goals.
+			the absolute difference between $C(s_g)$ and the mean competence of the ($k=20$) nearest previous goals (k-Nearest Neighbours algorithm).
 			The interest of a model is initialized at $0$ and updated to follow the interest of the goals (with rate $n=200$):
 			\begin{equation}
 				I_{model}=\frac{n-1}{n}~I_{model} + \frac{1}{n}~I(s_g)
@@ -324,7 +324,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 
 	
-	\subsubsection{Structure of the evolution of behaviours}
+	\subsubsection{Structure of the Evolution of Behaviours}
 	
 		We provide a measure of the different types of behaviours with the sticks and the object during exploration. 
 		We categorize the behaviours into three types.
@@ -364,9 +364,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		\begin{figure*}[ht]
 			\centering
 			\includegraphics[width=5.5cm]{./include/F-RGB-log53-events-100000.pdf}
-			\hspace{-0.4cm}
 			\includegraphics[width=5.5cm]{./include/H-RGB-GR-AMB-log13-events-100000.pdf}
-			\hspace{-0.4cm}
 			\includegraphics[width=5.5cm]{./include/H-RGB-P-AMB-log38-events-100000.pdf}
 			\caption{Behavioural phases typical exemples. Left: F-RGB. Middle: H-GR-AMB, Right: H-P-AMB. Only hierarchical active condition H-P-AMB shows overlapping phases of behaviour similar to infant development.}
 			\label{res_ow}
@@ -375,19 +373,20 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 	%
 	
 	
-	\subsubsection{Exploration efficiency}
+	\subsubsection{Exploration Efficiency}
 
 		Also, for each condition we measure the total exploration of the different sensory spaces during training. 
 		The exploration of the hand, sticks and object spaces is defined as the number of reached cells 
-		in a $100\times100$ discretization of the (X,Y) space of the position at timestep $50$ (end of movement).
+		in a $100\times100$ discretization of the (X,Y) space of their position at the end of the movement.
 		The exploration of the boxes is the number of boxes that have been filled with the object during training.
 		Fig. \ref{res_explo} shows the total exploration of the different sensory spaces for each condition.
-		We provide statistical Mann-Whitney U test results of comparisons of the exploration in different pairs of conditions.
-		Firstly, the Motor Babbling condition (F-RmB) have more explored $S_{Hand}$ and less $S_{Object}$ and $S_{Boxes}$ compared to the other conditions ($p<0.0001$).
-		Then, F-RGB explores all spaces less than H-RMB condition ($p<0.01$).
-		H-RMB explores more $S_{Hand}$ ($p<0.001$) and less $S_{Object}$ ($p<0.05$) than H-P-AMB.
-		Also, H-GR-AMB shows lower exploration all spaces than H-P-AMB ($p<0.01$).
-		Condition H-P-AMB-ATC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-P-AMB, and difference is not significant in other spaces.
+		We provide statistical Mann-Whitney U test results of comparisons of the exploration for some pairs of conditions.
+		One star means $p<0.05$, two: $p<0.01$, three: $p<0.001$ and four: $p<0.0001$.
+		%Firstly, the Motor Babbling condition (F-RmB) have more explored $S_{Hand}$ and less $S_{Object}$ and $S_{Boxes}$ compared to the other conditions ($p<0.0001$).
+		%Then, F-RGB explores all spaces less than H-RMB condition ($p<0.01$).
+		%H-RMB explores more $S_{Hand}$ ($p<0.001$) and less $S_{Object}$ ($p<0.05$) than H-P-AMB.
+		%Also, H-GR-AMB shows lower exploration of all spaces than H-P-AMB ($p<0.01$).
+		%Condition H-P-AMB-ATC explores more $S_{Stick_2}$ ($p<0.05$) than condition H-P-AMB, and difference is not significant in other spaces.
 		
 		\begin{figure*}[ht]
 			\centering
@@ -404,15 +403,16 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 	%
 	
-	\subsubsection{Structure of tool choice}
+	\subsubsection{Structure of Tool Choice}
 
 		Fig. \ref{res_choice} shows a comparison of the choice of tool to reach a given object goal position in the conditions H-P-AMB and H-P-AMB-ATC.
-		In those conditions, model $4$ learns a mapping between $S_{Object}$ and $S_{Boxes}$. 
-		When this model is babbling, it chooses a random goal $s_b \in S_{Boxes}$ and infers the best object position $s_o$ to reach $s_b$.
+		When model $4$ is babbling, it infers the best object position $s_o$ to reach a random goal $s_b \in S_{Boxes}$.
 		To reach $s_o$, one of the tools ($Stick_1$ with model $3$ or $Stick_2$ with model $6$) is chosen. 
-		We plot all those choices model $4$ made during exploration, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, in one figure for each of the two conditions.
-		We can see two very different choice structures.
-		However, goal that can be reached with both tools are more often chosen to be explored with the long stick in the interest-based choice of condition H-P-AMB-ATC than in competence-based choice of condition H-P-AMB.
+		We plot all the choices that model $4$ made during exploration, at position $s_o$ on a $2$D space, with color blue if $Stick_1$ was chosen and red if $Stick_2$ was chosen, 
+		in one figure for each of the two conditions.
+		In condition H-P-AMB, we can see strong boundaries between tool choice regions.
+		By contrast, in condition H-P-AMB-ATC, both tools are chosen in all regions.
+
 		
 		\begin{figure}[ht]
 			\centering
@@ -420,7 +420,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 			\hspace{-0.2cm}
 			\includegraphics[width=4.3cm]{./include/choice-H-RGB-P-AMB-PGITC.pdf}
 			\caption{Chosen tool depending on object goal position. Blue points: long stick choice. Red points: small stick choice. Left: condition H-P-AMB, strong boundaries 
-			between tool choice regions. Right: condition H-P-AMB-ATC, parallel exploration of both tools for the same goals.}
+			between tool choice regions. Right: condition H-P-AMB-ATC, parallel exploration of both tools in all regions.}
 			\label{res_choice}
 		\end{figure}
 		
@@ -431,7 +431,7 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 
 \section{Discussion}
 
-	\subsubsection{Structure of the evolution of behaviours}
+	\subsubsection{Structure of the Evolution of Behaviours}
 	
 		Results show different structures of behaviour evolution in the different conditions.		
 		Flat architectures do not use the structure of the environment and do not separate the high-dimensional sensorimotor space into learnable subspaces.
@@ -449,11 +449,11 @@ curiosity-driven learning; tool use; goal babbling; overlapping waves; developme
 		Consequently, the difference between active and random model babbling is more on the cognitive or intentional level, 
 		as active model babbling monitors the current progress of each model whereas random model babbling do not, than on a quantitative level.
 		However, in others setups where some tasks are learned much faster than others and where at some point it become useless to explore a mastered task, active model babbling would
-		make a key difference on a quantitative exploration point of view and on the structure of the evolution of the measured behaviours.
+		make a key difference on a quantitative exploration point of view and on the structure of the evolution of the measured behaviours.\\
 	
 	%
 	
-	\subsubsection{Variability of strategies to reach goals}
+	\subsubsection{Variability of Strategies to Reach Goals}
 	
 		The comparison of conditions H-P-AMB and H-P-AMB-ATC shows that when the agent chooses the tool to reach a given object goal position based on the interest of the corresponding models,
 		both tools are trained to reach all goals instead of training only the best performing tool.
